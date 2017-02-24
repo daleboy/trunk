@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-sysmgr" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-controller" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-data" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nrms-web" charset="UTF-8" />
+  </component>
+</project>

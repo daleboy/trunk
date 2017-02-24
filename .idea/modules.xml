@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/nrms.iml" filepath="$PROJECT_DIR$/nrms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr.iml" filepath="$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-api/nrms-sysmgr-api.iml" filepath="$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-api/nrms-sysmgr-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-controller/nrms-sysmgr-controller.iml" filepath="$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-controller/nrms-sysmgr-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-data/nrms-sysmgr-data.iml" filepath="$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-data/nrms-sysmgr-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-service/nrms-sysmgr-service.iml" filepath="$PROJECT_DIR$/nrms-sysmgr/nrms-sysmgr-service/nrms-sysmgr-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nrms-web/nrms-web.iml" filepath="$PROJECT_DIR$/nrms-web/nrms-web.iml" />
+    </modules>
+  </component>
+</project>
