@@ -15,7 +15,7 @@
             $("#msgBoxConfirm").modal('hide');
             $.ajax({
                 type : 'POST',
-                url : '${basePath}/user/deleteuser',
+                url : '${basePath}/role/delete',
                 data : {
                     'id' : id
                 },
@@ -49,7 +49,7 @@
             $("#msgBoxConfirm").modal('hide');
             $.ajax({
                 type : 'POST',
-                url : '${basePath}/user/resetpwd',
+                url : '${basePath}/role/resetpwd',
                 data : {
                     'id' : id
                 },
@@ -115,11 +115,11 @@
                                             <div class="up-cq-table-inner">
                                                 <div class="up-clearfix table_head margin_bottom10">
                                                     <div class="reference_search">
-                                                        <form class="up-form-inline" id="searchForm" action="${basePath }/userInfo/userInfoList">
+                                                        <form class="up-form-inline" id="searchForm" action="${basePath}/userInfo/userInfoList">
                                                             <input type="hidden" id="pageNum" name="pageNum" value="1">
                                                             <div class="up-form-group">
                                                                 <label for="" class="up-control-label">姓名:</label>
-                                                                <input type="text" class="up-form-control" id="userName" name="userName" value="${searchParam.loginName }">
+                                                                <input type="text" class="up-form-control" id="userName" name="userName" value="${searchParam.roleName}">
                                                             </div>
                                                             <div class="up-form-group">
                                                                 <button type="submit"  class="up-btn up-btn-primary">搜索</button>
@@ -127,12 +127,12 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
+                                                <c:if test="${sessionScope.LOGIN_USER.roleType eq '1'}">
                                                     <div class="up-clearfix table_head">
                                                         <div class="reference_search">
                                                             <div class="up-form-group">
                                                                 <button type="submit" class="up-btn up-btn-primary up-btn-primary-red" data-toggle="modal"
-                                                                        onClick="showDialog('新增用户' , '${basePath}/user/add' , '470px')">新增</button>
+                                                                        onClick="showDialog('新增用户' , '${basePath}/role/toadd' , '470px')">新增</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -152,13 +152,18 @@
                                                         <tr>
                                                             <td>${role.roleName}</td>
                                                             <td>${role.roleDesc}</td>
-                                                            <td>${role.roleState}</td>
+                                                            <c:if test="${role.roleState eq 1 }">
+                                                                <td>可用</td>
+                                                            </c:if>
+
+                                                            <c:if test="${role.roleState eq 0}">
+                                                                <td>失效</td>
+                                                            </c:if>
 
                                                             <td>
-                                                                <a href="javascript:void(0)" onClick="showDialog('查看用户' , '${basePath}/user/viewuser?id=${user.id }' , '470px')"">查看</a>
+                                                                <a href="javascript:void(0)" onClick="showDialog('查看' , '${basePath}/role/viewrole?id=${role.id }' , '470px')">查看</a>
                                                                 <c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
-                                                                    <a href="javascript:void(0)" onClick="showDialog('编辑用户' , '${basePath}/user/toadd?id=${user.id }' , '470px')">编辑</a>
-                                                                    <a href="javascript:void(0)" onClick="resetUserPwd('${user.id}')">重置密码</a>
+                                                                    <a href="javascript:void(0)" onClick="showDialog('编辑' , '${basePath}/role/toadd?id=${role.id }' , '470px')">编辑</a>
                                                                     <a href="javascript:void(0)" onClick="deleteUser('${user.id}')">删除</a>
                                                                 </c:if>
                                                             </td>
