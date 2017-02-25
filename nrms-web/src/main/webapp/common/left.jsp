@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li>
-                <a class="bor-left-nav-btm" href="${basePath }" data-toggle="tooltip" data-container="#tooltip_box"
+                <a class="bor-left-nav-btm" href="${basePath}" data-toggle="tooltip" data-container="#tooltip_box"
                    data-placement="right" title="按钮">
                     <div class="up-pull-left">
                         <span class="icon-shouye"></span>
@@ -32,7 +32,7 @@
                 <ul class="nav_ul2 up-collapse" id="collapse_form" aria-expanded="false">
 
                     <li>
-                        <a class="no_link" href="${basePath }/user/list" data-toggle="tooltip"
+                        <a class="no_link" href="${basePath}/user/list" data-toggle="tooltip"
                            data-container="#tooltip_box" data-placement="right" title="多列内联表单">
                             <div class="up-pull-left">
                                 <span class="icon-right-dir"></span>
@@ -43,7 +43,7 @@
 
 
                     <li>
-                        <a class="no_link" href="${basePath }/role/list" data-toggle="collapse"
+                        <a class="no_link" href="${basePath}/role/list" data-toggle="collapse"
                            data-container="#tooltip_box" data-placement="right" title="多列内联表单">
                             <div class="up-pull-left">
                                 <span class="icon-right-dir"></span>
@@ -54,7 +54,7 @@
 
 
                     <li>
-                        <a class="no_link" href="${basePath }/userInfo/userInfoList" data-toggle="tooltip"
+                        <a class="no_link" href="${basePath}/userInfo/userInfoList" data-toggle="tooltip"
                            data-container="#tooltip_box" data-placement="right" title="多列内联表单">
                             <div class="up-pull-left">
                                 <span class="icon-right-dir"></span>
@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="no_link" href="${basePath }/userInfo/userInfoList" data-toggle="tooltip"
+                        <a class="no_link" href="${basePath}/user/edit" data-toggle="tooltip"
                            data-container="#tooltip_box" data-placement="right" title="多列内联表单">
                             <div class="up-pull-left">
                                 <span class="icon-right-dir"></span>
@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="no_link" href="${basePath }/userInfo/userInfoList" data-toggle="tooltip"
+                        <a class="no_link" href="" data-toggle="tooltip"
                            data-container="#tooltip_box" data-placement="right" title="多列内联表单">
                             <div class="up-pull-left">
                                 <span class="icon-right-dir"></span>

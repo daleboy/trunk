@@ -15,9 +15,9 @@
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/userInfo/deleteUser',
+				url : '${basePath}/user/deleteuser',
 				data : {
-					'id' : userId
+					'id' : id
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -49,9 +49,9 @@
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/userInfo/resetUserPwd',
+				url : '${basePath}/user/resetpwd',
 				data : {
-					'id' : userId
+					'id' : id
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -93,7 +93,7 @@
 <body>
 	<div id="wrap" class="">
 		<!--    头部 和  菜单 start -->
-		<%@include file="/common/headAndLeft.jsp"%>
+		<%--<%@include file="/common/headAndLeft.jsp"%>--%>
 		<!--    头部 和  菜单 end -->
 
 		<!-- 内容start -->
@@ -127,12 +127,12 @@
 														</form>
 													</div>
 												</div>
-												<c:if test="${sessionScope.LOGIN_USER.userRole eq '1' }">
+												<c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
 												<div class="up-clearfix table_head">
 													<div class="reference_search">
 														<div class="up-form-group">
 															<button type="submit" class="up-btn up-btn-primary up-btn-primary-red" data-toggle="modal"
-																 onClick="showDialog('新增用户' , '${basePath}/userInfo/toAddOrEditUser' , '470px')">新增</button>
+																 onClick="showDialog('新增用户' , '${basePath}/user/add' , '470px')">新增</button>
 														</div>
 													</div>
 												</div>
@@ -161,9 +161,9 @@
 																<td>${user.positionKey}</td>
 
 																<td>
-																	<a href="javascript:void(0)" onClick="showDialog('查看用户' , '${basePath}/userInfo/viewUserInfo?id=${user.id }' , '470px')"">查看</a> 
-																	<c:if test="${sessionScope.LOGIN_USER.userRole eq '1' }">
-																	<a href="javascript:void(0)" onClick="showDialog('编辑用户' , '${basePath}/userInfo/toAddOrEditUser?id=${user.id }' , '470px')">编辑</a>
+																	<a href="javascript:void(0)" onClick="showDialog('查看用户' , '${basePath}/user/viewuser?id=${user.id }' , '470px')"">查看</a>
+																	<c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
+																	<a href="javascript:void(0)" onClick="showDialog('编辑用户' , '${basePath}/user/toadd?id=${user.id }' , '470px')">编辑</a>
 																	<a href="javascript:void(0)" onClick="resetUserPwd('${user.id}')">重置密码</a> 
 																	<a href="javascript:void(0)" onClick="deleteUser('${user.id}')">删除</a>
 																	</c:if>

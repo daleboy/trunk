@@ -35,8 +35,8 @@ public class UserController {
     @RequestMapping({"" , "/"})
     public String toIndex(HttpSession session) {
         User user = this.userService.userLogin("forgeeks");
+        user.setRoleType("1");
         session.setAttribute(Conts.USER_SESSION_KEY, user);
-
 //        User user = (User) session.getAttribute(Conts.USER_SESSION_KEY);
         if (user == null) {
             return "login";
@@ -107,8 +107,9 @@ public class UserController {
     }
 
 
-    @RequestMapping({"/user/list"})
-    public ModelAndView userInfoList(User user , PageConfig page){
+//用户列表
+    @RequestMapping("/user/list")
+    public ModelAndView list(User user , PageConfig page){
         ModelAndView view = new ModelAndView("userInfo/userList");
         PageVo<User> userList = this.userService.queryUserByPage(user,page);
         view.addObject("page" , userList);
@@ -116,8 +117,14 @@ public class UserController {
         return view;
     }
 
+//新增用户
+//    @RequestMapping("/user/toadd")
+//    public ModelAndView toadd(User user , PageConfig page){
+//        ModelAndView view = new ModelAndView("userinfo/addOrEditUser");
+//        PageVo<User> userList = this.userService.queryUserByPage(user,page);
+//
+//    }
 
-//    新增用户角色Entity，新增UserDAO接口Service接口Controller类，修改userlist.jsp
 
 
 

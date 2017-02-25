@@ -1,6 +1,7 @@
 package com.eshore.nrms.sysmgr.pojo;
 
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,9 +18,11 @@ public class Role implements Serializable {
     private String id;
     private String roleName;
     private String roleDesc;
+    private Integer roleState;
+
 
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     public String getId() {
         return id;
     }
@@ -44,6 +47,15 @@ public class Role implements Serializable {
 
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc;
+    }
+
+    @Column(name = "role_state")
+    public Integer getRoleState() {
+        return roleState;
+    }
+
+    public void setRoleState(Integer roleState) {
+        this.roleState = roleState;
     }
 
     @Override
