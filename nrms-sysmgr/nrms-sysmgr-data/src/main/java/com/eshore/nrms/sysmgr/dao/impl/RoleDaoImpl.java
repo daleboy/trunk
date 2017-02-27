@@ -15,19 +15,35 @@ import java.util.List;
  */
 @Repository
 public class RoleDaoImpl extends JpaDaoImpl<Role> implements IRoleDao {
+
+    /**
+     * 分页查询
+     * @param role
+     * @param page
+     * @return
+     */
+
     @Override
     public List<Role> queryRoleListByPage(Role role, PageConfig page) {
-
         StringBuilder hql = new StringBuilder("from Role r where 1=1 ");
         List params = new ArrayList();
         if (StringUtils.isNotBlank(role.getRoleName())) {
             hql.append(" and r.roleName like ? ");
             params.add("%" + role.getRoleName() + "%");
         }
-        hql.append(" and r.roleState=1");
         hql.append(" order by roleName ");
-
         return this.queryPage(hql.toString(), page, params.toArray());
-
     }
+
+    /**
+     * 查询使用某角色名的角色个数
+     * @param roleName
+     * @return
+     */
+    @Override
+    public Integer queryCountByRoleName(String roleName) {
+        return getCount("select count(*) from c_role where role_name='" + roleName + "'");
+    }
+
+
 }

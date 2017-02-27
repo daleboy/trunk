@@ -9,8 +9,25 @@ import java.util.List;
 /**
  * Created by forgeeks at 2017-02-25 16:31
  */
-public interface  IRoleDao extends IBaseDao<Role>{
+public interface IRoleDao extends IBaseDao<Role> {
 
-    public List<Role>  queryRoleListByPage(Role role , PageConfig page);
+
+    /**
+     * 分页查询
+     * @param role
+     * @param page
+     * @return
+     */
+
+    public List<Role> queryRoleListByPage(Role role, PageConfig page);
+
+
+    /**
+     * 查询使用某角色名的角色个数
+     * @param roleName
+     * @return
+     */
+    public Integer queryCountByRoleName(String roleName);
+
 
 }

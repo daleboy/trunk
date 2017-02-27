@@ -36,4 +36,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements IRoleServi
         List<Role> list = roleDao.queryRoleListByPage(role, page);
         return PageUtil.getPageList(page,list);
     }
+
+    @Override
+    public Integer queryCountByRoleName(String roleName) {
+        return  roleDao.queryCountByRoleName(roleName);
+    }
 }

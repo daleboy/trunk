@@ -13,5 +13,5 @@ import java.util.List;
 public interface IRoleService extends IBaseService<Role>{
 
     public PageVo<Role> queryRoleListByPage(Role role , PageConfig page);
-
+    public Integer queryCountByRoleName(String roleName);
 }
