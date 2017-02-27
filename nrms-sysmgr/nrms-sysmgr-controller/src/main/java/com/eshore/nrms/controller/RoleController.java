@@ -5,6 +5,7 @@ import com.eshore.nrms.sysmgr.pojo.Role;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import com.eshore.nrms.vo.ExecResult;
 import com.eshore.nrms.vo.PageVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,19 +45,49 @@ public class RoleController {
     @ResponseBody
     public ExecResult add(Role role) {
         ExecResult result = new ExecResult();
-        Integer count=roleService.queryCountByRoleName(role.getRoleName());
-        if(count>=1){
+        Integer count = roleService.queryCountByRoleName(role.getRoleName());
+        if (count >= 1) {
             result.setMsg("同名角色不合法！");
             result.setSuccess(false);
             return result;
         }
-        role.setId(UUID.randomUUID().toString().substring(0,31));
+        role.setId(UUID.randomUUID().toString().substring(0, 31));
         roleService.save(role);
         result.setMsg("保存成功");
         result.setSuccess(true);
         return result;
-
     }
 
+    @RequestMapping("/role/toedit")
+    public ModelAndView toEdit(String id) {
+        ModelAndView view = new ModelAndView("role/edit");
+        view.addObject("role",roleService.get(id));
+        return view;
+    }
+
+    @RequestMapping("/role/edit")
+    @ResponseBody
+    public ExecResult toEdit(Role role) {
+        ExecResult result= new ExecResult();
+        roleService.update(role);
+        result.setMsg("更新成功");
+        result.setSuccess(true);
+        return result;
+    }
+
+    @RequestMapping("/role/delete")
+    @ResponseBody
+    public ExecResult delete(String id){
+        ExecResult result= new ExecResult();
+        if(roleService.queryCountOfRoleById(id)>=1){
+            result.setMsg("删除失败！尚有用户属于该角色，请重新查看！");
+            result.setSuccess(false);
+            return  result;
+        }
+        roleService.delete(id);
+        result.setMsg("删除成功！");
+        result.setSuccess(false);
+        return  result;
+    }
 
 }

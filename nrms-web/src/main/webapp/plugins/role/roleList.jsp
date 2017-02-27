@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
 
-    function deleteUser(userId) {
+    function deleteUser(id) {
 
         $("#msgBoxConfirmInfo").html("确定要删除该用户吗");
         $("#msgBoxConfirm").modal('show');
@@ -134,7 +134,7 @@
                                                 <c:if test="${sessionScope.LOGIN_USER.roleType eq '1'}">
                                                     <div class="up-clearfix table_head">
                                                         <div class="reference_search">
-                                                            <div class="up-form-group" >
+                                                            <div class="up-form-group">
                                                                 <button type="submit"
                                                                         class="up-btn up-btn-primary up-btn-primary-red"
                                                                         data-toggle="modal"
@@ -161,12 +161,10 @@
                                                             <td>${role.id}</td>
                                                             <td>${role.roleName}</td>
                                                             <td>${role.roleDesc}</td>
-
-
                                                             <td>
                                                                 <c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
                                                                     <a href="javascript:void(0)"
-                                                                       onClick="showDialog('编辑' , '${basePath}/role/toadd?id=${role.id }' , '470px')">修改</a>
+                                                                       onClick="showDialog('编辑' , '${basePath}/role/toedit?id=${role.id }' , '470px')">修改</a>
                                                                     <a href="javascript:void(0)"
                                                                        onClick="deleteUser('${role.id}')">删除</a>
                                                                 </c:if>

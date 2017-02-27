@@ -94,8 +94,7 @@
             });
 */
         $.ajax({
-
-                url: '${basePath}/role/add',
+                url: '${basePath}/role/edit',
                 dataType:"json",
                 type:"post",
                 data: $("#dataForm").serialize(),
@@ -133,7 +132,7 @@
             </label>
             <div class="up-col-sm-7">
                 <input type="text" class="up-form-control" id="roleName" style="width: 500px;" name="roleName"
-                       placeholder=""  value="${role.roleName }">
+                       placeholder="请输入帐号"  value="${role.roleName }">
             </div>
         </div>
         <div class="up-form-group">
@@ -141,7 +140,7 @@
                 角色描述
             </label>
             <div class="up-col-sm-7">
-                <input type="text" class="up-form-control" id="roleDesc" name="roleDesc" placeholder=""
+                <input type="text" class="up-form-control" id="roleDesc" name="roleDesc" placeholder="请输入姓名"
                        value="${role.roleDesc }">
             </div>
         </div>
@@ -149,7 +148,7 @@
     </form>
 </div>
 <div class="up-modal-footer up-modal-footer1">
-    <button type="button" class="up-btn up-btn-primary" onClick="saveUser()">保存</button>
+    <button type="button" class="up-btn up-btn-primary" onClick="saveUser()">保存更新</button>
     <button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">取消</button>
 </div>
 

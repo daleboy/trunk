@@ -45,5 +45,15 @@ public class RoleDaoImpl extends JpaDaoImpl<Role> implements IRoleDao {
         return getCount("select count(*) from c_role where role_name='" + roleName + "'");
     }
 
+    /**
+     *计算某角色下用户名数量
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer queryCountOfRoleById(String id) {
+        return getCount("select count(*) from c_user  where role_id='" + id + "'");
+    }
+
 
 }

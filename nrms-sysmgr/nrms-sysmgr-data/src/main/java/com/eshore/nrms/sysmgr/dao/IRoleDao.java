@@ -30,4 +30,11 @@ public interface IRoleDao extends IBaseDao<Role> {
     public Integer queryCountByRoleName(String roleName);
 
 
+    /**
+     * 计算某角色下用户名数量
+     * @param id
+     * @return
+     */
+    public Integer queryCountOfRoleById(String id);
+
 }
