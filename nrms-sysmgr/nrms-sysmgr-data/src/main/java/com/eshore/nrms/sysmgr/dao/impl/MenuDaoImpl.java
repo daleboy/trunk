@@ -32,21 +32,34 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
     */
     @Override
     public List<Menu> queryMenuListByRoleId(String roleId) {
-        String str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
-                "from c_menu menu    " +
-                "JOIN   (    select menu_id from c_role_menu where role_id= ? ) rm   " +
-                "on    menu.id = rm.menu_id     " +
-                "order by  menu.id  ";
-        StringBuilder hql = new StringBuilder(str);
-        List params = new ArrayList();
-        if (StringUtils.isNotBlank(roleId))     params.add(roleId);
-        else   return null;
+        List<Object[]> list = null;
+        List<Menu> menuList = null;
+        if (!StringUtils.isNotBlank(roleId)) {
+            String str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
+                    "from c_menu menu    " +
+                    "JOIN   (    select menu_id from c_role_menu) rm   " +
+                    "on    menu.id = rm.menu_id     " +
+                    "order by  menu.id  ";
+            StringBuilder hql = new StringBuilder(str);
+            List params = new ArrayList();
+            list = this.querySql(hql.toString(), params.toArray());
+            menuList = new ArrayList<Menu>();
 
-        List<Object[]> list = this.querySql(hql.toString(), params.toArray());
-        List<Menu> menuList=new ArrayList<Menu>();
-        for (int i=0;i<list.size();i++){
-            Object[] obj=list.get(i);
-            Menu menu= new Menu() ;
+        } else {
+            String str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
+                    "from c_menu menu    " +
+                    "JOIN   (    select menu_id from c_role_menu where role_id= ? ) rm   " +
+                    "on    menu.id = rm.menu_id     " +
+                    "order by  menu.id  ";
+            StringBuilder hql = new StringBuilder(str);
+            List params = new ArrayList();
+            params.add(roleId);
+            list = this.querySql(hql.toString(), params.toArray());
+            menuList = new ArrayList<Menu>();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Object[] obj = list.get(i);
+            Menu menu = new Menu();
             menu.setId(obj[0].toString());
             menu.setPid(obj[1].toString());
             menu.setMenuName(obj[2].toString());

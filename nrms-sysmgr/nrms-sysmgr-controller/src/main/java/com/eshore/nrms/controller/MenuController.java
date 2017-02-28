@@ -1,7 +1,6 @@
 package com.eshore.nrms.controller;
 
 import com.eshore.nrms.sysmgr.pojo.Menu;
-import com.eshore.nrms.sysmgr.pojo.Role;
 import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import net.sf.json.JSONArray;
@@ -27,10 +26,22 @@ public class MenuController {
     @RequestMapping("/menu/getjson")
     public ModelAndView getMenuJsonByRoleId(String roleId){
         ModelAndView view= new ModelAndView("menu/getJson");
-        roleId="0b75d80e-6db3-4b61-936a-2eb7bae";
+
         List<Menu>  list=menuService.queryMenuListByRoleId(roleId);
+
+
+
+
+
         JSONArray jsonArray=JSONArray.fromObject(list);
+
+
+
+
         String data= jsonArray.toString();
+
+
+
         view.addObject("data",data);
         return view;
     }
@@ -39,13 +50,13 @@ public class MenuController {
     @RequestMapping("/menu/list")
     public ModelAndView getMenuByRoleId(String roleId){
 
-        List<Role> roleList =roleService.list(new Role() , null);
-        for(Role role : roleList){
-        }
+//        List<Role> roleList =roleService.list(new Role() , null);
+//        for(Role role : roleList){
+//        }
+//
+//        List<Menu>  list=menuService.queryMenuListByRoleId(roleId);
 
-        List<Menu>  list=menuService.queryMenuListByRoleId(roleId);
-
-        ModelAndView view= new ModelAndView("/common/left");
+        ModelAndView view= new ModelAndView("menu/list");
         roleId="0b75d80e-6db3-4b61-936a-2eb7bae";
 
         return view;

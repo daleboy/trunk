@@ -9,7 +9,7 @@
 
     function deleteUser(id) {
 
-        $("#msgBoxConfirmInfo").html("确定要删除该用户吗");
+        $("#msgBoxConfirmInfo").html("确定要删除该角色吗");
         $("#msgBoxConfirm").modal('show');
         $("#msgBoxConfirmButton").on('click', function () {
             $("#msgBoxConfirm").modal('hide');
@@ -25,7 +25,7 @@
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
                         $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
+                            parent.window.location.reload();
                         });
                     } else {
                         $("#msgBoxInfo").html(data.msg);
