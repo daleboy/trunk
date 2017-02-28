@@ -46,4 +46,14 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements IRoleServi
     public Integer queryCountOfRoleById(String id) {
         return roleDao.queryCountOfRoleById(id);
     }
+
+    @Override
+    public void distributeAccees(Role role, String[] the403Menus) {
+        roleDao.distributeAccees(role,the403Menus);
+    }
+
+    @Override
+    public void updateAccess(Role role, String[] menus) {
+        roleDao.updateAccess(role,menus);
+    }
 }

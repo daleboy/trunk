@@ -37,4 +37,19 @@ public interface IRoleDao extends IBaseDao<Role> {
      */
     public Integer queryCountOfRoleById(String id);
 
+
+    /**
+     * 为角色分配权限
+     * @param role
+     * @param the403Menus
+     */
+    public void  distributeAccees(Role role , String[]  the403Menus );
+
+    /***
+     * 更新角色权限
+     * @param role
+     * @param menus
+     */
+    public void updateAccess(Role role, String[] menus);
+
 }

@@ -43,7 +43,7 @@ public class RoleController {
 
     @RequestMapping("/role/add")
     @ResponseBody
-    public ExecResult add(Role role) {
+    public ExecResult add(Role role , String[] ids) {
         ExecResult result = new ExecResult();
         Integer count = roleService.queryCountByRoleName(role.getRoleName());
         if (count >= 1) {
@@ -53,6 +53,7 @@ public class RoleController {
         }
         role.setId(UUID.randomUUID().toString().substring(0, 31));
         roleService.save(role);
+        roleService.distributeAccees(role,ids);
         result.setMsg("保存成功");
         result.setSuccess(true);
         return result;
@@ -67,9 +68,10 @@ public class RoleController {
 
     @RequestMapping("/role/edit")
     @ResponseBody
-    public ExecResult toEdit(Role role) {
+    public ExecResult Edit(Role role ,String[]  ids) {
         ExecResult result= new ExecResult();
         roleService.update(role);
+        roleService.updateAccess(role,ids);
         result.setMsg("更新成功");
         result.setSuccess(true);
         return result;
