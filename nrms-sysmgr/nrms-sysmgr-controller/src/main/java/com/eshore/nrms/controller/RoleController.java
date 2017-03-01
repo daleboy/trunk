@@ -42,6 +42,7 @@ public class RoleController {
 
     @RequestMapping("/role/toadd")
     public ModelAndView toAdd() {
+        List<Role> roles=roleService.list(new Role(),null);
         ModelAndView view = new ModelAndView("role/add");
         return view;
     }

@@ -38,4 +38,6 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
 
         return this.queryPage(hql.toString(), page, params.toArray());
     }
+
+
 }

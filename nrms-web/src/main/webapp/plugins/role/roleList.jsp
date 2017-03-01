@@ -93,7 +93,7 @@
 <body>
 <div id="wrap" class="">
     <!--    头部 和  菜单 start -->
-    <%--<%@include file="/common/headAndLeft.jsp"%>--%>
+     <%@include file="/common/headAndLeft.jsp"%>
     <!--    头部 和  菜单 end -->
 
     <!-- 内容start -->

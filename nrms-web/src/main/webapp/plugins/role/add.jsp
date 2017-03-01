@@ -55,24 +55,15 @@
         var zNodes = [
             {id: "1asdwervbtrbrtgcwvwef", pId: "0sabdvldkjchgbeiubjkn", name: "会议申请管理", open: true, checked: true},
             {id: "1azdsfverbrtb", pId: "1asdwervbtrbrtgcwvwef", name: "会议室列表", open: true, checked: true},
-            {id: "2caassdvfdbnhnym", pId: "1azdsfverbrtb", name: "操作会议室", open: true},
             {id: "3sdverhbtbdfv87dyv8s", pId: "1asdwervbtrbrtgcwvwef", name: "申请审批", open: true},
-            {id: "4dasvrbrh6u7yhgf", pId: "3sdverhbtbdfv87dyv8s", name: "申请详情"},
             {id: "4dazvraaserverver", pId: "1asdwervbtrbrtgcwvwef", name: "会议查询", open: true, checked: true},
-            {id: "4dbaasvcnsdjkvnsdkjv", pId: "4dazvraaserverver", name: "会议详情", checked: true},
             {id: "5sdvfbnkkkjbhghcfg", pId: "1asdwervbtrbrtgcwvwef", name: "我的申请", open: true, checked: true},
-            {id: "6vwveerbrthtjyu", pId: "5sdvfbnkkkjbhghcfg", name: "申请会议详情-编辑", checked: true},
-            {id: "7svdsvrtb4vvrtbtrev", pId: "5sdvfbnkkkjbhghcfg", name: "申请会议室详情-查看", checked: true},
-            {id: "8aascsdvascsverbvrtbfds", pId: "5sdvfbnkkkjbhghcfg", name: "会议室使用情况", checked: true},
             {id: "8acvwececwevw", pId: "0sabdvldkjchgbeiubjkn", name: "系统设置", open: true, checked: true},
             {id: "8basdsvverv", pId: "8acvwececwevw", name: "修改个人密码", checked: true},
             {id: "8coiuyuyuityutyitiy", pId: "8acvwececwevw", name: "修改个人信息", checked: true},
             {id: "8dvcerbytnumujhgbfvdcdvgbhgbfvdc", pId: "8acvwececwevw", name: "用户列表", open: true},
-            {id: "8easvcscsdceoifuryvdihb", pId: "8dvcerbytnumujhgbfvdcdvgbhgbfvdc", name: "编辑用户"},
             {id: "8fasvsdvscacwevnhnhnth", pId: "8acvwececwevw", name: "角色管理", open: true},
-            {id: "8faz91asdwefcwevervgtrbtynhgbfvd", pId: "8fasvsdvscacwevnhnhnth", name: "编辑角色"},
-            {id: "92asvdvmlmkmiuuytytyt", pId: "8acvwececwevw", name: "参数配置", open: true},
-            {id: "99sccsvsdncmxncnbvzbcnvbvbncv", pId: "92asvdvmlmkmiuuytytyt", name: "参数详情"}
+            {id: "92asvdvmlmkmiuuytytyt", pId: "8acvwececwevw", name: "参数配置", open: true}
         ];
 
 

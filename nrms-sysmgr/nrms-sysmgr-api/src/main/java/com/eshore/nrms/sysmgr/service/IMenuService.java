@@ -26,7 +26,11 @@ public interface IMenuService extends IBaseService<Menu>{
      */
 //    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig);
 
-
-
+    /**
+     * 通过pid查询子菜单项
+     * @param pId
+     * @return
+     */
+    public List<Menu> queryMenuListByPId(String pId);
 
 }

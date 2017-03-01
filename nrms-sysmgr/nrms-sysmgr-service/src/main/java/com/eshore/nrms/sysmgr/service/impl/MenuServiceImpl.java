@@ -32,4 +32,9 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
         return  menuDao.queryMenuListByRoleId(roleId);
     }
 
+    @Override
+    public List<Menu> queryMenuListByPId(String pId) {
+        return  menuDao.queryMenuListByPId(pId);
+    }
+
 }
