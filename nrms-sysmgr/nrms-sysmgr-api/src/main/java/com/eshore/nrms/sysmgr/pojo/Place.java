@@ -1,25 +1,39 @@
 package com.eshore.nrms.sysmgr.pojo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
-/**
- * Created by forgeeks at 2017-02-24 9:41
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "a_place")
-public class Place implements Serializable {
-    private String id;
-    private String placeName;
-    private String placeDesc;
-    private Integer placeState;
+public class Place implements Serializable{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5585766872870542848L;
 
     @Id
+    @GenericGenerator(name="uuidGen",strategy="uuid")
+    @GeneratedValue(generator="uuidGen")
     @Column(name = "id")
+    private String id;		//主键
+
+    @Column(name = "place_name")
+    private String placeName;		//会议室名
+
+    @Column(name = "place_desc")
+    private String placeDesc;		//会议是描述信息
+
+    @Column(name = "place_state")
+    private Integer placeState;		//会议室状态  0：逻辑删除    1：正常
+
     public String getId() {
         return id;
     }
@@ -28,7 +42,6 @@ public class Place implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "place_name")
     public String getPlaceName() {
         return placeName;
     }
@@ -37,7 +50,6 @@ public class Place implements Serializable {
         this.placeName = placeName;
     }
 
-    @Column(name = "place_desc")
     public String getPlaceDesc() {
         return placeDesc;
     }
@@ -46,7 +58,6 @@ public class Place implements Serializable {
         this.placeDesc = placeDesc;
     }
 
-    @Column(name = "place_state")
     public Integer getPlaceState() {
         return placeState;
     }
@@ -55,13 +66,4 @@ public class Place implements Serializable {
         this.placeState = placeState;
     }
 
-    @Override
-    public String toString() {
-        return "Place{" +
-                "id='" + id + '\'' +
-                ", placeName='" + placeName + '\'' +
-                ", placeDesc='" + placeDesc + '\'' +
-                ", placeState=" + placeState +
-                '}';
-    }
 }

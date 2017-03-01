@@ -23,7 +23,7 @@ import java.util.List;
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl extends BaseServiceImpl<User> implements IUserService {
     @Autowired
-    IUserDao userDao;
+    private IUserDao userDao;
 
     @Override
     public IBaseDao<User> getDao() {
@@ -36,9 +36,48 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements IUserServi
         return userDao.queryUserByLoginName(loginName);
     }
 
+    
+    
+    
     @Override
     public PageVo<User> queryUserByPage(User user, PageConfig page) {
         List<User> list = this.userDao.queryUserList(user, page);
         return PageUtil.getPageList(page, list);
     }
+
+	@Override
+	public List<User> getAllUsers(User user) {
+		// TODO Auto-generated method stub
+		return userDao.queryAllUsers(user);
+	}
+
+	@Override
+	public List<User> getUsers() {
+		// TODO Auto-generated method stub
+		return userDao.queryUsers();
+	}
+
+	@Override
+	public int getCount(User user) {
+		// TODO Auto-generated method stub
+		return userDao.queryCount(user);
+	}
+
+	@Override
+	public List<User> getallUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> getUserById(String id) {
+		// TODO Auto-generated method stub
+		User user = new User();
+		user.setId(id);
+		PageConfig page = new PageConfig();
+		return userDao.queryUserList(user, page);
+	}
+    
+    
+    
 }

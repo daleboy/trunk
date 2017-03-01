@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.io.Serializable;
 
 /**
@@ -11,23 +13,41 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name = "c_user")
-public class User implements Serializable {
+@Table(name="c_user")
+public class User implements  Serializable{
 
-    private String id;
+    private  String id ;
     private String roleId;
-    private String roleType;
+    private String role;	//角色名
+    
     private String loginName;
     private String loginPw;
+    
     private String deptKey;
+    private String dept;	//部门名
+    
     private String jobKey;
+    private String job;	//部门名
+    
     private String positionKey;
+    private String posi;	//职位名
+    
     private String uname;
     private String email;
     private Integer userState;
+    
+    
+    public User(){
+    	
+    }
+    
+    public User(String id,String uname) {
+		this.id = id;
+		this.uname = uname;
+	}
 
     @Id
-    @Column(name = "id")
+    @Column(name="id")
     public String getId() {
         return id;
     }
@@ -35,25 +55,7 @@ public class User implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
-
-    public String getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(String roleType) {
-        this.roleType = roleType;
-    }
-
-    public String getPositionKey() {
-        return positionKey;
-    }
-
-    public void setPositionKey(String positionKey) {
-        this.positionKey = positionKey;
-    }
-
-    @Column(name = "role_id")
+    @Column(name="role_id")
     public String getRoleId() {
         return roleId;
     }
@@ -61,17 +63,14 @@ public class User implements Serializable {
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
-
-    @Column(name = "login_name")
+    @Column(name="login_name")
     public String getLoginName() {
         return loginName;
     }
-
     public void setLoginName(String loginName) {
         this.loginName = loginName;
     }
-
-    @Column(name = "login_pw")
+    @Column(name="login_pw")
     public String getLoginPw() {
         return loginPw;
     }
@@ -79,8 +78,7 @@ public class User implements Serializable {
     public void setLoginPw(String loginPw) {
         this.loginPw = loginPw;
     }
-
-    @Column(name = "dept_key")
+    @Column(name="dept_key")
     public String getDeptKey() {
         return deptKey;
     }
@@ -88,8 +86,7 @@ public class User implements Serializable {
     public void setDeptKey(String deptKey) {
         this.deptKey = deptKey;
     }
-
-    @Column(name = "job_key")
+    @Column(name="job_key")
     public String getJobKey() {
         return jobKey;
     }
@@ -97,8 +94,7 @@ public class User implements Serializable {
     public void setJobKey(String jobKey) {
         this.jobKey = jobKey;
     }
-
-    @Column(name = "uname")
+    @Column(name="uname")
     public String getUname() {
         return uname;
     }
@@ -106,8 +102,7 @@ public class User implements Serializable {
     public void setUname(String uname) {
         this.uname = uname;
     }
-
-    @Column(name = "email")
+    @Column(name="email")
     public String getEmail() {
         return email;
     }
@@ -115,8 +110,7 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    @Column(name = "user_state")
+    @Column(name="user_state")
     public Integer getUserState() {
         return userState;
     }
@@ -124,6 +118,62 @@ public class User implements Serializable {
     public void setUserState(Integer userState) {
         this.userState = userState;
     }
+    
+    @Column(name="position_key")
+    public String getPositionKey() {
+		return positionKey;
+	}
 
+	public void setPositionKey(String positionKey) {
+		this.positionKey = positionKey;
+	}
+	
+	
+	@Transient
+	public String getRole() {
+		return role;
+	}
 
+	public void setRole(String role) {
+		this.role = role;
+	}
+	@Transient
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	@Transient
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+	@Transient
+	public String getPosi() {
+		return posi;
+	}
+
+	public void setPosi(String posi) {
+		this.posi = posi;
+	}
+
+	@Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", loginPw='" + loginPw + '\'' +
+                ", deptKey='" + deptKey + '\'' +
+                ", jobKey='" + jobKey + '\'' +
+                ", uname='" + uname + '\'' +
+                ", email='" + email + '\'' +
+                ", userState='" + userState + '\'' +
+                '}';
+    }
+	
 }

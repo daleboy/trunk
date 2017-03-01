@@ -102,7 +102,7 @@
             <div class="up-tab-pane up-active" id="tabs1">
                 <div class="border_btm first_title">
                     <h4 class="up-top-cq-color">
-                        <span class="icon-right-dir"></span> 用户管理
+                        <span class="icon-right-dir"></span> 角色管理
                     </h4>
                 </div>
                 <div class="up_page_con">
@@ -131,7 +131,6 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <c:if test="${sessionScope.LOGIN_USER.roleType eq '1'}">
                                                     <div class="up-clearfix table_head">
                                                         <div class="reference_search">
                                                             <div class="up-form-group">
@@ -144,7 +143,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </c:if>
                                                 <table
                                                         class="up-table up-table-bordered up-table-hover margin_bottom10 up-text-center">
                                                     <thead>
@@ -162,12 +160,12 @@
                                                             <td>${role.roleName}</td>
                                                             <td>${role.roleDesc}</td>
                                                             <td>
-                                                                <c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
+
                                                                     <a href="javascript:void(0)"
                                                                        onClick="showDialog('编辑' , '${basePath}/role/toedit?id=${role.id }' , '470px')">修改</a>
                                                                     <a href="javascript:void(0)"
                                                                        onClick="deleteUser('${role.id}')">删除</a>
-                                                                </c:if>
+
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

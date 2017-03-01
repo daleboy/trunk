@@ -1,243 +1,291 @@
 package com.eshore.nrms.sysmgr.pojo;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Transient;
 
-/**
- * Created by forgeeks at 2017-02-24 9:07
- */
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
-@Table(name="a_application")
-public class Application implements Serializable {
-    private String id;
-    private String placeId;
-    private String uidApplicat;
-    private String subject;
-    private String startDate;
-    private String startTime;
-    private String endTime;
-    private  Integer appState;
-    private  String appRemark;
-    private  Date submitDate;
-    private  String uidMinutes;
-    private  String meetingMinutes;
-    private  Integer jiyaoState;
-    private  String uidAuditor;
-    private  Date  auditingDate;
-    private  String  auditingFeedback;
-    private  String  appFileName;
-    private  String  appFileUuid;
-    private  String minutesFileName;
-    private  String minutesFileUuid;
+@Table(name = "a_application")
+public class Application implements Serializable{
 
-    @Id
-    @Column(name="id")
-    public String getId() {
-        return id;
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3009673280479680502L;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	@Id
+	@GenericGenerator(name="uuidGen",strategy="uuid")
+	@GeneratedValue(generator="uuidGen")
+	@Column(name = "id")
+	private String id;		//主键
+	
+	@Column(name = "place_id")
+	private String placeId;		//会议室id
+	
+	@Transient
+	private String placeName;	//会议室名
+	
+	@Column(name = "uid_applicant")
+	private String uidApplicant;	//申请人id
+	
+	@Transient
+	private String unameApplicant;	//申请人名
+	
+	@Column(name = "subject")
+	private String subject;		//主题
+	
+	@Column(name = "start_date")
+	private String startDate;	//会议开始日期   yyyy-MM-dd
+	
+	@Column(name = "start_time")
+	private String startTime;	//开始时间  HH:mm
+	
+	@Column(name = "end_time")
+	private String endTime;		//结束时间  HH:mm
+	
+	@Column(name = "app_state")
+	private Integer appState;	//申请状态  0:暂存	1:待审核		2:申请通过		3:申请未通过
+	
+	@Column(name = "app_remark")
+	private String appRemark;	//申请的备注
+	
+	@Column(name = "submit_date")
+	private String submitDate;	//提交时间    yyyy-MM-dd HH:ss
+	
+	@Column(name = "uid_minutes")
+	private String uidMinutes;	//会议纪要人id
+	
+	@Transient
+	private String unameMinutes;//会议纪要人名
+	
+	@Column(name = "meeting_minutes")
+	private String meetingMinutes;	//会议纪要内容
+	
+	@Column(name = "minutes_state")
+	private Integer minutesState;	//会议纪要状态  0：未开始      1：暂存      2：完成
+	
+	@Column(name = "uid_auditor")
+	private String uidAuditor;		//审批人id
+	
+	@Transient
+	private String unameAuditor;	//审批人名
+	
+	@Column(name = "auditing_date")
+	private String auditingDate;	//审批时间
+	
+	@Column(name = "auditing_feedback")
+	private String auditingFeedBack;	//审批反馈
+	
+	@Column(name = "app_file_name")
+	private String appFileName;		//会议文件的原名
+	
+	@Column(name = "app_file_uuid")
+	private String appUuidName;		//会议文件的uuid名
+	
+	@Column(name = "minutes_file_name")
+	private String minutesFileName;		//会议纪要的原名
+	
+	@Column(name = "minutes_file_uuid")
+	private String minutesUuidName;		//会议纪要的uuid名
 
-    @Column(name="place_id")
-    public String getPlaceId() {
-        return placeId;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    @Column(name="uid_applicat")
-    public String getUidApplicat() {
-        return uidApplicat;
-    }
+	public String getPlaceId() {
+		return placeId;
+	}
 
-    public void setUidApplicat(String uidApplicat) {
-        this.uidApplicat = uidApplicat;
-    }
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
+	}
 
-    @Column(name="subject")
-    public String getSubject() {
-        return subject;
-    }
+	public String getUidApplicant() {
+		return uidApplicant;
+	}
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+	public void setUidApplicant(String uidApplicant) {
+		this.uidApplicant = uidApplicant;
+	}
 
-    @Column(name="start_date")
-    public String getStartDate() {
-        return startDate;
-    }
+	public String getSubject() {
+		return subject;
+	}
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 
-    @Column(name="start_time")
-    public String getStartTime() {
-        return startTime;
-    }
+	public String getStartDate() {
+		return startDate;
+	}
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 
-    @Column(name="end_time")
-    public String getEndTime() {
-        return endTime;
-    }
+	public String getPlaceName() {
+		return placeName;
+	}
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
+	}
 
-    @Column(name="app_state")
-    public Integer getAppState() {
-        return appState;
-    }
+	public String getStartTime() {
+		return startTime;
+	}
 
-    public void setAppState(Integer appState) {
-        this.appState = appState;
-    }
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
 
-    @Column(name="app_remark")
-    public String getAppRemark() {
-        return appRemark;
-    }
+	public String getEndTime() {
+		return endTime;
+	}
 
-    public void setAppRemark(String appRemark) {
-        this.appRemark = appRemark;
-    }
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 
-    @Column(name="submit_date")
-    public Date getSubmitDate() {
-        return submitDate;
-    }
+	public Integer getAppState() {
+		return appState;
+	}
 
-    public void setSubmitDate(Date submitDate) {
-        this.submitDate = submitDate;
-    }
+	public void setAppState(Integer appState) {
+		this.appState = appState;
+	}
 
-    public String getUidMinutes() {
-        return uidMinutes;
-    }
+	public String getAppRemark() {
+		return appRemark;
+	}
 
-    @Column(name="uid_minutes")
-    public void setUidMinutes(String uidMinutes) {
-        this.uidMinutes = uidMinutes;
-    }
+	public void setAppRemark(String appRemark) {
+		this.appRemark = appRemark;
+	}
 
-    public String getMeetingMinutes() {
-        return meetingMinutes;
-    }
+	public String getSubmitDate() {
+		return submitDate;
+	}
 
-    @Column(name="meeting_minutes")
-    public void setMeetingMinutes(String meetingMinutes) {
-        this.meetingMinutes = meetingMinutes;
-    }
+	public void setSubmitDate(String submitDate) {
+		this.submitDate = submitDate;
+	}
 
-    public Integer getJiyaoState() {
-        return jiyaoState;
-    }
+	public String getUidMinutes() {
+		return uidMinutes;
+	}
 
-    @Column(name="jiyao_state")
-    public void setJiyaoState(Integer jiyaoState) {
-        this.jiyaoState = jiyaoState;
-    }
+	public void setUidMinutes(String uidMinutes) {
+		this.uidMinutes = uidMinutes;
+	}
 
-    public String getUidAuditor() {
-        return uidAuditor;
-    }
+	public String getMeetingMinutes() {
+		return meetingMinutes;
+	}
 
-    @Column(name="uid_auditor")
-    public void setUidAuditor(String uidAuditor) {
-        this.uidAuditor = uidAuditor;
-    }
+	public void setMeetingMinutes(String meetingMinutes) {
+		this.meetingMinutes = meetingMinutes;
+	}
 
-    public Date getAuditingDate() {
-        return auditingDate;
-    }
+	public Integer getMinutesState() {
+		return minutesState;
+	}
 
-    @Column(name="auditing_date")
-    public void setAuditingDate(Date auditingDate) {
-        this.auditingDate = auditingDate;
-    }
+	public void setMinutesState(Integer minutesState) {
+		this.minutesState = minutesState;
+	}
 
-    public String getAuditingFeedback() {
-        return auditingFeedback;
-    }
+	public String getUidAuditor() {
+		return uidAuditor;
+	}
 
-    @Column(name="auditing_feedback")
-    public void setAuditingFeedback(String auditingFeedback) {
-        this.auditingFeedback = auditingFeedback;
-    }
+	public void setUidAuditor(String uidAuditor) {
+		this.uidAuditor = uidAuditor;
+	}
 
-    public String getAppFileName() {
-        return appFileName;
-    }
+	public String getAuditingDate() {
+		return auditingDate;
+	}
 
-    @Column(name="app_file_name")
-    public void setAppFileName(String appFileName) {
-        this.appFileName = appFileName;
-    }
+	public void setAuditingDate(String auditingDate) {
+		this.auditingDate = auditingDate;
+	}
 
-    public String getAppFileUuid() {
-        return appFileUuid;
-    }
+	public String getAuditingFeedBack() {
+		return auditingFeedBack;
+	}
 
-    @Column(name="app_file_uuid")
-    public void setAppFileUuid(String appFileUuid) {
-        this.appFileUuid = appFileUuid;
-    }
+	public void setAuditingFeedBack(String auditingFeedBack) {
+		this.auditingFeedBack = auditingFeedBack;
+	}
 
-    public String getMinutesFileName() {
-        return minutesFileName;
-    }
+	public String getAppFileName() {
+		return appFileName;
+	}
 
-    @Column(name="minutes_file_name")
-    public void setMinutesFileName(String minutesFileName) {
-        this.minutesFileName = minutesFileName;
-    }
+	public void setAppFileName(String appFileName) {
+		this.appFileName = appFileName;
+	}
 
-    @Column(name="minutes_file_uuid")
-    public String getMinutesFileUuid() {
-        return minutesFileUuid;
-    }
+	public String getAppUuidName() {
+		return appUuidName;
+	}
 
-    public void setMinutesFileUuid(String minutesFileUuid) {
-        this.minutesFileUuid = minutesFileUuid;
-    }
+	public void setAppUuidName(String appUuidName) {
+		this.appUuidName = appUuidName;
+	}
 
-    @Override
-    public String toString() {
-        return "Application{" +
-                "id='" + id + '\'' +
-                ", placeId='" + placeId + '\'' +
-                ", uidApplicat='" + uidApplicat + '\'' +
-                ", subject='" + subject + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", appState=" + appState +
-                ", appRemark='" + appRemark + '\'' +
-                ", submitDate=" + submitDate +
-                ", uidMinutes='" + uidMinutes + '\'' +
-                ", meetingMinutes='" + meetingMinutes + '\'' +
-                ", jiyaoState=" + jiyaoState +
-                ", uidAuditor='" + uidAuditor + '\'' +
-                ", auditingDate=" + auditingDate +
-                ", auditingFeedback='" + auditingFeedback + '\'' +
-                ", appFileName='" + appFileName + '\'' +
-                ", appFileUuid='" + appFileUuid + '\'' +
-                ", minutesFileName='" + minutesFileName + '\'' +
-                ", minutesFileUuid='" + minutesFileUuid + '\'' +
-                '}';
-    }
+	public String getMinutesFileName() {
+		return minutesFileName;
+	}
+
+	public void setMinutesFileName(String minutesFileName) {
+		this.minutesFileName = minutesFileName;
+	}
+
+	public String getMinutesUuidName() {
+		return minutesUuidName;
+	}
+
+	public void setMinutesUuidName(String minutesUuidName) {
+		this.minutesUuidName = minutesUuidName;
+	}
+
+	public String getUnameApplicant() {
+		return unameApplicant;
+	}
+
+	public void setUnameApplicant(String unameApplicant) {
+		this.unameApplicant = unameApplicant;
+	}
+
+	public String getUnameMinutes() {
+		return unameMinutes;
+	}
+
+	public void setUnameMinutes(String unameMinutes) {
+		this.unameMinutes = unameMinutes;
+	}
+
+	public String getUnameAuditor() {
+		return unameAuditor;
+	}
+
+	public void setUnameAuditor(String unameAuditor) {
+		this.unameAuditor = unameAuditor;
+	}
+	
+	
 }

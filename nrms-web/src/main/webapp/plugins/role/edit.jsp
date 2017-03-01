@@ -132,8 +132,8 @@
                         });
                     } else {
                         $("#msgBoxInfo").html(data.msg);
-//                        $("#msgBox").modal('show');
-                        window.location.reload();
+                        $("#msgBox").modal('show');
+                        parent.window.location.reload();
                     }
                 },
                 error: function (data) {

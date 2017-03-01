@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
-    <title>网络资源管理系统</title>
+    <title>会议管理系统</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <%@include file="/common/common-ui.jsp"%>
@@ -57,7 +57,7 @@
 			dataType : 'json',
 			success : function(data) {
 				if (data.success) {
-					window.location.href = "${basePath}";
+					window.location.href = "${basePath}/";
 				} else {
 					$("#msgBoxInfo").html(data.msg);
 					$("#msgBox").modal('show');

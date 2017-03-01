@@ -21,39 +21,40 @@ import com.eshore.nrms.vo.PageVo;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements
-        IUserInfoService {
+		IUserInfoService {
 
-    @Autowired
-    private IUserInfoDao userInfoDao;
+	@Autowired
+	private IUserInfoDao userInfoDao;
+	
+	@Override
+	public IBaseDao<UserInfo> getDao() {
+		return userInfoDao;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public UserInfo userLogin(String loginName) {
+		UserInfo userInfo = this.userInfoDao.queryUserByLoginName(loginName);
+		return userInfo;
+	}
 
-    @Override
-    public IBaseDao<UserInfo> getDao() {
-        return userInfoDao;
-    }
+	@Override
+	public PageVo<UserInfo> queryUserInfoByPage(UserInfo userInfo,
+			PageConfig page) {
+		List<UserInfo> list = this.userInfoDao.queryUserList(userInfo, page);
+		return PageUtil.getPageList(page, list);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserInfo userLogin(String loginName) {
-        UserInfo userInfo = this.userInfoDao.queryUserByLoginName(loginName);
-        return userInfo;
-    }
+	@Override
+	public Integer getUserCountByLoginName(String loginName, String userId) {
+		return this.userInfoDao.getUserCountByLoginName(loginName , userId);
+	}
 
-    @Override
-    public PageVo<UserInfo> queryUserInfoByPage(UserInfo userInfo,
-                                                PageConfig page) {
-        List<UserInfo> list = this.userInfoDao.queryUserList(userInfo, page);
-        return PageUtil.getPageList(page, list);
-    }
+	@Override
+	public Integer getUserCountByFullIp(String fullIp, String userId) {
+		return this.userInfoDao.getUserCountByFullIp(fullIp, userId);
+	}
 
-    @Override
-    public Integer getUserCountByLoginName(String loginName, String userId) {
-        return this.userInfoDao.getUserCountByLoginName(loginName, userId);
-    }
-
-    @Override
-    public Integer getUserCountByFullIp(String fullIp, String userId) {
-        return this.userInfoDao.getUserCountByFullIp(fullIp, userId);
-    }
-
+	
 
 }

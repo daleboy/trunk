@@ -20,7 +20,7 @@
         <div class="up-collapse up-navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="up-nav up-navbar-nav up-navbar-right">
                 <li>
-                    <span class="up-cq-head">欢迎您！&nbsp;<span style="font-weight:bold">${sessionScope.LOGIN_USER.loginName}  </span>
+                    <span class="up-cq-head">欢迎您！&nbsp;<span style="font-weight:bold">${sessionScope.LOGIN_USER.uname} <%-- , 您的IP : ${sessionScope.LOGIN_USER.fullIp }  --%></span>
                 </li>
                 <li>
                     <a href="${basePath }/passwordChange">修改密码</a>

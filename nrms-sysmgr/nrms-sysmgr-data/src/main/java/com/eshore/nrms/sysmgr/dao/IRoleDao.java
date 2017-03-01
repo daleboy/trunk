@@ -43,7 +43,7 @@ public interface IRoleDao extends IBaseDao<Role> {
      * @param role
      * @param the403Menus
      */
-    public void  distributeAccees(Role role , String[]  the403Menus );
+    public void  distributeAccees(Role role, String[] the403Menus);
 
     /***
      * 更新角色权限

@@ -26,7 +26,11 @@ public class MenuController {
     @Autowired
     IRoleService roleService;
 
-
+    /**
+     * 根据角色获取权限菜单json数据
+     * @param roleId
+     * @return
+     */
     @RequestMapping("/menu/getjson")
     public ModelAndView getMenuJsonByRoleId(String roleId) {
         ModelAndView view = new ModelAndView("menu/getJson");
@@ -38,6 +42,11 @@ public class MenuController {
         return view;
     }
 
+    /**
+     * 测试menu显示是否正常
+     * @param roleId
+     * @return
+     */
     @RequestMapping("/menu/list")
     public ModelAndView getMenuByRoleId(String roleId) {
         String menuId="0sabdvldkjchgbeiubjkn";
