@@ -43,7 +43,7 @@ public class MenuController {
             jsonObject.put("pId",menu.getPid());
             jsonObject.put("name",menu.getMenuName());
             jsonObject.put("open",true);
-            jsonObject.put("checked",true);
+            jsonObject.put("checked",false);
             jsonArray.add(jsonObject);
         }
         String data = jsonArray.toString();

@@ -76,11 +76,17 @@
                         console.log(" 节点id是：" + treeNode.id + ", 节点文本是：" + treeNode.name);
                     }
                 },
-                //捕获异步加载出现异常错误的事件回调函数 和 成功的回调函数
                 onAsyncSuccess: function (event, treeId, treeNode, msg) {
-                    console.log("调用成功！");
-                    //var nodes=getCheckedNodes(true));
-                    //alert(nodes);
+                    var nodes=obj.getCheckedNodes();
+                    for (var i = 0, l = nodes.length; i < l; i++) {
+                        if (allUrl.indexOf(nodes[i]["id"]) > 0) {
+                            nodes[i]["checked"] = true;
+                            console.log("1 changed");
+                        }
+                        else
+                            nodes[i]["checked"] = false;
+                    }
+                    $.fn.zTree.init($("#treeDemo"), setting1);
                 }
             }
         };
@@ -113,24 +119,25 @@
         ];
 
         var zNodes1 = [];
-
+        var obj;
         $(document).ready(function () {
-            $.fn.zTree.init($("#treeDemo"), setting1);
+            $obj=$.fn.zTree.init($("#treeDemo"), setting,zNodes);
+
             var allUrl = "${allUrl}";
             console.log("allUrl : " + allUrl);
 
             for (var i = 0, l = zNodes.length; i < l; i++) {
                 if (allUrl.indexOf(zNodes[i]["id"]) > 0) {
-//                    console.log(zNodes[i]["checked"]);
+
                     zNodes[i]["checked"] = true;
-//                    console.log(zNodes[i]["checked"]);
+
                 }
                 else
                     zNodes[i]["checked"] = false;
             }
 
 
-            $.fn.zTree.init($("#treeDemo"), setting1);
+            $.fn.zTree.init($("#treeDemo"), setting,zNodes);
 
         });
         <%--console.log(${menuList}.size);--%>
