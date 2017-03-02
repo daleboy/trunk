@@ -13,6 +13,11 @@ import java.util.List;
 public interface IMenuService extends IBaseService<Menu>{
 
     /**
+     * 获取所有menu
+     * @return
+     */
+    public List<Menu> queryAllMenu();
+    /**
      * 通过用户角色来显示不同用户菜单项
      * @param roleId
      * @return

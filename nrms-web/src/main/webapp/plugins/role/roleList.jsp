@@ -6,6 +6,16 @@
 <html>
 
 <script type="text/javascript">
+    function showDialog(title , url , height){
+        $("#modalDialogTitle").html(title);
+        $("#modalDialogFrame").attr("height" , height);
+        $("#modalDialogFrame").attr("src" , url);
+        $("#modalDialog").modal('show');
+    }
+
+    function hideDialog(){
+        $("#modalDialog").modal('hide');
+    }
 
     function deleteUser(id) {
 
@@ -25,7 +35,7 @@
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
                         $("#msgBoxOKButton").on('click', function () {
-                            parent.window.location.reload();
+                            window.location.reload();
                         });
                     } else {
                         $("#msgBoxInfo").html(data.msg);
@@ -43,7 +53,6 @@
 
     function resetUserPwd(userId) {
 
-        $("#msgBoxConfirmInfo").html("确定重置该用户密码吗");
         $("#msgBoxConfirm").modal('show');
         $("#msgBoxConfirmButton").on('click', function () {
             $("#msgBoxConfirm").modal('hide');

@@ -28,6 +28,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
     public IBaseDao<Menu> getDao() {
         return this.menuDao;
     }
+    @Override
+    public List<Menu> queryAllMenu(){
+        return menuDao.queryAllMenu();
+    }
 
     @Override
     public List<Menu> queryMenuListByRoleId(String roleId) {

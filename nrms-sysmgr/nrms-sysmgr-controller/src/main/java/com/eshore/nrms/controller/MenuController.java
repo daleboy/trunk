@@ -5,6 +5,7 @@ import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import com.eshore.nrms.vo.MenuVo;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,12 +32,20 @@ public class MenuController {
      * @param roleId
      * @return
      */
-    @RequestMapping("/menu/getjson")
-    public ModelAndView getMenuJsonByRoleId(String roleId) {
+    @RequestMapping("/menu/getJson")
+    public ModelAndView getMenuJsonByRoleId() {
         ModelAndView view = new ModelAndView("menu/getJson");
-
-        List<Menu> list = menuService.queryMenuListByRoleId(roleId);
-        JSONArray jsonArray = JSONArray.fromObject(list);
+        List<Menu> list = menuService.queryAllMenu();
+        JSONArray jsonArray = new JSONArray();
+        for(Menu menu : list){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("id",menu.getId());
+            jsonObject.put("pId",menu.getPid());
+            jsonObject.put("name",menu.getMenuName());
+            jsonObject.put("open",true);
+            jsonObject.put("checked",true);
+            jsonArray.add(jsonObject);
+        }
         String data = jsonArray.toString();
         view.addObject("data", data);
         return view;

@@ -28,13 +28,14 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
 
     @Override
     public List<User> queryUserList(User user, PageConfig page) {
-        if (user==null) 
+        if (user==null )
 			return this.queryPage(null, page, null);
         StringBuilder hql = new StringBuilder("from User u,Dictionary dept,Dictionary job,Dictionary posi ,Role r where u.userState=1 ");
         hql.append("and u.deptKey=dept.dicKey and u.jobKey=job.dicKey and u.positionKey=posi.dicKey and u.roleId=r.id");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(user, hql, params);
         List list = this.queryPage(hql.toString(), page, params.toArray());
+
         List<User> userlist = new ArrayList<User>();
         Object[] arr;
         User usertemp;

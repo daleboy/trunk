@@ -30,6 +30,16 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
             "ON menu.id = rm.menuId " +
             "ORDER BY menu.id";
     */
+
+    /**
+     * 获取所有menu
+     * @return
+     */
+    public List<Menu> queryAllMenu(){
+        return this.query("From Menu m ",null);
+    }
+
+
     @Override
     public List<Menu> queryMenuListByRoleId(String roleId) {
         List<Object[]> list = null;

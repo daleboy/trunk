@@ -37,7 +37,55 @@
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
 
     <script type="text/javascript">
+        function showDialog(title , url , height){
+            $("#modalDialogTitle").html(title);
+            $("#modalDialogFrame").attr("height" , height);
+            $("#modalDialogFrame").attr("src" , url);
+            $("#modalDialog").modal('show');
+        }
+
+        function hideDialog(){
+            $("#modalDialog").modal('hide');
+        }
+
         //         --------------------初始化ztree-------------
+
+        var setting1 = {
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {"Y": "", "N": ""}
+            },
+            //获取json数据
+            async: {
+                enable: true,
+                url: "${basePath}/menu/getJson",// Ajax 获取数据的 URL 地址
+            },
+            data: { // 必须使用data
+                simpleData: {
+                    enable: true,
+                    idKey: "id", // id编号命名
+                    pIdKey: "pId", // 父id编号命名
+                    rootId: 0
+                }
+            },
+            // 回调函数
+            callback: {
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    if (true) {
+                        console.log(" 节点id是：" + treeNode.id + ", 节点文本是：" + treeNode.name);
+                    }
+                },
+                //捕获异步加载出现异常错误的事件回调函数 和 成功的回调函数
+                onAsyncSuccess: function (event, treeId, treeNode, msg) {
+                    console.log("调用成功！");
+                    //var nodes=getCheckedNodes(true));
+                    //alert(nodes);
+                }
+            }
+        };
+
+
         var setting = {
             check: {
                 enable: true
@@ -67,7 +115,7 @@
         var zNodes1 = [];
 
         $(document).ready(function () {
-            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo"), setting1);
             var allUrl = "${allUrl}";
             console.log("allUrl : " + allUrl);
 
@@ -82,7 +130,7 @@
             }
 
 
-            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo"), setting1);
 
         });
         <%--console.log(${menuList}.size);--%>

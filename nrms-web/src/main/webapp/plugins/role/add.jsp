@@ -4,11 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="/com.eshore.InitDataTag" prefix="i"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib uri="/com.eshore.InitDataTag" prefix="i" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <script>
-    var basePath='${basePath}';
+    var basePath = '${basePath}';
 </script>
 <html>
 <head>
@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="${basePath }/resources/css/uplan.min.css">
     <link href="${basePath }/resources/css/style.css" rel="stylesheet">
 
+    <script src="${basePath }/resources/js/require.js"></script>
+    <script src="${basePath }/resources/js/main.js"></script>
     <script type="text/javascript" charset="utf-8" src="${basePath }/resources/js/common-check.js"></script>
     <style type="text/css">
         html, body {
@@ -32,15 +34,68 @@
     </style>
 
     <link rel="stylesheet" href="${basePath}/resources/css/zTreeStyle.css" type="text/css">
-
     <script src="${basePath }/resources/js/main.js"></script>
 
+    <%--冲突的js--%>
     <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
+    <%--冲突的js--%>
 
     <script type="text/javascript">
+
+        function showDialog(title , url , height){
+            $("#modalDialogTitle").html(title);
+            $("#modalDialogFrame").attr("height" , height);
+            $("#modalDialogFrame").attr("src" , url);
+            $("#modalDialog").modal('show');
+        }
+
+        function hideDialog(){
+            $("#modalDialog").modal('hide');
+        }
+
         //         --------------------初始化ztree-------------
+
+        //dynamic setting
+        var setting1 = {
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {"Y": "", "N": ""}
+            },
+            //获取json数据
+            async: {
+                enable: true,
+                url: "${basePath}/menu/getJson",// Ajax 获取数据的 URL 地址
+            },
+            data: { // 必须使用data
+                simpleData: {
+                    enable: true,
+                    idKey: "id", // id编号命名
+                    pIdKey: "pId", // 父id编号命名
+                    rootId: 0
+                }
+            },
+            // 回调函数
+            callback: {
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    if (true) {
+                        console.log(" 节点id是：" + treeNode.id + ", 节点文本是：" + treeNode.name);
+                    }
+                },
+                //捕获异步加载出现异常错误的事件回调函数 和 成功的回调函数
+                onAsyncSuccess: function (event, treeId, treeNode, msg) {
+                      console.log("调用成功！");
+                    //var nodes=getCheckedNodes(true));
+                    //alert(nodes);
+                }
+            }
+        };
+
+
+        //statis setting
+
         var setting = {
             check: {
                 enable: true
@@ -51,8 +106,6 @@
                 }
             }
         };
-
-
 
 
         var zNodes = [
@@ -69,9 +122,10 @@
             {id: "92asvdvmlmkmiuuytytyt", pId: "8acvwececwevw", name: "参数配置", open: true}
         ];
 
+        var obj;
 
         $(document).ready(function () {
-            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            obj = $.fn.zTree.init($("#treeDemo"), setting1);
         });
         //      ------------------结束初始化ztree----------------------
 
@@ -93,32 +147,32 @@
             var roleDesc = $("#roleDesc").val();
 
             //获取被选中的菜单项id
-            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-            var nodes = treeObj.getCheckedNodes(true);
-            var  ids=[];
-            for (var i=0;i<nodes.length;i++)
-            {
-                ids[i]=nodes[i].id;
+            var nodes = obj.getCheckedNodes();
+            console.log(obj);
+            var ids = [];
+            for (var i = 0; i < nodes.length; i++) {
+                ids[i] = nodes[i].id;
+                console.log(i);
             }
-            console.log("ids - > " + ids+ " len -> "+ids.length);
-
+            console.log("ids - > " + ids + " len -> " + ids.length);
             $.ajax({
                 url: '${basePath}/role/add',
                 type: "post",
                 data: {
-                    "id":id,
-                    "roleName":roleName,
-                    "roleDesc":roleDesc,
-                    "ids":ids.toString()
+                    "id": id,
+                    "roleName": roleName,
+                    "roleDesc": roleDesc,
+                    "ids": ids.toString()
                 },
                 success: function (data) {
                     if (data.success) {
-                        parent.window.location.href("${basePath}/role/list");
-                        /*$("#msgBoxInfo").html(data.msg);
+                        parent.window.location.href = "${basePath}/role/list";
+                        $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
+                        window.location.reload();
                         $("#msgBoxOKButton").on('click', function () {
-                            window.location.href();
-                        });*/
+                            window.location.reload();
+                        });
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
@@ -130,9 +184,7 @@
                     $("#msgBox").modal('show');
                 }
             });
-
         }
-
         //--------------------保存按钮点击事件-----------------
     </script>
 

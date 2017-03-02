@@ -42,7 +42,6 @@ public class RoleController {
         view.addObject("page", list);
         view.addObject("searchParam", role);
         return view;
-
     }
 
     /**
