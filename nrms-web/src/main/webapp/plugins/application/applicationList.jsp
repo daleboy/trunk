@@ -115,7 +115,12 @@
 															<input type="hidden" id="pageNum" name="pageNum" value="1">
 															<div class="up-form-group">
 																<label for="" class="up-control-label">会议室名:</label> 
-																<input type="text" class="up-form-control" id="placeName" name="placeName" value="${searchParam.placeName }">
+																<select class="up-form-control" name="placeId">
+																	<option value=""></option>
+																	<c:forEach var="p" items="${places }">
+																		<option value="${p.id }" <c:if test="${p.id eq searchParam.placeId }">selected</c:if> >${p.placeName}</option>
+																	</c:forEach>
+																</select>
 															</div>
 															<div class="up-form-group">
 																<label for="" class="up-control-label">主题:</label> 
@@ -123,7 +128,13 @@
 															</div>
 															<div class="up-form-group">
 																<label for="" class="up-control-label">状态:</label> 
-																<input type="text" class="up-form-control" id="appState" name="appState" value="${searchParam.appState }">
+																<select class="up-form-control" name="appState">
+																	<option value=""></option>
+																	<option value="0" <c:if test="${ searchParam.appState == 0 }">selected</c:if> >暂存</option>
+																	<option value="1" <c:if test="${ searchParam.appState == 1 }">selected</c:if> >待审核</option>
+																	<option value="2" <c:if test="${ searchParam.appState == 2 }">selected</c:if> >审核通过</option>
+																	<option value="3" <c:if test="${ searchParam.appState == 3 }">selected</c:if> >审核未通过</option>
+																</select>
 															</div>
 															<div class="up-form-group">
 																<button type="submit"  class="up-btn up-btn-primary">查询</button>
@@ -152,11 +163,7 @@
 														<c:forEach var="application" items="${page.dataList }" varStatus="status">
 															<tr>
 																<td>${status.index + 1}</td>
-																<td>
-																	<c:forEach var="p" items="${places }">
-																		<c:if test="${p.id eq application.placeId }">${p.placeName }</c:if>
-																	</c:forEach>
-																</td>
+																<td>${application.placeName }</td>
 																<td>${application.subject}</td>
 																<td>
 																	<c:if test="${application.appState == 0 }">暂存</c:if>

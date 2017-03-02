@@ -40,6 +40,15 @@ public class SendMail {
     private BodyPart bodypart = null;
 
 
+	/** 
+	 * 邮箱发送会议通知邮件
+	 * @param conferenceName 会议名
+	 * @param conferenceTime 会议时间
+	 * @param conferenceLocation 会议地点
+	 * @param targetList 收件人集合
+	 * @throws MessagingException  
+	 * @throws IOException
+	 */
     public void sendEmailsByDefault(SendMail mail, String conferenceName, String conferenceTime, String conferenceLocation,List<String> targetList) throws MessagingException, IOException {
         Map<String, String> map = new HashMap<String, String>();
         map.put("mail.smtp.host", "smtp.qq.com");
@@ -63,7 +72,16 @@ public class SendMail {
         generateReport(info,targetList);
     }
 
-
+    /**
+     * 发送会议通知邮件（带附件）
+	 * @param conferenceName 会议名
+	 * @param conferenceTime 会议时间
+	 * @param conferenceLocation 会议地点
+	 * @param targetList 收件人集合
+     * @param files 附件
+     * @throws MessagingException
+     * @throws IOException
+     */
     public void sendEmailsByDefaultWithFiles(SendMail mail, String conferenceName, String conferenceTime, String conferenceLocation,List<String> targetList, List<String> files) throws MessagingException, IOException {
         Map<String, String> map = new HashMap<String, String>();
         map.put("mail.smtp.host", "smtp.qq.com");
@@ -77,7 +95,7 @@ public class SendMail {
         mail.setSubject(conferenceName);
         mail.setDate(new Date());
         mail.setFrom("亿迅研发会议室管理员");
-        mail.setContent("你好，你参加的会议【" + conferenceName + "】即将在" + conferenceLocation + "于" + conferenceTime + "   召开，请稍作准备！", "text/html; charset=UTF-8");
+        mail.setContent("你好，你参加的会议【" + conferenceName + "】即将在" + conferenceLocation + "于 " + conferenceTime + " 召开，请稍作准备！", "text/html; charset=UTF-8");
         mail.setMultiparts(files);
         String info = mail.sendMessage();
         generateReport(info,targetList);

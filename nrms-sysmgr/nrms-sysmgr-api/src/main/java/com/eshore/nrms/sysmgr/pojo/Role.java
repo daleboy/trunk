@@ -18,6 +18,7 @@ public class Role implements Serializable {
     private String id;
     private String roleName;
     private String roleDesc;
+    private Integer roleState;
 
 
     @Id
@@ -48,6 +49,14 @@ public class Role implements Serializable {
         this.roleDesc = roleDesc;
     }
 
+    @Column(name = "role_state")
+    public Integer getRoleState() {
+        return roleState;
+    }
+
+    public void setRoleState(Integer roleState) {
+        this.roleState = roleState;
+    }
 
     @Override
     public String toString() {

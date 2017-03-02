@@ -3,17 +3,20 @@ package com.eshore.nrms.sysmgr.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.common.utils.type.StringUtils;
 import com.eshore.khala.core.data.jpa.dao.impl.JpaDaoImpl;
 import com.eshore.nrms.sysmgr.dao.IApplyDao;
+import com.eshore.nrms.sysmgr.dao.IViewAndAuditDAO;
 import com.eshore.nrms.sysmgr.pojo.Application;
+import com.eshore.nrms.sysmgr.pojo.Place;
 
 @Repository
 public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
-
+	
 	@Override
 	public List<Application> queryAllApply() {
 		return this.query("from Application where 1=1",null);
@@ -21,33 +24,42 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
 
 	@Override
 	public List<Application> getApply(Application apply) {
-		if(apply == null)
+		if(apply == null){
+			System.out.println("return queryAllApply()");
             return queryAllApply();
-        StringBuilder hql = new StringBuilder("from Application where 1=1");
+		}
+        StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(apply, hql, params);
 
         return this.query(hql.toString(), params.toArray());
 	}
 	
-	private void builderHqlAndParams(Application apply, StringBuilder hql, ArrayList<Object> params) {
-		System.out.println("这里是builderHqlAndParams "+apply.getId());
-        if(StringUtils.isNotBlank(apply.getPlaceName())){
-            hql.append(" and placeName like ?");
-            params.add(apply.getPlaceId());
-        }
-        if(StringUtils.isNotBlank(apply.getSubject())){
-            hql.append(" and subject like ?");
-            params.add("%" + apply.getSubject() + "%");
-        }
-        if(apply.getAppState() != null){
-            hql.append(" and appState=?");
-            params.add("%"+apply.getAppState()+"%");
-        }
-        if(StringUtils.isNotBlank(apply.getStartDate())){
-            hql.append(" and startDate=?");
-            params.add("%"+apply.getAppState()+"%");
-        }
+	
+	private void builderHqlAndParams(Application app,StringBuilder hql, ArrayList<Object> params) {
+		if(app == null)
+			return;
+		
+		if(StringUtils.isNotBlank(app.getId())){
+			hql.append(" and a.id=?");
+			params.add(app.getId());
+		}
+		if(app.getAppState() != null){
+			hql.append(" and a.appState=?");
+			params.add(app.getAppState());
+		}
+		if(StringUtils.isNotBlank(app.getPlaceId())){
+			hql.append(" and a.placeId=?");
+			params.add(app.getPlaceId());
+		}
+		if(StringUtils.isNotBlank(app.getSubject())){
+			hql.append(" and a.subject like ?");
+			params.add("%"+app.getSubject()+"%");
+		}
+		if(StringUtils.isNotBlank(app.getStartDate())){
+			hql.append(" and a.startDate = ?");
+			params.add(app.getStartDate());
+		}
     }
 
 	@Override
@@ -55,7 +67,7 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
 		if(apply == null)
             return this.queryPage(null,pc,null);
 
-		StringBuilder hql = new StringBuilder("from Application where 1=1");
+		StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(apply, hql, params);
 
@@ -65,7 +77,7 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
 	@Override
 	public Integer getCountOfApp(Application app) {
 		
-		StringBuilder hql = new StringBuilder("select count(*) from Application where 1=1");
+		StringBuilder hql = new StringBuilder("select count(*) from Application a,Place p where a.placeId=p.id");
 		
 		if(app == null){
 			return this.queryCount(hql.toString(),null);

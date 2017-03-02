@@ -23,13 +23,13 @@ import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
 public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implements IViewAndAuditService{
-
+	
 	@Value("#{configProperties['file.stroage.path']}")
 	private String PATH;
-
+	
 	@Autowired
 	private IViewAndAuditDAO applicationDAO;
-
+	
 	@Override
 	public IBaseDao<Application> getDao() {
 		return applicationDAO;
@@ -42,7 +42,7 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		List<Application> list = applicationDAO.queryFull(app);
 		if(list != null && !list.isEmpty())
 			return iniUnames(list.get(0));
-
+		
 		return null;
 	}
 
@@ -59,28 +59,20 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		if(StringUtils.isNotBlank(app.getUidMinutes())){
 			uids.add(app.getUidMinutes());
 		}
-
-		List<String> list = applicationDAO.getUsersByIds(uids);
-
-		if(StringUtils.isNotBlank(app.getUidApplicant())){
-			app.setUnameApplicant(list.get(0));
-		}
-		if(StringUtils.isNotBlank(app.getUidAuditor())){
-			if(app.getUidAuditor().equals(app.getUidApplicant()))//和申请人是同一个人
-				app.setUnameAuditor(list.get(0));
-			else
-				app.setUnameAuditor(list.get(1));
-		}
-		if(StringUtils.isNotBlank(app.getUidMinutes())){
-			if(app.getUidMinutes().equals(app.getUidApplicant())){
-				app.setUnameMinutes(list.get(0));
-			}else if(app.getUidMinutes().equals(app.getUidAuditor())){
-				app.setUnameMinutes(list.get(1));
-			}else{
-				if(app.getUidApplicant().equals(app.getUidAuditor()))
-					app.setUnameMinutes(list.get(1));
-				else
-					app.setUnameMinutes(list.get(2));
+		
+		List<User> list = applicationDAO.getUsersByIds(uids);
+		
+		String id;
+		for (User user : list) {
+			id = user.getId();
+			if(id.equals(app.getUidApplicant())){
+				app.setUnameApplicant(user.getUname());
+			}
+			if(id.equals(app.getUidAuditor())){
+				app.setUnameAuditor(user.getUname());
+			}
+			if(id.equals(app.getUidMinutes())){
+				app.setUnameMinutes(user.getUname());
 			}
 		}
 		return app;
@@ -103,7 +95,7 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		List<Application> list = applicationDAO.queryFullPage(app, pc);
 		return list;
 	}
-
+	
 	public List<Application> getFullPageWithMe(User user,Application app,PageConfig pc){
 		if(user == null)
 			return null;
@@ -121,16 +113,16 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		File targetFile ;
 		boolean f1 = true;
 		boolean f2 = true;
-		if(app.getAppUuidName() != null){
+		if(StringUtils.isNotBlank(app.getAppUuidName())){
 			targetFile = new File(PATH,app.getAppUuidName());
 			if(targetFile.exists()){
 				f1 = targetFile.delete();
 			}
 		}
-		if(app.getMinutesUuidName() != null){
+		if(StringUtils.isNotBlank(app.getMinutesUuidName())){
 			targetFile = new File(PATH,app.getMinutesUuidName());
 			if(targetFile.exists()){
-				f1 = targetFile.delete();
+				f2 = targetFile.delete();
 			}
 		}
 		return f1 && f2;

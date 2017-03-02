@@ -8,7 +8,6 @@
 <script type="text/javascript">
 	/* 新增用户 */
 	function saveUser(id){
-		alert(id);
 		if(checkBlank(id)){
 			resetEmail(id);
 			return;
@@ -38,7 +37,6 @@
 			}
 		}
 		var roleId = $("#roleId").find("option:selected").val();
-		//alert(roleId);
 		if(!checkBlank(roleId)){
 			$("#msgBoxInfo").html("请选择角色");
 			$("#msgBox").modal('show');
@@ -101,7 +99,6 @@
 	}
 	
 	function resetEmail(id){
-		//alert("test: id="+id);
 		var newEmail = $("#newEmail").val();
 		var newLoginPw = $("#reNewPwd").val();
 		if( !checkBlank(newEmail)){
@@ -150,12 +147,6 @@
 </script>
 
 <head>
-	<!-- moban -->
-	<script type="text/html" id="departmpl">
-		{{#key}}
-			<option value="{{dicKey }}">{{dicValue}}</option>	
-		{{/key}}
-	</script>
 </head>
 
 <body>
@@ -205,7 +196,7 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="roleId1" id="roleId" class="up-form-control" style="width:260px">
+						<select name="roleId1" id="roleId" class="up-form-control" <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
 							<option value="${user.roleId }" >${user.role }</option>
 						</select>
 					</c:if>
@@ -226,7 +217,7 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="deptKey1" id="deptKey" class="up-form-control" style="width:260px">
+						<select name="deptKey1" id="deptKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
 							<option value="${user.deptKey }" >${user.dept }</option>
 						</select>
 					</c:if>
@@ -247,7 +238,7 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="jobKey1" id="jobKey" class="up-form-control" style="width:260px">
+						<select name="jobKey1" id="jobKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
 							<option value="${user.jobKey }" >${user.job }</option>
 						</select>
 					</c:if>
@@ -268,7 +259,7 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="positionKey1" id="positionKey" class="up-form-control" style="width:260px">
+						<select name="positionKey1" id="positionKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
 							<option value="${user.positionKey }" >${user.posi }</option>
 						</select>
 					</c:if>

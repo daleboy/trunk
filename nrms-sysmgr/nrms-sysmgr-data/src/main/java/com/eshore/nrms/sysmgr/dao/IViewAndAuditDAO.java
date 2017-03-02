@@ -55,7 +55,7 @@ public interface IViewAndAuditDAO extends IBaseDao<Application>{
 	 * @param uids
 	 * @return
 	 */
-	public List<String> getUsersByIds(List<String> uids);
+	public List<User> getUsersByIds(List<String> uids);
 	
 	/**
 	 * 验证时间段是否冲突

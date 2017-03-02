@@ -35,8 +35,10 @@ public class FileValidateCode {
 	public static boolean isActiveCode(String code){
 		int index = codes.indexOf(new RandomCode(code));
 		if(index >= 0){
+			RandomCode rc = codes.get(index);
 			codes.remove(index);
-			return true;
+			long now = System.currentTimeMillis();
+			return now - rc.birthDate < ACTIVE_TIME ;
 		}
 		return false;
 	}

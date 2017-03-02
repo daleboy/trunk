@@ -61,7 +61,7 @@
 </script>
 
 <head>
-	
+	<link rel="stylesheet" type="text/css" href="${basePath }/resources/css/userlist.css"/>
 </head>
 
 <body>

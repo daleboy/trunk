@@ -10,8 +10,6 @@ import com.eshore.nrms.sysmgr.pojo.User;
 
 public interface IViewAndAuditService extends IBaseService<Application>{
 	
-	String PATH = "";
-
 	/**
 	 * 通过会议申请id查询全部改会议申请的全部信息
 	 * @param aid

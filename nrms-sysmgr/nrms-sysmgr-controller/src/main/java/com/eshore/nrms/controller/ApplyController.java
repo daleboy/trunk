@@ -2,6 +2,8 @@ package com.eshore.nrms.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import com.eshore.nrms.sysmgr.service.IPlaceService;
 import com.eshore.nrms.sysmgr.service.IUserService;
 import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
 import com.eshore.nrms.util.PageUtil;
+import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
 
 @Controller
@@ -36,15 +39,14 @@ public class ApplyController {
 	//分页显示申请信息
 	@RequestMapping("/applicationList")
 	public ModelAndView applyList(Application app,PageConfig pc){
-		 ModelAndView view = new ModelAndView("/application/applicationList");
-		 
-		 List<Application> appList = applyService.getApply(app);
-		 List<Place> placeList = placeService.getAllPlaces();
-		 
-		 pc.setRowCount(applyService.getCountOfApp(app));
-	     view.addObject("page" , PageUtil.getPageList(pc, appList));
-	     view.addObject("places" , placeList);
-	     view.addObject("searchParam" , app);;
+		ModelAndView view = new ModelAndView("/application/applicationList");
+		
+		List<Application> allApp = viewAndAuditService.getFullPage(app, pc); 
+		view.addObject("page", PageUtil.getPageList(pc, allApp));
+		view.addObject("searchParam" , app);
+		
+		List<Place> allPlace = placeService.getAllPlaces();
+		view.addObject("places", allPlace);
 		return view;
 	}
 	
@@ -68,21 +70,23 @@ public class ApplyController {
 	}
 	
 	//编辑页
-	@RequestMapping("/editApplication")
-	public ModelAndView editApplication(String id){
-		ModelAndView view = new ModelAndView("/application/editApplication");
+	@RequestMapping("/addOrEditApplication")
+	public ModelAndView addOrEditApplication(String id){
+		ModelAndView view = new ModelAndView("/application/addOrEditApplication");
 		
 		if(StringUtils.isNotBlank(id)){
 			Application application = applyService.get(id);
-			List<Place> placeList = placeService.getAllPlaces();
-			List<User> userList = userService.getallUsers();
-			Place place = placeService.get(application.getPlaceId());
-			
 			view.addObject("app",application);
-			view.addObject("places",placeList);
-			view.addObject("users",userList);
-			view.addObject("place",place);
         }
+		
+		String []time_points = {"08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"};
+		
+		List<Place> placeList = placeService.getAllPlaces();
+		List<User> userList = userService.getUsers();
+		
+		view.addObject("places",placeList);
+		view.addObject("users",userList);
+		view.addObject("time_points", time_points);
 		return view;
 	}
 	
@@ -91,7 +95,7 @@ public class ApplyController {
 	public ModelAndView placeInfo(Application apply,PageConfig pc){
 		ModelAndView view = new ModelAndView("/application/placeInfo");
 		
-		List<Application> appList = applyService.getApplys(apply, pc);
+		List<Application> appList = viewAndAuditService.getFullPage(apply, pc);
 		List<Place> placeList = placeService.getAllPlaces();
  		
 		view.addObject("page" , PageUtil.getPageList(pc, appList));
@@ -102,14 +106,29 @@ public class ApplyController {
 	
 	@RequestMapping("/submitMyApp")
 	@ResponseBody
-	public ExecResult submitMyApp(Application app){
+	public ExecResult submitMyApp(Application application,HttpSession session){
 		ExecResult er = new ExecResult();
 		
-		if(StringUtils.isBlank(app.getId())){
-        	er.setMsg("请填写会议室名称");
-        	return er;
-        }
-        applyService.update(app);
+		if(viewAndAuditService.verifyTimeConflict(application)){
+			er.setMsg("该会议申请和其他申请时间冲突");
+			return er;
+		}
+		
+		application.setAppState(1);
+        applyService.update(application);
+        er.setSuccess(true);
+        er.setMsg("保存成功");
+
+        return er;
+	}
+	
+	@RequestMapping("/saveOrUpdateMyApp")
+	@ResponseBody
+	public ExecResult saveOrUpdateMyApp(Application application){
+		ExecResult er = new ExecResult();
+		
+		application.setAppState(0);
+        applyService.update(application);
         er.setSuccess(true);
         er.setMsg("保存成功");
 

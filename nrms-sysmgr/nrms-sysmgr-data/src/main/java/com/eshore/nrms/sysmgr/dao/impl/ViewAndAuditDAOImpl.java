@@ -144,8 +144,8 @@ public List<Application> queryFull(Map<String, Object> map) {
 
 	@SuppressWarnings({ "unchecked", "unused" })
 	@Override
-	public List<String> getUsersByIds(List<String> uids) {
-		StringBuilder hql = new StringBuilder("select uname from User where id in ('qwe'");
+	public List<User> getUsersByIds(List<String> uids) {
+		StringBuilder hql = new StringBuilder("from User where id in ('qwe'");
 		for (String uid : uids) {
 			hql.append(",?");
 		}

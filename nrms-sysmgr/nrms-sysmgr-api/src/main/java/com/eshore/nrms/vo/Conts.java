@@ -4,7 +4,7 @@ public class Conts {
 	
 	public static final String USER_SESSION_KEY = "LOGIN_USER";
 	public static final String VALIDATE_CODE_KEY = "VALIDATE_CODE";
-
+	
 	public static final String[] PARAM_TYPE = new String[]{
 		"user_ip",   //用户IP
 		"server_ip", //服务器IP

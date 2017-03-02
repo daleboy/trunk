@@ -15,9 +15,9 @@
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/user/deleteuser',
+				url : '${basePath}/userInfo/deleteUser',
 				data : {
-					'id' : id
+					'id' : userId
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -49,9 +49,9 @@
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/user/resetpwd',
+				url : '${basePath}/userInfo/resetUserPwd',
 				data : {
-					'id' : id
+					'id' : userId
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -93,7 +93,7 @@
 <body>
 	<div id="wrap" class="">
 		<!--    头部 和  菜单 start -->
-		<%--<%@include file="/common/headAndLeft.jsp"%>--%>
+		<%@include file="/common/headAndLeft.jsp"%>
 		<!--    头部 和  菜单 end -->
 
 		<!-- 内容start -->
@@ -119,20 +119,26 @@
 															<input type="hidden" id="pageNum" name="pageNum" value="1">
 															<div class="up-form-group">
 																<label for="" class="up-control-label">姓名:</label> 
-																<input type="text" class="up-form-control" id="userName" name="userName" value="${searchParam.loginName }">
+																<input type="text" class="up-form-control" id="userName" name="userName" value="${searchParam.userName }">
 															</div>
+															<c:if test="${sessionScope.LOGIN_USER.userRole  ne '3' }">
+															<div class="up-form-group">
+																<label for="" class="up-control-label">IP:</label> 
+																<input type="text" class="up-form-control" id="fullIp" name="fullIp" value="${searchParam.fullIp }">
+															</div>
+															</c:if>
 															<div class="up-form-group">
 																<button type="submit"  class="up-btn up-btn-primary">搜索</button>
 															</div>
 														</form>
 													</div>
 												</div>
-												<c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
+												<c:if test="${sessionScope.LOGIN_USER.userRole eq '1' }">
 												<div class="up-clearfix table_head">
 													<div class="reference_search">
 														<div class="up-form-group">
 															<button type="submit" class="up-btn up-btn-primary up-btn-primary-red" data-toggle="modal"
-																 onClick="showDialog('新增用户' , '${basePath}/user/add' , '470px')">新增</button>
+																 onClick="showDialog('新增用户' , '${basePath}/userInfo/toAddOrEditUser' , '470px')">新增</button>
 														</div>
 													</div>
 												</div>
@@ -141,29 +147,36 @@
 													class="up-table up-table-bordered up-table-hover margin_bottom10 up-text-center">
 													<thead>
 														<tr class="up-active">
+															<c:if test="${sessionScope.LOGIN_USER.userRole ne '3' }">
+															<th>帐号</th>
+															</c:if>
 															<th>姓名</th>
-															<th>角色</th>
+															<th>位置</th>
+															<th>工位</th>
+															<c:if test="${sessionScope.LOGIN_USER.userRole ne '3' }">
+																<th>IP</th>
+															</c:if>
 															<th>邮箱</th>
-															<th>部门编码</th>
-															<th>工作编码</th>
-															<th>职位编码</th>
 															<th>操作</th>
 														</tr>
 													</thead>
 													<tbody>
 														<c:forEach var="user" items="${page.dataList }">
 															<tr>
+																<c:if test="${sessionScope.LOGIN_USER.userRole ne '3' }">
 																<td>${user.loginName}</td>
-																<td>${user.roleType}</td>
+																</c:if>
+																<td>${user.userName}</td>
+																<td><i:getValue dataType="site" dataValue="${user.site}"></i:getValue></td>
+																<td>${user.seatNum}</td>
+																<c:if test="${sessionScope.LOGIN_USER.userRole ne '3' }">
+																<td>${user.fullIp}</td>
+																</c:if>
 																<td>${user.email}</td>
-																<td>${user.deptKey}</td>
-																<td>${user.jobKey}</td>
-																<td>${user.positionKey}</td>
-
 																<td>
-																	<a href="javascript:void(0)" onClick="showDialog('查看用户' , '${basePath}/user/viewuser?id=${user.id }' , '470px')"">查看</a>
-																	<c:if test="${sessionScope.LOGIN_USER.roleType eq '1' }">
-																	<a href="javascript:void(0)" onClick="showDialog('编辑用户' , '${basePath}/user/toadd?id=${user.id }' , '470px')">编辑</a>
+																	<a href="javascript:void(0)" onClick="showDialog('查看用户' , '${basePath}/userInfo/viewUserInfo?id=${user.id }' , '470px')"">查看</a> 
+																	<c:if test="${sessionScope.LOGIN_USER.userRole eq '1' }">
+																	<a href="javascript:void(0)" onClick="showDialog('编辑用户' , '${basePath}/userInfo/toAddOrEditUser?id=${user.id }' , '470px')">编辑</a>
 																	<a href="javascript:void(0)" onClick="resetUserPwd('${user.id}')">重置密码</a> 
 																	<a href="javascript:void(0)" onClick="deleteUser('${user.id}')">删除</a>
 																	</c:if>

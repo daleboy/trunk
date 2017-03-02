@@ -40,11 +40,15 @@ public class UserController {
 	@Autowired
 	private IRoleService roleService;
 	
-	
-	
+	/**
+	 * 返回userList列表
+	 * 支持模糊查询
+	 * @param user  模糊查询参数 
+	 * @param page	分页参数
+	 * @return
+	 */
     @RequestMapping("/userList")
     public ModelAndView userList(User user,PageConfig page){
-    	System.out.println("访问userlist啦");
         ModelAndView view = new ModelAndView("user/userList");
         PageVo<User> userList = userService.queryUserByPage(user, page);
         List<User> l = userList.getDataList();
@@ -57,7 +61,11 @@ public class UserController {
         return view;
     }
     
-    
+    /**
+     * 新增用户
+     * @param user  用户的数据
+     * @return
+     */
     @RequestMapping("/addUser")
     @ResponseBody
     public ExecResult addUser(User user){
@@ -74,11 +82,9 @@ public class UserController {
         er.setMsg("新增用户功");
         return er;
     }
-    
-    
 	
     /**
-     * 通过userid删除用户 软删除，把用户状态变为2  //用户状态 1:正常  2:注销，
+     * 通过 id 删除用户 软删除，把用户状态变为2  //用户状态 1:正常  2:注销，
      * @param id
      * @return
      */
@@ -86,13 +92,11 @@ public class UserController {
     @ResponseBody
     public ExecResult deleteUser(String id){
         ExecResult er = new ExecResult();
-
         if(StringUtils.isBlank(id)){
             er.setMsg("删除用户失败！因为未获取id，请刷新页面试试");
             return er;
         }
         User user = userService.get(id);
-        //用户状态 1:正常  2:注销
         user.setUserState(2);
         userService.update(user);
         er.setSuccess(true);
@@ -101,9 +105,9 @@ public class UserController {
     }
     
     /**
-     * 
+     * 跳转到编辑 用户 ，新增用户 ，修改用户 信息 的view视图层
      * @param id      用户id
-     * @param oper   1:修改个人信息邮箱  ，3：修改个人密码码  4:新增用户
+     * @param oper    1:修改个人信息邮箱  ，3：修改个人密码码  4:新增用户
      * @return
      */
     @RequestMapping("/toAddOrEditUsers")
@@ -114,9 +118,8 @@ public class UserController {
     		List<User> userlist = userService.getUserById(id);
     		if (!userlist.isEmpty()) {
     			user = userlist.get(0);
-    			System.out.println("获取到user的个人信息"+user);
+    			//System.out.println("获取到user的个人信息"+user);
 			}
-    		
     		view.addObject("user", user);
 			view.setViewName("user/addUser");
 		}
@@ -127,21 +130,21 @@ public class UserController {
     		getInformation(view);
     		view.setViewName("user/addUser");
 		}
-    	//System.out.println("修改密码啦");
     	view.addObject("id", id);
     	return view;
     }
     
     /**
-     * 通过userid    更改用户的密码
-     * @param id    用户id
+     * 更改用户的密码
+     * @param id			用户id
+     * @param loginPw		用户初始密码
+     * @param newLoginPw	用户新密码
      * @return
      */
     @RequestMapping("/resetUserPwd")
     @ResponseBody
     public ExecResult resetUserPwd(String id , String loginPw , String newLoginPw){
         ExecResult er = new ExecResult();
-
         if(StringUtils.isBlank(id)){
             er.setMsg("修改密码失败！请刷新页面试试");
             return er;
@@ -161,15 +164,14 @@ public class UserController {
     
     /**
      * 修改用户的邮箱地址
-     * @param id
-     * @param newEmail
+     * @param id		用户id
+     * @param newEmail	用户新的邮箱的
      * @return
      */
     @RequestMapping("/resetUserEmail")
     @ResponseBody
     public ExecResult resetUserEmail(String id , String newEmail ){
         ExecResult er = new ExecResult();
-
         if(StringUtils.isBlank(id)){
             er.setMsg("修改邮箱失败！请刷新页面试试");
             return er;
@@ -184,10 +186,10 @@ public class UserController {
     
     
     /**
-     * 获取所有的部门，角色，职位的相关信息放入select下拉框a
+     * 获取所有的部门，角色，职位，工作  的相关信息放入select下拉框a
+     * @param view	视图
      */
     private void getInformation(ModelAndView view){
-    	//获取部门相关信息
         Dictionary dictionary = new Dictionary();
         List<Dictionary> dictionarylist = dictionarySrvice.getDictionarys(dictionary);
         ArrayList<Dictionary> departlist = new ArrayList<Dictionary>();
@@ -213,53 +215,8 @@ public class UserController {
 		view.addObject("rolelist", rolelist);
 		view.addObject("jobtlist", jobtlist);
 		view.addObject("positionlist", positionlist);
-    	//return view;
     }
     
     
-	
-    /**
-     * 更新用户信息或者新增用户
-     * @param id
-     * @return
-     */
-    /*@RequestMapping("/saveOrUpdateUser") 
-	@ResponseBody
-	public ExecResult saveOrUpdateUser(User user){
-		ExecResult result = new ExecResult();
-		
-		
-		
-		int count = this.userService.getUserCountByLoginName(userInfo.getLoginName(), userInfo.getId());
-		if(count > 0){
-			result.setMsg("帐号已经存在");
-			result.setSuccess(false);
-		}
-		
-		count = this.userInfoService.getUserCountByFullIp(userInfo.getFullIp(), userInfo.getId());
-		if(count > 0){
-			result.setMsg("IP已被使用");
-			result.setSuccess(false);
-		}
-		
-		
-		
-		if(StringUtils.isBlank(userInfo.getId())){
-			userInfo.setId(null);
-			String pwd = SecurityUtil.md5("123456");
-			userInfo.setPwd(pwd);
-			userInfo.setState(Conts.STATE_OK);
-			this.userInfoService.save(userInfo);
-		}else{
-			UserInfo user = this.userInfoService.get(userInfo.getId());
-			userInfo.setState(user.getState());
-			userInfo.setPwd(user.getPwd());
-			this.userInfoService.update(userInfo);
-		}
-		result.setMsg("保存成功");
-		result.setSuccess(true);
-		return result;
-	}*/
-	
 
 }

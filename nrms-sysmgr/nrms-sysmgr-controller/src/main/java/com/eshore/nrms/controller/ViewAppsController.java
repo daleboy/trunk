@@ -40,6 +40,7 @@ public class ViewAppsController {
 	public ModelAndView lookupApps(Application app,Integer type, PageConfig pc,HttpSession session){
 		ModelAndView view = new ModelAndView("myApps/lookupApps");
 		
+		app.setAppState(2);
 		User user = (User)session.getAttribute(Conts.USER_SESSION_KEY);
 		List<Application> allApp = null;
 		if(type != null && type == 2 && !user.getPositionKey().equals("100")){//只要不是普通员工 使用type = 2

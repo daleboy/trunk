@@ -5,53 +5,26 @@
 <%@include file="/common/common-ui.jsp"%>
 <html>
 
-<script type="text/javascript">
-
-	function showDialog(title , url , height){
-		$("#modalDialogTitle").html(title);
-		$("#modalDialogFrame").attr("height" , height);
-		$("#modalDialogFrame").attr("src" , url);
-		$("#modalDialog").modal('show');
-	}
-	
-	function hideDialog(){
-		$("#modalDialog").modal('hide');
-	}
-	
-	function deletePlace(id){
-		$("#msgBoxConfirmInfo").html("确定要删除该会议室吗");
-		$("#msgBoxConfirm").modal('show');
-		$("#msgBoxConfirmButton").on('click' , function(){
-			$("#msgBoxConfirm").modal('hide');
-			$.ajax({
-				type : 'POST',
-				url : '${basePath}/place/deletePlace',
-				data : {
-					'id' : id
-				},
-				dataType : 'json',
-				success : function(data) {
-					if (data.success) {
-						$("#msgBoxInfo").html(data.msg);
-						$("#msgBox").modal('show');
-						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
-						});
-					} else {
-						$("#msgBoxInfo").html(data.msg);
-						$("#msgBox").modal('show');
-					}
-				},
-				error : function(data) {
-					$("#msgBoxInfo").html("程序执行出错");
-					$("#msgBox").modal('show');
-				}
-			});
-		});
-	}
-</script>
-
 <head>
+<script type="text/javascript">
+	function checkInfo(){
+		if( !checkBlank($("#startDate").val()) ){
+				$("#msgBoxInfo").html("请选择时间");
+				$("#msgBox").modal('show');
+				return true;
+			}
+		}
+	function showDialog(title , url , height){
+	$("#modalDialogTitle").html(title);
+	$("#modalDialogFrame").attr("height" , height);
+	$("#modalDialogFrame").attr("src" , url);
+	$("#modalDialog").modal('show');
+}
+
+function hideDialog(){
+	$("#modalDialog").modal('hide');
+}
+</script>
 </head>
 
 <body>
@@ -83,11 +56,11 @@
 															<input type="hidden" id="pageNum" name="pageNum" value="1">
 															<div class="up-form-group">
 																<label for="" class="up-control-label">日期:</label> 
-																<input type="text" class="up-form-control" id="startDate" name="startDate" value="${searchParam.startDate }">
+																<input type="date" class="up-form-control" id="startDate" name="startDate" value="${searchParam.startDate }">
 															</div>
 															<div class="up-form-group">
 																<button type="submit"  class="up-btn up-btn-primary">搜索</button> &nbsp;&nbsp;
-																<button class="up-pull-right up-btn up-btn-primary up-btn-sm" onClick="history.go(-1)">返回</button>
+																<a class="up-pull-right up-btn up-btn-primary up-btn-sm" href="${basePath }/application/applicationList">返回</a>
 															</div>
 														</form>
 													</div>
@@ -104,11 +77,7 @@
 													<tbody>
 														<c:forEach var="application" items="${page.dataList }" varStatus="status">
 															<tr>
-																<td>
-																	<c:forEach var="p" items="${places }">
-																		<c:if test="${p.id eq application.placeId }">${p.placeName }</c:if>
-																	</c:forEach>
-																</td>
+																<td>${application.placeName }</td>
 																<td>
 																	<c:if test="${application.appState == 2 }">
 																		${application.startDate}&nbsp;&nbsp;&nbsp;${application.startTime}-${application.endTime}

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,8 @@ import com.eshore.nrms.vo.FileValidateCode;
 @RequestMapping("/file")
 public class FileController {
 	
-	private final String PATH = "D:\\";
+	@Value("#{configProperties['file.stroage.path']}")
+	private String PATH;
 
 	@Autowired
 	private IViewAndAuditService appService;
