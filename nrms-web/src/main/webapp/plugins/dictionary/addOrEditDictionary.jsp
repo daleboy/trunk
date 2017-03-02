@@ -74,7 +74,7 @@
 	}
 	
 	function resetDicValue(id){
-		alert("修改dicvalue:test: id="+id);
+		//alert("修改dicvalue:test: id="+id);
 		var dicValue = $("#dicValue").val();
 		if(!checkBlank(dicValue)){
 			$("#msgBoxInfo").html("请填写修改名称");
@@ -135,19 +135,19 @@
 					<span class="up-cq-red-star">*</span>类型
 				</label>
 				<div class="up-col-sm-4">
-				<%-- 	<c:if test="${not empty  dictionary }">
-						<select name="dicType1" id=dicType class="up-form-control" style="width:260px">
-							<option value="${dictionary.dicType }" >${dictionary.dictype }</option>
-						</select>
-					</c:if>
-					<c:if test="${ empty  dictionary }"> --%>
-						<select name="dicType" id="dicType" class="up-form-control" style="width:260px">
-							<option value="0">请选择</option>
-							<option value="1">部门</option>
-							<option value="2">工作</option>
-							<option value="3">职位</option>
-						</select>
-				<%-- 	</c:if> --%>
+				 		<c:if test="${not empty dictionary.id }">
+				 			<select name="dicType1" id=dicType class="up-form-control" <c:if test="${not empty dictionary.id }">disabled="disabled"</c:if> style="width:260px">
+				 				<option value="${dictionary.dicType }" >${dictionary.dictype }</option>
+				 			</select>
+				 		</c:if>
+				 		<c:if test="${empty dictionary.id }">
+							<select name="dicType1" id=dicType class="up-form-control" style="width:260px">
+								<option value="0">请选择</option>
+								<option value="1">部门</option>
+								<option value="2">工作</option>
+								<option value="3">职位</option>
+							</select>
+						</c:if>
 				</div>
 			</div>
 			<div class="up-form-group">
@@ -155,12 +155,11 @@
 					<span class="up-cq-red-star">*</span>编码
 				</label>
 				<div class="up-col-sm-7">
-					<c:if test="${ not empty  dictionary }">
-						<input type="text" class="up-form-control" id="dicKey" name="dicKey" placeholder="请输入编码"  value="${dictionary.dicKey }">
+					<c:if test="${ not empty  dictionary.id }">
+						<input type="text" class="up-form-control" id="dicKey" name="dicKey" placeholder="请输入编码" <c:if test="${not empty dictionary.id }">readOnly="true"</c:if> value="${dictionary.dicKey }">
 					</c:if>
-					<c:if test="${  empty  dictionary }">
-						<input type="text" class="up-form-control" id="loginName" name="loginName" placeholder="请输入编码"  value="">
-						<input type="text" class="up-form-control" id="" name="" placeholder="请输入码"  value="">
+					<c:if test="${  empty  dictionary.id }">
+						<input type="text" class="up-form-control" id="dicKey" name="dicKey" placeholder="请输入编码"  value="">
 					</c:if>
 				</div>
 			</div>
@@ -169,7 +168,7 @@
 					<span class="up-cq-red-star">*</span>名称
 				</label>
 				<div class="up-col-sm-7">
-					<input type="text" class="up-form-control" id="dicValue" name="dicValue" placeholder="请输入名称" <c:if test="${not empty  dictionary }"></c:if>  value="${dictionary.dicValue }">
+					<input type="text" class="up-form-control" id="dicValue" name="dicValue" placeholder="请输入名称" <c:if test="${not empty  dictionary.id }"></c:if>  value="${dictionary.dicValue }">
 				</div>
 			</div>
 			<div class="up-form-group">

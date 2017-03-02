@@ -96,31 +96,7 @@
 
         //statis setting
 
-        var setting = {
-            check: {
-                enable: true
-            },
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            }
-        };
 
-
-        var zNodes = [
-            {id: "1asdwervbtrbrtgcwvwef", pId: "0sabdvldkjchgbeiubjkn", name: "会议申请管理", open: true, checked: true},
-            {id: "1azdsfverbrtb", pId: "1asdwervbtrbrtgcwvwef", name: "会议室列表", open: true, checked: true},
-            {id: "3sdverhbtbdfv87dyv8s", pId: "1asdwervbtrbrtgcwvwef", name: "申请审批", open: true},
-            {id: "4dazvraaserverver", pId: "1asdwervbtrbrtgcwvwef", name: "会议查询", open: true, checked: true},
-            {id: "5sdvfbnkkkjbhghcfg", pId: "1asdwervbtrbrtgcwvwef", name: "我的申请", open: true, checked: true},
-            {id: "8acvwececwevw", pId: "0sabdvldkjchgbeiubjkn", name: "系统设置", open: true, checked: true},
-            {id: "8basdsvverv", pId: "8acvwececwevw", name: "修改个人密码", checked: true},
-            {id: "8coiuyuyuityutyitiy", pId: "8acvwececwevw", name: "修改个人信息", checked: true},
-            {id: "8dvcerbytnumujhgbfvdcdvgbhgbfvdc", pId: "8acvwececwevw", name: "用户列表", open: true},
-            {id: "8fasvsdvscacwevnhnhnth", pId: "8acvwececwevw", name: "角色管理", open: true},
-            {id: "92asvdvmlmkmiuuytytyt", pId: "8acvwececwevw", name: "参数配置", open: true}
-        ];
 
         var obj;
 
@@ -167,8 +143,8 @@
                 success: function (data) {
                     if (data.success) {
                         parent.window.location.href = "${basePath}/role/list";
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
+//                        $("#msgBoxInfo").html(data.msg);
+//                        $("#msgBox").modal('show');
                         window.location.reload();
                         $("#msgBoxOKButton").on('click', function () {
                             window.location.reload();

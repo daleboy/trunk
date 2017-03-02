@@ -180,8 +180,9 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
+//                        $("#msgBoxInfo").html(data.msg);
+//                        $("#msgBox").modal('show');
+                        window.location.reload();
                         $("#msgBoxOKButton").on('click', function () {
                             window.location.reload();
                         });

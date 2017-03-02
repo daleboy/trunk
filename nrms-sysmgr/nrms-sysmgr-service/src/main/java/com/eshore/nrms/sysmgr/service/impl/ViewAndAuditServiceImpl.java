@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +23,13 @@ import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
 public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implements IViewAndAuditService{
-	
+
+	@Value("#{configProperties['file.stroage.path']}")
+	private String PATH;
+
 	@Autowired
 	private IViewAndAuditDAO applicationDAO;
-	
+
 	@Override
 	public IBaseDao<Application> getDao() {
 		return applicationDAO;
@@ -38,7 +42,7 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		List<Application> list = applicationDAO.queryFull(app);
 		if(list != null && !list.isEmpty())
 			return iniUnames(list.get(0));
-		
+
 		return null;
 	}
 
@@ -55,9 +59,9 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		if(StringUtils.isNotBlank(app.getUidMinutes())){
 			uids.add(app.getUidMinutes());
 		}
-		
+
 		List<String> list = applicationDAO.getUsersByIds(uids);
-		
+
 		if(StringUtils.isNotBlank(app.getUidApplicant())){
 			app.setUnameApplicant(list.get(0));
 		}
@@ -72,8 +76,12 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 				app.setUnameMinutes(list.get(0));
 			}else if(app.getUidMinutes().equals(app.getUidAuditor())){
 				app.setUnameMinutes(list.get(1));
-			}else
-				app.setUnameMinutes(list.get(2));
+			}else{
+				if(app.getUidApplicant().equals(app.getUidAuditor()))
+					app.setUnameMinutes(list.get(1));
+				else
+					app.setUnameMinutes(list.get(2));
+			}
 		}
 		return app;
 	}
@@ -95,7 +103,7 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		List<Application> list = applicationDAO.queryFullPage(app, pc);
 		return list;
 	}
-	
+
 	public List<Application> getFullPageWithMe(User user,Application app,PageConfig pc){
 		if(user == null)
 			return null;
@@ -114,13 +122,13 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		boolean f1 = true;
 		boolean f2 = true;
 		if(app.getAppUuidName() != null){
-			targetFile = new File(IViewAndAuditService.PATH,app.getAppUuidName());
+			targetFile = new File(PATH,app.getAppUuidName());
 			if(targetFile.exists()){
 				f1 = targetFile.delete();
 			}
 		}
 		if(app.getMinutesUuidName() != null){
-			targetFile = new File(IViewAndAuditService.PATH,app.getMinutesUuidName());
+			targetFile = new File(PATH,app.getMinutesUuidName());
 			if(targetFile.exists()){
 				f1 = targetFile.delete();
 			}

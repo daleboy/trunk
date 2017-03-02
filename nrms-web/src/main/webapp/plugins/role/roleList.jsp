@@ -164,9 +164,12 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    <%
+                                                        Integer i=1;
+                                                    %>
                                                     <c:forEach var="role" items="${page.dataList }">
                                                         <tr>
-                                                            <td>${role.id}</td>
+                                                            <td><%out.print(i++); %></td>
                                                             <td>${role.roleName}</td>
                                                             <td>${role.roleDesc}</td>
                                                             <td>
