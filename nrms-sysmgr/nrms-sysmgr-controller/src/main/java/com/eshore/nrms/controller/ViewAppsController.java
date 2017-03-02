@@ -33,17 +33,18 @@ public class ViewAppsController {
 	@Autowired
 	private IPlaceService placeService;
 	
-	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat timeSdf = new SimpleDateFormat("HH:mm");
+	
 	@RequestMapping("/lookupApps")				   //type 表示不同职位查看的类型   1：查看与我相关      2：所有申请
 	public ModelAndView lookupApps(Application app,Integer type, PageConfig pc,HttpSession session){
 		ModelAndView view = new ModelAndView("myApps/lookupApps");
 		
+		User user = (User)session.getAttribute(Conts.USER_SESSION_KEY);
 		List<Application> allApp = null;
-		if(type != null && type == 2){
+		if(type != null && type == 2 && !user.getPositionKey().equals("100")){//只要不是普通员工 使用type = 2
 			allApp= appService.getFullPage(app, pc);
 		}else{
-			User user = (User)session.getAttribute(Conts.USER_SESSION_KEY);
 			allApp = appService.getFullPageWithMe(user, app, pc);
 		}
 		view.addObject("page", PageUtil.getPageList(pc, allApp));
@@ -54,7 +55,7 @@ public class ViewAppsController {
 		return view;
 	}
 	
-	@RequestMapping("/mainPage")				   //type 表示不同职位查看的类型   1：查看与我相关      2：所有申请
+	@RequestMapping("/mainPage")				
 	public ModelAndView mainPage(PageConfig pc,HttpSession session){
 		ModelAndView view = new ModelAndView("mainPage");
 		
@@ -62,7 +63,7 @@ public class ViewAppsController {
 		Application app = new Application();
 		app.setStartDate(sdf.format(new Date()));
 		
-		List<Application> allApp = appService.getFullPageWithMe(user, app, pc);
+		List<Application> allApp = appService.getFullPageNotEnd(timeSdf.format(new Date()),user.getId(), app, pc);
 		view.addObject("page", PageUtil.getPageList(pc, allApp));
 		
 		return view;

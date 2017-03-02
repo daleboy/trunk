@@ -1,6 +1,7 @@
 package com.eshore.nrms.sysmgr.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,30 @@ public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implement
 	@Override
 	public List<Dictionary> getDictionarys(Dictionary dictionary) {
 		// TODO Auto-generated method stub
-		return dictionaryDao.queryDictionarys(dictionary);
+		List<Dictionary> list = dictionaryDao.queryDictionarys(dictionary);
+		List<Dictionary> dictionarieList = new ArrayList<Dictionary>();
+		for (Dictionary dictionary2 : list) {
+			switch (dictionary2.getDicType()) {
+			/**
+			 * 1：部门
+			 * 2：工作（web工程师）  
+			 * 3:职位(普通员工）
+			 */
+				case 1:
+					dictionary2.setDictype("部门");
+					break;
+				case 2:
+					dictionary2.setDictype("工作");
+					break;
+				case 3:
+					dictionary2.setDictype("职位");
+					break;
+				default:
+					break;
+			}
+			dictionarieList.add(dictionary2);
+		}
+		return dictionarieList;
 	}
 
 	@Override
@@ -50,7 +74,19 @@ public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implement
 	@Override
 	public IBaseDao<Dictionary> getDao() {
 		// TODO Auto-generated method stub
-		return null;
+		return dictionaryDao;
+	}
+
+	@Override
+	public Dictionary getDictionaryByDickey(String dickey) {
+		// TODO Auto-generated method stub
+		return dictionaryDao.queryDictionaryByDickey(dickey);
+	}
+
+	@Override
+	public Dictionary getDictionaryByDicValue(String dicvalue) {
+		// TODO Auto-generated method stub
+		return dictionaryDao.queryDictionaryByDicValue(dicvalue);
 	}
 
 	

@@ -14,14 +14,15 @@
 	/* 修改，删除，重置密码 */
 
 	
-	function deleteUser(id){
-		$("#msgBoxConfirmInfo").html("确定要删除该用户吗?");
+	function deleteDic(id,dictype){
+			//alert(id);
+		$("#msgBoxConfirmInfo").html("确定要删除该  "+dictype+" 吗?");
 		$("#msgBoxConfirm").modal('show');
 		$("#msgBoxConfirmButton").on('click' , function(){
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/user/deleteUser',
+				url : '${basePath}/dictionary/deleteDictionary',
 				data : {
 					'id' : id
 				},
@@ -91,32 +92,18 @@
 												<div class="up-clearfix table_head margin_bottom10">
 													<div class="reference_search">
 													<!-- 模糊查询用户 -->
-														<form class="up-form-inline" id="searchForm" method="post" action="${basePath }/user/userList">
+														<form class="up-form-inline" id="searchForm" method="post" action="${basePath }/dictionary/dictionaryList">
 															<input type="hidden" id="pageNum" name="pageNum" value="1">
 															<div class="up-form-group">
-																<label for="" class="up-control-label">部门:</label> 
-																<select name="deptKey" id="dicValueP" class="up-form-control" style="width: 171px">
-																		<option value="">请选择</option>
-																	<c:forEach var="departlist" items="${departlist }">
-																		<option value="${departlist.dicKey }">${departlist.dicValue }</option>
-																	</c:forEach>
+																<label for="" class="up-control-label">类别:</label> 
+																<select name="dicType" id="dicType" class="up-form-control" style="width: 171px">
+																		<option value="0">请选择</option>
+																		<option value="1">部门</option>
+																		<option value="2">工作</option>
+																		<option value="3">职位</option>
 																</select>
-																<label for="" class="up-control-label">职位:</label> 
-																<select name="positionKey" id="dicValueJ" class="up-form-control" style="width: 171px">
-																        <option value="">请选择</option>
-																	<c:forEach var="positionlist" items="${positionlist }">
-																		<option value="${positionlist.dicKey }">${positionlist.dicValue }</option>
-																	</c:forEach>
-																</select>
-																<label for="" class="up-control-label">角色:</label> 
-																<select name="roleId" id="role" class="up-form-control" style="width: 171px">
-																		<option value="">请选择</option>
-																	<c:forEach var="rolelist" items="${rolelist }">
-																		<option value="${rolelist.id }">${rolelist.roleName }</option>
-																	</c:forEach>
-																</select>
-																<label for="" class="up-control-label">姓名:</label> 
-																<input type="text" class="up-form-control" id="placeName" name="uname" value="">
+																<label for="" class="up-control-label">名称:</label> 
+																<input type="text" class="up-form-control" id="dicValue" name="dicValue" value="">
 															</div>
 															<div class="up-form-group">
 																<button type="submit"   class="up-btn up-btn-primary">搜索</button>
@@ -134,7 +121,7 @@
 													<div class="reference_search">
 														 <div class="up-form-group">
 															<button type="submit" class="up-btn up-btn-primary up-btn-primary-red" data-toggle="modal"
-																 onClick="showDialog('新增用户' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=4' , '470px')">新增</button>
+																 onClick="showDialog('新增类型' , '${basePath}/dictionary/toAddOrEditDictionary' , '470px')">新增</button>
 														</div> 
 													</div>
 												</div>
@@ -144,32 +131,21 @@
 													<thead>
 														<tr class="up-active">
 															<th>编号</th>
-															<th>登录名</th>
-															<th>姓名</th>
-															<th>部门</th>
-															<th>职位</th>
-															<th>工作</th>
-															<th>角色</th>
+															<th>类别</th>
+															<th>名称</th>
 															<th>操作</th>
 														</tr>
 													</thead>
 													<tbody>
-														 <c:forEach var="user" items="${page.dataList }" varStatus="status">
+														 <c:forEach var="dictionary" items="${page.dataList }" varStatus="status">
 															<tr>
 																<td>${status.index + 1}</td>
-																<td>${user.loginName}</td>
-																<td>${user.uname}</td>
-																<td>${user.dept}</td>
-																<td>${user.posi}</td>
-																<td>${user.job}</td>
-																<td>${user.role}</td>
+																<td>${dictionary.dictype}</td>
+																<td>${dictionary.dicValue}</td>
 																<td style="width: 408px;">
-																<!-- 修改，删除，重置密码 -->
-																<a href="javascript:void(0)" onClick="showDialog('修改' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=1' , '470px')">修改</a>
-																<a href="javascript:void(0)" onClick="deleteUser('${user.id }')">删除</a>
-																<a href="javascript:void(0)" onClick="showDialog('重置密码' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=3' , '470px')">重置密码</a>
-														<%-- 			<a href="javascript:void(0)" onClick="showDialog('编辑会议室' , '${basePath}/place/toAddOrEditPlace?id=${user.id }' , '470px')">编辑</a>
-																	<a href="javascript:void(0)" onClick="deletePlace('${user.id}')">删除</a> --%>
+																	<!-- 修改，删除，重置密码 -->
+																	<a href="javascript:void(0)" onClick="showDialog('修改类型' , '${basePath}/dictionary/toAddOrEditDictionary?id=${dictionary.id }' , '470px')">修改</a>
+																	<a href="javascript:void(0)" onClick="deleteDic('${dictionary.id }','${dictionary.dictype }')">删除</a>
 																</td>
 															</tr>
 														</c:forEach> 

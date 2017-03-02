@@ -77,4 +77,13 @@ public interface IViewAndAuditService extends IBaseService<Application>{
 	 * @return
 	 */
 	public boolean verifyTimeConflict(Application app);
+	
+	/**
+	 * 查询自己今日将要参加的会议   只包含未结束的，已结束则不会被查出来
+	 * @param uid
+	 * @param app
+	 * @param pc
+	 * @return
+	 */
+	public List<Application> getFullPageNotEnd(String nowTime, String uid, Application app, PageConfig pc);
 }

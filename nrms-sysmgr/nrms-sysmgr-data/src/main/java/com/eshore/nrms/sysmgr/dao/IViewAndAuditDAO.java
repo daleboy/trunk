@@ -68,4 +68,13 @@ public interface IViewAndAuditDAO extends IBaseDao<Application>{
 	 */
 	public boolean verifyTimeConflict(Application app);
 	
+	/**
+	 * 查询自己今日将要参加的会议   只包含未结束的，已结束则不会被查出来
+	 * @param uid
+	 * @param app
+	 * @param pc
+	 * @return
+	 */
+	public List<Application> queryFullPageNotEnd(String nowTime, String uid, Application app, PageConfig pc);
+	
 }

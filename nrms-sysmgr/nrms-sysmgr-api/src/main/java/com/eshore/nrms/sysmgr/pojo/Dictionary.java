@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,27 +15,22 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "c_dictionary")
 public class Dictionary implements Serializable{
 	
-	@Id
-	@GenericGenerator(name="uuidGen",strategy="uuid")
-	@GeneratedValue(generator="uuidGen")
-	@Column(name = "id")
+	
 	private String id;
-	
-	@Column(name = "dic_type")		//1：部门    2：工作（web工程师）  3:职位(普通员工）
+	//1：部门    2：工作（web工程师）  3:职位(普通员工）
 	private int dicType;
-	
-	@Column(name = "dic_key")		//编码
+	private String dictype;
+	//编码
 	private String dicKey;
-	
-	@Column(name = "dic_value")		//部门值，或者职位值 工作
+	//部门值，或者职位值 工作
 	private String dicValue;
-	
-	@Column(name = "dic_desc")		//部门或职位描述述
+	//部门或职位描述述
 	private String dicDesc;
+	//状态
+	private int dicState;
 	
-	@Column(name = "dic_state")		//状态
-	private String dicState;
-
+	@Id
+	@Column(name = "id")
 	public String getId() {
 		return id;
 	}
@@ -42,7 +38,7 @@ public class Dictionary implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	@Column(name = "dic_type")
 	public int getDicType() {
 		return dicType;
 	}
@@ -50,7 +46,7 @@ public class Dictionary implements Serializable{
 	public void setDicType(int dicType) {
 		this.dicType = dicType;
 	}
-
+	@Column(name = "dic_key")
 	public String getDicKey() {
 		return dicKey;
 	}
@@ -58,7 +54,7 @@ public class Dictionary implements Serializable{
 	public void setDicKey(String dicKey) {
 		this.dicKey = dicKey;
 	}
-
+	@Column(name = "dic_value")
 	public String getDicValue() {
 		return dicValue;
 	}
@@ -66,7 +62,7 @@ public class Dictionary implements Serializable{
 	public void setDicValue(String dicValue) {
 		this.dicValue = dicValue;
 	}
-
+	@Column(name = "dic_desc")
 	public String getDicDesc() {
 		return dicDesc;
 	}
@@ -75,12 +71,23 @@ public class Dictionary implements Serializable{
 		this.dicDesc = dicDesc;
 	}
 
-	public String getDicState() {
+	
+	@Column(name = "dic_state")
+	public int getDicState() {
 		return dicState;
 	}
 
-	public void setDicState(String dicState) {
+	public void setDicState(int dicState) {
 		this.dicState = dicState;
+	}
+
+	@Transient
+	public String getDictype() {
+		return dictype;
+	}
+
+	public void setDictype(String dictype) {
+		this.dictype = dictype;
 	}
 
 	@Override

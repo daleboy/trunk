@@ -37,5 +37,9 @@ public interface IDictionaryService extends IBaseService<Dictionary>{
      * @return 条数
      */
     public Integer getCountOfDictionary(Dictionary dictionary);
+    
+    Dictionary getDictionaryByDickey(String dickey);
+    
+    Dictionary getDictionaryByDicValue(String dicvalue);
 
 }

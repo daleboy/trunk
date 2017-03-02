@@ -44,6 +44,10 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
             hql.append(" and appState=?");
             params.add("%"+apply.getAppState()+"%");
         }
+        if(StringUtils.isNotBlank(apply.getStartDate())){
+            hql.append(" and startDate=?");
+            params.add("%"+apply.getAppState()+"%");
+        }
     }
 
 	@Override

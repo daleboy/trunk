@@ -118,6 +118,10 @@ public List<Application> queryFull(Map<String, Object> map) {
 			sb.append(" and a.subject like ?");
 			params.add("%"+app.getSubject()+"%");
 		}
+		if(StringUtils.isNotBlank(app.getStartDate())){
+			sb.append(" and a.startDate = ?");
+			params.add(app.getStartDate());
+		}
 		
 	}
 
@@ -158,6 +162,16 @@ public List<Application> queryFull(Map<String, Object> map) {
 		String hql = "select count(a.id) from Application a where a.appState=2 and  a.startDate=? and ((a.startTime <= ? and a.endTime > ?) or (a.startTime < ? and a.endTime >=?))";
 		int count = super.queryCount(hql, new Object[]{app.getStartDate(),app.getStartTime(),app.getStartTime(),app.getEndTime(),app.getEndTime()});
 		return count > 0;
+	}
+
+	@Override
+	public List<Application> queryFullPageNotEnd(String nowTime,String uid, Application app, PageConfig pc) {
+		StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id and a.appState = 2 and a.endTime > ? and a.id in (select appId from Partake where userId=?)");
+		List<Object> params = new ArrayList<Object>();
+		params.add(nowTime);
+		params.add(uid);
+		initializeQueryCondition(app, hql, params);
+		return initData(super.queryPage(hql.toString(), pc, params.toArray()));
 	}
 
 }

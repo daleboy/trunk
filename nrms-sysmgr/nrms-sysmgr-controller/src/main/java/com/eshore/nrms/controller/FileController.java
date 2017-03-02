@@ -24,6 +24,7 @@ import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
 import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
+import com.eshore.nrms.vo.FileValidateCode;
 
 @Controller
 @RequestMapping("/file")
@@ -93,15 +94,18 @@ public class FileController {
 		String fileGenName = UUID.randomUUID().toString();
 		File targetFile = new File(PATH,fileGenName);
 		
+		Application deleteApp = new Application();
 		if(fileType == 1){
+			deleteApp.setAppUuidName(app.getAppUuidName());
 			app.setAppFileName(fileName);
 			app.setAppUuidName(fileGenName);
 		}else if(fileType == 2){
+			deleteApp.setMinutesUuidName(app.getMinutesUuidName());
 			app.setMinutesFileName(fileName);
 			app.setMinutesUuidName(fileGenName);
 		}
 		
-		if(!appService.deleteFile(app)){	//更新前做删除旧文件操作
+		if(!appService.deleteFile(deleteApp)){	//更新前做删除旧文件操作
 			er.setMsg("旧文件占用中，不允许覆盖，请稍后再上传");
 			return;
 		}
@@ -155,6 +159,7 @@ public class FileController {
 			}
 		}
 		er.setSuccess(true);
+		er.setMsg(FileValidateCode.genRandomCode().getCode());
 		return er;
 	}
 	
@@ -165,7 +170,11 @@ public class FileController {
 	 * @param response
 	 */
 	@RequestMapping("/downloadFile")
-	public void downloadFile(String aid,Integer fileType,HttpServletResponse response){
+	public void downloadFile(String code,String aid,Integer fileType,HttpServletResponse response){
+		
+		if(!FileValidateCode.isActiveCode(code)){//文件验证码
+			return;
+		}
 		
 		if(StringUtils.isBlank(aid) || fileType == null){
 			return;

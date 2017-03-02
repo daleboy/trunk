@@ -138,4 +138,9 @@ public class ViewAndAuditServiceImpl extends BaseServiceImpl<Application> implem
 		return applicationDAO.verifyTimeConflict(app);
 	}
 
+	@Override
+	public List<Application> getFullPageNotEnd(String nowTime, String uid, Application app, PageConfig pc) {
+		return applicationDAO.queryFullPageNotEnd(nowTime, uid, app, pc);
+	}
+
 }

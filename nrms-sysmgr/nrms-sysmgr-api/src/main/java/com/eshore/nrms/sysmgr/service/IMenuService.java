@@ -32,7 +32,7 @@ public interface IMenuService extends IBaseService<Menu>{
      * @param pId
      * @return
      */
-    public List<Menu> queryMenuListByPId(String pId,String roleId);
+    public List<Menu> queryMenuListByPId(String pId, String roleId);
 
     /**
      * 获取某角色菜单vo，供前台显示

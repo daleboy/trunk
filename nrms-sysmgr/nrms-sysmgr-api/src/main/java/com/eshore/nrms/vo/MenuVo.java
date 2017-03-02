@@ -1,13 +1,14 @@
 package com.eshore.nrms.vo;
 
 import com.eshore.nrms.sysmgr.pojo.Menu;
+import java.io.Serializable;
 
 import java.util.List;
 
 /**
  * Created by forgeeks at 2017-02-28 19:11
  */
-public class MenuVo {
+public class MenuVo implements Serializable {
     private Menu thisMenu;
     private List<Menu> childMenus;
 
