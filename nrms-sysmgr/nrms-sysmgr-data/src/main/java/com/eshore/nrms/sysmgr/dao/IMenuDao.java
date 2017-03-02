@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface IMenuDao  extends IBaseDao<Menu> {
     public List<Menu> queryMenuListByRoleId(String roleId);
-    public List<Menu> queryMenuListByPId(String pId);
+    public List<Menu> queryMenuListByPId(String pId,String roleId);
 }

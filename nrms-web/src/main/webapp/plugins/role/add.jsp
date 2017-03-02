@@ -32,6 +32,9 @@
     </style>
 
     <link rel="stylesheet" href="${basePath}/resources/css/zTreeStyle.css" type="text/css">
+
+    <script src="${basePath }/resources/js/main.js"></script>
+
     <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
@@ -110,21 +113,21 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        $("#msgBoxInfo").html(data.msg);
+                        parent.window.location.href("${basePath}/role/list");
+                        /*$("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
                         $("#msgBoxOKButton").on('click', function () {
-                            parent.window.location.reload();
-                        });
+                            window.location.href();
+                        });*/
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
-                        parent.window.location.reload();
                     }
                 },
                 error: function (data) {
                     alert(data.success);
                     $("#msgBoxInfo").html("程序执行出错");
-//                    $("#msgBox").modal('show');
+                    $("#msgBox").modal('show');
                 }
             });
 
@@ -168,6 +171,7 @@
     <button type="button" class="up-btn up-btn-primary" onClick="saveUser()">保存</button>
     <button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">取消</button>
 </div>
+
 <%@include file="/common/msgBox.jsp" %>
 </body>
 </html>

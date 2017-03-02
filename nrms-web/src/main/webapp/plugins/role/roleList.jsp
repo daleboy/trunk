@@ -116,13 +116,14 @@
                                             <div class="up-cq-table-inner">
                                                 <div class="up-clearfix table_head margin_bottom10">
                                                     <div class="reference_search">
+
                                                         <form class="up-form-inline" id="searchForm"
-                                                              action="${basePath}/user/add">
+                                                              action="${basePath}/role/list">
                                                             <input type="hidden" id="pageNum" name="pageNum" value="1">
                                                             <div class="up-form-group">
                                                                 <label for="" class="up-control-label">角色名:</label>
-                                                                <input type="text" class="up-form-control" id="userName"
-                                                                       name="userName" value="${searchParam.roleName}">
+                                                                <input type="text" class="up-form-control" id="key"
+                                                                       name="userName" value="">
                                                             </div>
                                                             <div class="up-form-group">
                                                                 <button type="submit" class="up-btn up-btn-primary">查询

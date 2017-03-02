@@ -64,8 +64,6 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
             menu.setPid(obj[1].toString());
             menu.setMenuName(obj[2].toString());
             menu.setMenuUrl(obj[3].toString());
-//            menu.setIsLeaf(Integer.valueOf(obj[4].toString()) );
-//            menu.setMenuIndex(Integer.valueOf(obj[5].toString() ) );
             menuList.add(menu);
         }
         return menuList;
@@ -73,33 +71,29 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
     }
 
 
+    /**
+     * 根据父pid生成子菜单list
+     * @param pId
+     * @param roleId
+     * @return
+     */
     @Override
-    public List<Menu> queryMenuListByPId(String pId) {
+    public List<Menu> queryMenuListByPId(String pId, String roleId) {
         List<Object[]> list = null;
         List<Menu> menuList = null;
+        String str = "";
         if (!StringUtils.isNotBlank(pId)) {
-            String str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
-                    "from c_menu menu    " +
-                    "JOIN   (    select menu_id from c_role_menu) rm   " +
-                    "on    menu.id = rm.menu_id     " +
-                    "order by  menu.id  ";
-            StringBuilder hql = new StringBuilder(str);
-            List params = new ArrayList();
-            list = this.querySql(hql.toString(), params.toArray());
-            menuList = new ArrayList<Menu>();
-
+            str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
+                    "from c_menu menu   JOIN   (    select menu_id from c_role_menu) rm  on    menu.id = rm.menu_id order by  menu.id  ";
         } else {
-            String str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
-                    "from c_menu menu    " +
-                    "JOIN   (    select menu_id from c_role_menu) rm   " +
-                    "on    menu.id = rm.menu_id     having menu.pid = ? " +
-                    "order by  menu.id  ";
-            StringBuilder hql = new StringBuilder(str);
-            List params = new ArrayList();
-            params.add(pId);
-            list = this.querySql(hql.toString(), params.toArray());
-            menuList = new ArrayList<Menu>();
+            str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index   from c_menu menu    ,  " +
+                    " (    select menu_id ,role_id from c_role_menu)  rm   " +
+                    " where    menu.id = rm.menu_id     and menu.pid = '" + pId + "' and rm.role_id = '" + roleId + "'  order by  menu.id";
         }
+        StringBuilder hql = new StringBuilder(str);
+        List params = new ArrayList();
+        list = this.querySql(hql.toString(), params.toArray());
+        menuList = new ArrayList<Menu>();
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = list.get(i);
             Menu menu = new Menu();
@@ -107,14 +101,11 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
             menu.setPid(obj[1].toString());
             menu.setMenuName(obj[2].toString());
             menu.setMenuUrl(obj[3].toString());
-//            menu.setIsLeaf(Integer.valueOf(obj[4].toString()) );
-//            menu.setMenuIndex(Integer.valueOf(obj[5].toString() ) );
             menuList.add(menu);
         }
         return menuList;
 
     }
-
 
 
 }

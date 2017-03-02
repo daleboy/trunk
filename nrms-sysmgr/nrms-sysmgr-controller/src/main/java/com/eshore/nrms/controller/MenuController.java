@@ -42,27 +42,7 @@ public class MenuController {
         return view;
     }
 
-    /**
-     * 测试menu显示是否正常
-     * @param roleId
-     * @return
-     */
-    @RequestMapping("/menu/list")
-    public ModelAndView getMenuByRoleId(String roleId) {
-        String menuId="0sabdvldkjchgbeiubjkn";
-        List<MenuVo> voList = new ArrayList<MenuVo>();
-        List<Menu> menulist = menuService.queryMenuListByPId(menuId);
-        for(Menu menu: menulist){
-            MenuVo vo= new MenuVo();
-            vo.setThisMenu(menu);
-            List<Menu> childlist = menuService.queryMenuListByPId(menu.getId());
-            vo.setChildMenus(childlist==null?new ArrayList<Menu>():childlist);
-            voList.add(vo);
-        }
-        ModelAndView view = new ModelAndView("mainPage");
-        view.addObject("volist",voList);
-        return view;
-    }
+
 
 
 }

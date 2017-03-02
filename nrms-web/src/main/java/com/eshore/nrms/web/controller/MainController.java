@@ -84,18 +84,7 @@ public class MainController {
 		session.setAttribute(Conts.USER_SESSION_KEY, user);
 		User tUser = (User) session.getAttribute(Conts.USER_SESSION_KEY);
 
-
-		String menuId="0sabdvldkjchgbeiubjkn";
-		List<MenuVo> voList = new ArrayList<MenuVo>();
-		List<Menu> menulist = menuService.queryMenuListByPId(menuId);
-		for(Menu menu: menulist){
-			MenuVo vo= new MenuVo();
-			vo.setThisMenu(menu);
-			List<Menu> childlist = menuService.queryMenuListByPId(menu.getId());
-			vo.setChildMenus(childlist==null?new ArrayList<Menu>():childlist);
-			voList.add(vo);
-		}
-		session.setAttribute("volist", voList);
+		session.setAttribute("volist",  menuService.queryMenuVoList(user.getRoleId()) );
 
 		System.out.println("session:"+tUser);
 		result.setSuccess(true);

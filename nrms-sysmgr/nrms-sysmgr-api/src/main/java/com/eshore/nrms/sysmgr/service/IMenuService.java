@@ -3,6 +3,7 @@ package com.eshore.nrms.sysmgr.service;
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.api.IBaseService;
 import com.eshore.nrms.sysmgr.pojo.Menu;
+import com.eshore.nrms.vo.MenuVo;
 
 import java.util.List;
 
@@ -31,6 +32,13 @@ public interface IMenuService extends IBaseService<Menu>{
      * @param pId
      * @return
      */
-    public List<Menu> queryMenuListByPId(String pId);
+    public List<Menu> queryMenuListByPId(String pId,String roleId);
 
+    /**
+     * 获取某角色菜单vo，供前台显示
+     * @param pId
+     * @param roleId
+     * @return
+     */
+    public List<MenuVo> queryMenuVoList(String roleId) ;
 }
