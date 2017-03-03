@@ -132,10 +132,10 @@
                                                             <div class="up-form-group">
                                                                 <label for="" class="up-control-label">角色名:</label>
                                                                 <input type="text" class="up-form-control" id="key"
-                                                                       name="userName" value="">
+                                                                       name="roleName" value="${searchParam.roleName}">
                                                             </div>
                                                             <div class="up-form-group">
-                                                                <button type="submit" class="up-btn up-btn-primary">查询
+                                                                <button type="submit"  class="up-btn up-btn-primary">查询
                                                                 </button>
                                                             </div>
                                                         </form>
@@ -147,7 +147,7 @@
                                                                 <button type="submit"
                                                                         class="up-btn up-btn-primary up-btn-primary-red"
                                                                         data-toggle="modal"
-                                                                        onClick="showDialog('新增用户' , '${basePath}/role/toadd' , '470px')">
+                                                                        onClick="showDialog('新增角色' , '${basePath}/role/toadd' , '470px')">
                                                                     新增
                                                                 </button>
                                                             </div>
@@ -216,7 +216,7 @@
                 <div class="up-modal-header">
                     <button type="button" class="up-close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
-                    <h4 class="up-modal-title" id="modalDialogTitle">新增用户</h4>
+                    <h4 class="up-modal-title" id="modalDialogTitle">新增角色</h4>
                 </div>
                 <iframe id="modalDialogFrame" width="100%" height="420px" frameborder="0"></iframe>
             </div>

@@ -151,7 +151,8 @@
 
 <body>
 
-		<div class="up-modal-body">
+<%@include file="/common/headAndLeft.jsp"%>
+		<div class="up-modal-body" style="margin-top: 100px; margin-left: 200px;">
 		<form id="dataForm" class="up-form-horizontal">
 			<input type="hidden" id="id" name="id" value="${user.id }" />
 			<div class="up-form-group">

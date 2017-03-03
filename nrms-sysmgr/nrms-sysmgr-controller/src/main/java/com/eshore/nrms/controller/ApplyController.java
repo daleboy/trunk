@@ -72,7 +72,7 @@ public class ApplyController {
 	//编辑页
 	@RequestMapping("/addOrEditApplication")
 	public ModelAndView addOrEditApplication(String id){
-		ModelAndView view = new ModelAndView("/application/addOrEditApplication");
+		ModelAndView view = new ModelAndView("/application/editApplication");
 		
 		if(StringUtils.isNotBlank(id)){
 			Application application = applyService.get(id);

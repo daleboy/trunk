@@ -39,6 +39,31 @@ public class SendMail {
     private Multipart multipart = null;
     private BodyPart bodypart = null;
 
+    
+    /**
+     * 发送普通邮件（可提示用户重置密码）
+     */
+    public void sendEmailsBySC(SendMail mail, String subject,String context , List<String> targetList) throws MessagingException, IOException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("mail.smtp.host", "smtp.qq.com");
+        map.put("mail.smtp.auth", "true");
+        map.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        map.put("mail.smtp.port", "465");
+        map.put("mail.smtp.socketFactory.port", "465");
+        mail.setPros(map);
+        mail.initMessage();
+        mail.setRecipients(targetList);
+        mail.setSubject(subject);
+        mail.setDate(new Date());
+        mail.setFrom("亿迅研发会议室管理员");
+        mail.setContent(context, "text/html; charset=UTF-8");
+        String info = mail.sendMessage();
+        generateReport(info,targetList);
+    }
+    
+    
+    
+    
 
 	/** 
 	 * 邮箱发送会议通知邮件

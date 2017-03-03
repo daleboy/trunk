@@ -98,25 +98,25 @@
 																<select name="deptKey" id="dicValueP" class="up-form-control" style="width: 171px">
 																		<option value="">请选择</option>
 																	<c:forEach var="departlist" items="${departlist }">
-																		<option value="${departlist.dicKey }">${departlist.dicValue }</option>
+																		<option value="${departlist.dicKey }" <c:if test="${departlist.dicKey == user.deptKey }">selected="selected"</c:if> >${departlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">职位:</label> 
 																<select name="positionKey" id="dicValueJ" class="up-form-control" style="width: 171px">
 																        <option value="">请选择</option>
 																	<c:forEach var="positionlist" items="${positionlist }">
-																		<option value="${positionlist.dicKey }">${positionlist.dicValue }</option>
+																		<option value="${positionlist.dicKey }" <c:if test="${positionlist.dicKey == user.positionKey }">selected="selected"</c:if> >${positionlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">角色:</label> 
 																<select name="roleId" id="role" class="up-form-control" style="width: 171px">
 																		<option value="">请选择</option>
 																	<c:forEach var="rolelist" items="${rolelist }">
-																		<option value="${rolelist.id }">${rolelist.roleName }</option>
+																		<option value="${rolelist.id }" <c:if test="${rolelist.id == user.roleId }">selected="selected"</c:if> >${rolelist.roleName }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">姓名:</label> 
-																<input type="text" class="up-form-control" id="placeName" name="uname" value="">
+																<input type="text" class="up-form-control" id="placeName" name="uname" <c:if test="${not empty user.uname }">value="${user.uname }"</c:if>  />
 															</div>
 															<div class="up-form-group">
 																<button type="submit"   class="up-btn up-btn-primary">搜索</button>
@@ -148,8 +148,8 @@
 															<th>姓名</th>
 															<th>部门</th>
 															<th>职位</th>
-															<th>工作</th>
 															<th>角色</th>
+															<th>工作</th>
 															<th>操作</th>
 														</tr>
 													</thead>
@@ -161,10 +161,10 @@
 																<td>${user.uname}</td>
 																<td>${user.dept}</td>
 																<td>${user.posi}</td>
-																<td>${user.job}</td>
 																<td>${user.role}</td>
-																<td style="width: 408px;">
-																<!-- 修改，删除，重置密码 -->
+																<td>${user.job}</td>
+																<td>
+																<!-- 修改，删除，重置密码     style="width: 408px;"-->
 																<a href="javascript:void(0)" onClick="showDialog('修改' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=1' , '470px')">修改</a>
 																<a href="javascript:void(0)" onClick="deleteUser('${user.id }')">删除</a>
 																<a href="javascript:void(0)" onClick="showDialog('重置密码' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=3' , '470px')">重置密码</a>

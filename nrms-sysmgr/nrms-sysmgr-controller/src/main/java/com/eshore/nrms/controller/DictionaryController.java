@@ -36,6 +36,7 @@ public class DictionaryController {
 		System.out.println("打印dictype:"+dictionary.getDicType());
 		ModelAndView view = new ModelAndView("dictionary/dictionaryList");
 		PageVo<Dictionary> dictionarylist = dictionarySrvice.getDictionaryByPage(dictionary ,page);
+		view.addObject("dictionary", dictionary);
 		view.addObject("page" , dictionarylist);
         view.addObject("searchParam" , dictionary);
 		return view;

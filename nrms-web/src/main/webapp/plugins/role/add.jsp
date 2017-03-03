@@ -62,7 +62,7 @@
             check: {
                 enable: true,
                 chkStyle: "checkbox",
-                chkboxType: {"Y": "", "N": ""}
+                chkboxType : { "Y" : "ps", "N" : "ps" }
             },
             //获取json数据
             async: {
@@ -145,10 +145,7 @@
                         parent.window.location.href = "${basePath}/role/list";
 //                        $("#msgBoxInfo").html(data.msg);
 //                        $("#msgBox").modal('show');
-                        window.location.reload();
-                        $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
-                        });
+                        $("#msgBox").close();
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');

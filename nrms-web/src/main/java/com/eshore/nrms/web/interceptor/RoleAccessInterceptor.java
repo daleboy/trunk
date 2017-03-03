@@ -27,14 +27,18 @@ public class RoleAccessInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         String url = request.getRequestURL().toString();
         List accessModels = new ArrayList();
-        if (session.getAttribute("acceesModels") == null) {
+
+        //初始化session菜单list
+        if (session.getAttribute("accessModels") == null) {
             List<Menu> list = menuService.queryMenuListByRoleId( ((User) session.getAttribute(Conts.USER_SESSION_KEY)).getRoleId());
             for (Menu m : list) accessModels.add(m.getMenuUrl());
             session.setAttribute("accessModels", accessModels);
         } else accessModels = (List) session.getAttribute("accessModels");
+
         boolean flag = false;
         for (int i = 0; i < accessModels.size(); i++) {
-            String model= (String) accessModels.get(i) ;
+            String model= (String) accessModels.get(i)  ;
+            if(model.indexOf("?oper")>-1)    model=model.split("\\?oper")[0];
             if (model.indexOf("/")>-1 && url.indexOf(model) > -1) {
                 flag = true;   break;
             }

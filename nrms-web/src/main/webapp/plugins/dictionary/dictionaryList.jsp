@@ -78,7 +78,7 @@
 			<div class="up-tab-pane up-active" id="tabs1">
 				<div class="border_btm first_title">
 					<h4 class="up-top-cq-color">
-						<span class="icon-right-dir"></span>用户列表
+						<span class="icon-right-dir"></span>参数列表
 					</h4>
 				</div>
 				<div class="up_page_con">
@@ -98,12 +98,12 @@
 																<label for="" class="up-control-label">类别:</label> 
 																<select name="dicType" id="dicType" class="up-form-control" style="width: 171px">
 																		<option value="0">请选择</option>
-																		<option value="1">部门</option>
-																		<option value="2">工作</option>
-																		<option value="3">职位</option>
+																		<option value="1" <c:if test="${dictionary.dicType==1 }">selected="selected"</c:if> >部门</option>
+																		<option value="2" <c:if test="${dictionary.dicType==2 }">selected="selected"</c:if> >工作</option>
+																		<option value="3" <c:if test="${dictionary.dicType==3 }">selected="selected"</c:if> >职位</option>
 																</select>
 																<label for="" class="up-control-label">名称:</label> 
-																<input type="text" class="up-form-control" id="dicValue" name="dicValue" value="">
+																<input type="text" class="up-form-control" id="dicValue" name="dicValue"  <c:if test="${not empty dictionary.dicValue }">value="${dictionary.dicValue }"</c:if> >
 															</div>
 															<div class="up-form-group">
 																<button type="submit"   class="up-btn up-btn-primary">搜索</button>
@@ -142,8 +142,8 @@
 																<td>${status.index + 1}</td>
 																<td>${dictionary.dictype}</td>
 																<td>${dictionary.dicValue}</td>
-																<td style="width: 408px;">
-																	<!-- 修改，删除，重置密码 -->
+																<td>
+																	<!-- 修改，删除，重置密码 style="width: 408px;"-->
 																	<a href="javascript:void(0)" onClick="showDialog('修改类型' , '${basePath}/dictionary/toAddOrEditDictionary?id=${dictionary.id }' , '470px')">修改</a>
 																	<a href="javascript:void(0)" onClick="deleteDic('${dictionary.id }','${dictionary.dictype }')">删除</a>
 																</td>
