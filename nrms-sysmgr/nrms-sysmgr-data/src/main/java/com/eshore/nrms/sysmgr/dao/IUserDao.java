@@ -26,7 +26,4 @@ public interface IUserDao extends IBaseDao<User> {
     
     public User queryUserById(String id);
     
-/*    public List<User> queryallUsers(User user, PageConfig page);*/
-
-
 }

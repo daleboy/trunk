@@ -49,6 +49,8 @@
 	
 	
 	function showDialog(title , url , height){
+		var dit = $("#dicType").val();
+		url = url + "?dit=" + dit;
 		$("#modalDialogTitle").html(title);
 		$("#modalDialogFrame").attr("height" , height);
 		$("#modalDialogFrame").attr("src" , url);
@@ -98,12 +100,12 @@
 																<label for="" class="up-control-label">类别:</label> 
 																<select name="dicType" id="dicType" class="up-form-control" style="width: 171px">
 																		<option value="0">请选择</option>
-																		<option value="1" <c:if test="${dictionary.dicType==1 }">selected="selected"</c:if> >部门</option>
-																		<option value="2" <c:if test="${dictionary.dicType==2 }">selected="selected"</c:if> >工作</option>
-																		<option value="3" <c:if test="${dictionary.dicType==3 }">selected="selected"</c:if> >职位</option>
+																		<option value="1" <c:if test="${searchParam.dicType==1 }">selected="selected"</c:if> >部门</option>
+																		<option value="2" <c:if test="${searchParam.dicType==2 }">selected="selected"</c:if> >工作</option>
+																		<option value="3" <c:if test="${searchParam.dicType==3 }">selected="selected"</c:if> >职位</option>
 																</select>
 																<label for="" class="up-control-label">名称:</label> 
-																<input type="text" class="up-form-control" id="dicValue" name="dicValue"  <c:if test="${not empty dictionary.dicValue }">value="${dictionary.dicValue }"</c:if> >
+																<input type="text" class="up-form-control" id="dicValue" name="dicValue"  <c:if test="${not empty searchParam.dicValue }">value="${searchParam.dicValue }"</c:if> >
 															</div>
 															<div class="up-form-group">
 																<button type="submit"   class="up-btn up-btn-primary">搜索</button>

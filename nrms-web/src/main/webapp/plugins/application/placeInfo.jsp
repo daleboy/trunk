@@ -29,9 +29,9 @@ function hideDialog(){
 
 <body>
 	<!--    头部 和  菜单 start -->
-	<%@include file="/common/headAndLeft.jsp"%>
+ 	<%@include file="/common/headAndLeft.jsp"%> 
 	<!--    头部 和  菜单 end -->
-	<div id="wrap" class="">
+ 	<div id="wrap" class=""> 
 	
 		<!-- 内容start -->
 		<main class="main up-container-fluid">
@@ -65,8 +65,7 @@ function hideDialog(){
 														</form>
 													</div>
 												</div>
-												<table
-													class="up-table up-table-bordered up-table-hover margin_bottom10 up-text-center">
+												<table class="up-table up-table-bordered up-table-hover margin_bottom10 up-text-center">
 													<thead>
 														<tr class="up-active">
 															<th>会议室名</th>
@@ -75,13 +74,15 @@ function hideDialog(){
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach var="application" items="${page.dataList }" varStatus="status">
+														<c:forEach var="p" items="${places }">
 															<tr>
-																<td>${application.placeName }</td>
+																<td>${p.placeName }</td>
 																<td>
-																	<c:if test="${application.appState == 2 }">
-																		${application.startDate}&nbsp;&nbsp;&nbsp;${application.startTime}-${application.endTime}
+																<c:forEach var="application" items="${page.dataList }">
+																	<c:if test="${application.appState == 2 && application.placeId eq p.id}">
+																	&nbsp;&nbsp;${application.subject }&nbsp;&nbsp;${application.startDate}&nbsp;&nbsp;&nbsp;${application.startTime}-${application.endTime}&nbsp;&nbsp;<br/>
 																	</c:if>
+																</c:forEach>
 																</td>
 																<td>
 																	<a href="javascript:void(0)" onClick="showDialog('申请' , '${basePath}/application/addOrEditApplication' , '470px')">申请</a>

@@ -31,7 +31,9 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
         if (user==null) 
 			return this.queryPage(null, page, null);
         StringBuilder hql = new StringBuilder("from User u,Dictionary dept,Dictionary job,Dictionary posi ,Role r where u.userState=1 ");
-        hql.append("and u.deptKey=dept.dicKey and u.jobKey=job.dicKey and u.positionKey=posi.dicKey and u.roleId=r.id");
+        hql.append("and u.deptKey=dept.dicKey and u.jobKey=job.dicKey and u.positionKey=posi.dicKey and u.roleId=r.id ");
+        hql.append(" and dept.dicState=1 and job.dicState=1 and posi.dicState=1");
+        hql.append("and dept.dicType=1 and job.dicType=2 and posi.dicType=3");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(user, hql, params);
         List list = this.queryPage(hql.toString(), page, params.toArray());
@@ -58,16 +60,14 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
         	usertemp.setRole(role.getRoleName());
         	userlist.add(usertemp);
 		}
-       // builderHqlAndParams(user, hql, params);
         return userlist;
     }
 
 	@Override
 	public List<User> queryAllUsers(User user) {
-
 		if(user == null)
             return queryUsers();
-        StringBuilder hql = new StringBuilder("from User where userState=1");
+        StringBuilder hql = new StringBuilder("from User u where u.userState=1");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(user, hql, params);
         return this.query(hql.toString(), params.toArray());
@@ -83,7 +83,7 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
 
 	@Override
 	public int queryCount(User user) {
-		StringBuilder hql = new StringBuilder("from User where userState=1");
+		StringBuilder hql = new StringBuilder("from User where userState=1 ");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(user, hql, params);
 		return super.queryCount(hql.toString(), params.toArray());
@@ -100,13 +100,17 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
             hql.append(" and u.id=?");
             params.add(user.getId());
         }
+        if(StringUtils.isNotBlank(user.getRoleId())){
+            hql.append(" and u.roleId=?");
+            params.add(user.getRoleId());
+        }
         if(StringUtils.isNotBlank(user.getDeptKey())){
             hql.append(" and u.deptKey=?");
             params.add(user.getDeptKey());
         }
-        if(StringUtils.isNotBlank(user.getRoleId())){
-            hql.append(" and u.roleId=?");
-            params.add(user.getRoleId());
+        if(StringUtils.isNotBlank(user.getJobKey())){
+            hql.append(" and u.jobKey=?");
+            params.add(user.getJobKey());
         }
         if(StringUtils.isNotBlank(user.getPositionKey())){
             hql.append(" and u.positionKey=?");
@@ -125,7 +129,6 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
     
 }

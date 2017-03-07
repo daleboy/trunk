@@ -14,7 +14,7 @@ public interface IDictionaryDao extends IBaseDao<Dictionary> {
 	
 	List<Dictionary> queryDictionarys(Dictionary dictionary, PageConfig pc);
 	
-	Dictionary queryDictionaryByDickey(String dickey);
+	Dictionary queryDictionaryByDickey(Dictionary dictionary);
 	
 	Dictionary queryDictionaryByDicValue(String dicvalue);
 	

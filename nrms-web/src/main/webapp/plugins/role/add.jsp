@@ -124,11 +124,11 @@
 
             //获取被选中的菜单项id
             var nodes = obj.getCheckedNodes();
-            console.log(obj);
+//            console.log(obj);
             var ids = [];
             for (var i = 0; i < nodes.length; i++) {
                 ids[i] = nodes[i].id;
-                console.log(i);
+//                console.log(i);
             }
             console.log("ids - > " + ids + " len -> " + ids.length);
             $.ajax({
@@ -142,10 +142,11 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        parent.window.location.href = "${basePath}/role/list";
-//                        $("#msgBoxInfo").html(data.msg);
-//                        $("#msgBox").modal('show');
+                        console.info(data.msg);
+                        $("#msgBoxInfo").html(data.msg);
+                        $("#msgBox").modal('show');
                         $("#msgBox").close();
+                        window.location.reload();
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');

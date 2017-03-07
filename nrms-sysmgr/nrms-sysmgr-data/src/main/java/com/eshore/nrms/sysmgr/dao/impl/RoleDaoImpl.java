@@ -78,14 +78,14 @@ public class RoleDaoImpl extends JpaDaoImpl<Role> implements IRoleDao {
     @Override
     public void updateAccess(Role role, String[] menus) {
         StringBuilder sql1 = new StringBuilder("Delete From  c_role_menu Where role_id='" + role.getId() + "'");
-            if(StringUtils.isNotBlank(role.getId()) ) this.executeSql(sql1.toString());
-            if (menus != null) {
-                StringBuilder sql2 = new StringBuilder("");
-                for (String menu : menus) {
-                    sql2 = new StringBuilder("Insert Into  c_role_menu (id,role_id, menu_id)   values  ('"
-                            + UUID.randomUUID().toString().substring(0, 31) + "','" + role.getId() + "' ,  '" + menu + "')");
-                    this.executeSql(sql2.toString());
-                }
+        if(StringUtils.isNotBlank(role.getId()) ) this.executeSql(sql1.toString());
+        if (menus != null) {
+            StringBuilder sql2 = new StringBuilder("");
+            for (String menu : menus) {
+                sql2 = new StringBuilder("Insert Into  c_role_menu (id,role_id, menu_id)   values  ('"
+                        + UUID.randomUUID().toString().substring(0, 31) + "','" + role.getId() + "' ,  '" + menu + "')");
+                this.executeSql(sql2.toString());
+            }
         }
 
     }

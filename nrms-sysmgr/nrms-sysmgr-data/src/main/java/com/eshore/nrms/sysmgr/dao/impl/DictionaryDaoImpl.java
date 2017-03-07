@@ -37,8 +37,13 @@ public class DictionaryDaoImpl extends JpaDaoImpl<Dictionary> implements IDictio
 	@Override
 	public List<Dictionary> queryDictionarys(Dictionary dictionary, PageConfig pc) {
 		// TODO Auto-generated method stub
-		//this.querySql(sql, null);
-		return null;
+		if(dictionary==null)
+			return queryAllDictionarys();
+		StringBuilder hql = new StringBuilder("from Dictionary where dicState=1");
+		ArrayList<Object> params = new ArrayList<Object>();
+		builderHqlAndParams(dictionary, hql, params);
+		System.out.println("打印hql:"+hql.toString());
+		return this.queryPage(hql.toString(), pc, params.toArray());
 	}
 	
     private void builderHqlAndParams(Dictionary dictionary, StringBuilder hql, ArrayList<Object> params) {
@@ -67,10 +72,10 @@ public class DictionaryDaoImpl extends JpaDaoImpl<Dictionary> implements IDictio
     }
 
 	@Override
-	public Dictionary queryDictionaryByDickey(String dickey) {
+	public Dictionary queryDictionaryByDickey(Dictionary dictionary) {
 		// TODO Auto-generated method stub
-		String hql = "from Dictionary d where d.dicKey = ?";
-        return this.getPojo(hql, new Object[]{dickey});
+		String hql = "from Dictionary d where d.dicKey =? and d.dicType = ?";
+        return this.getPojo(hql, new Object[]{dictionary.getDicKey(),dictionary.getDicType()});
 	}
 
 	@Override

@@ -3,10 +3,8 @@ package com.eshore.nrms.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.eshore.nrms.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,19 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.common.utils.type.StringUtils;
 import com.eshore.nrms.sysmgr.pojo.Dictionary;
-import com.eshore.nrms.sysmgr.pojo.Param;
-import com.eshore.nrms.sysmgr.pojo.Place;
 import com.eshore.nrms.sysmgr.pojo.Role;
 import com.eshore.nrms.sysmgr.pojo.User;
-import com.eshore.nrms.sysmgr.pojo.UserInfo;
 import com.eshore.nrms.sysmgr.service.IDictionaryService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import com.eshore.nrms.sysmgr.service.IUserService;
-import com.eshore.nrms.util.PageUtil;
 import com.eshore.nrms.util.SecurityUtil;
 import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
-import com.eshore.nrms.vo.InitData;
 import com.eshore.nrms.vo.PageVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +59,6 @@ public class UserController {
             System.out.println("查询userlist:" + user2);
         }
         getInformation(view);
-        view.addObject("user", user);
         view.addObject("page", userList);
         view.addObject("searchParam", user);
         return view;
@@ -180,20 +172,32 @@ public class UserController {
     @ResponseBody
     public ExecResult resetUserPwd(String id, String loginPw, String newLoginPw) {
         ExecResult er = new ExecResult();
-        if (StringUtils.isBlank(id)) {
-            er.setMsg("修改密码失败！请刷新页面试试");
-            return er;
-        }
-        User user = userService.get(id);
-        loginPw = SecurityUtil.md5(loginPw);
-        if (!user.getLoginPw().equals(loginPw)) {
-            er.setMsg("旧密码错误，修改失败");
-            return er;
-        }
-        user.setLoginPw(SecurityUtil.md5(newLoginPw));
-        userService.update(user);
-        er.setSuccess(true);
-        er.setMsg("修改成功");
+        User user = null;
+        if (StringUtils.isBlank(loginPw)&&StringUtils.isNotBlank(newLoginPw)) {
+        	if (StringUtils.isBlank(id)) {
+                er.setMsg("修改密码失败！请刷新页面试试");
+                return er;
+            }
+            user = userService.get(id);
+            loginPw = SecurityUtil.md5(loginPw);
+            if (!user.getLoginPw().equals(loginPw)) {
+                er.setMsg("旧密码错误，修改失败");
+                return er;
+            }
+            user.setLoginPw(SecurityUtil.md5(newLoginPw));
+            userService.update(user);
+            er.setSuccess(true);
+            er.setMsg("修改成功");
+		}else {
+			user = userService.get(id);
+			user.setLoginPw(SecurityUtil.md5("123456"));
+			userService.update(user);
+			er.setSuccess(true);
+			er.setMsg("重置成功");
+		}
+        
+        
+        
         return er;
     }
 

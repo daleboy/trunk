@@ -46,6 +46,39 @@
 		});
 	}
 	
+	/* 重置用户密码 */
+	function resetUserPwd(id,loginName){
+		$("#msgBoxConfirmInfo").html("确定要重置用户:"+loginName+" 的密码吗?");
+		$("#msgBoxConfirm").modal('show');
+		$("#msgBoxConfirmButton").on('click' , function(){
+			$("#msgBoxConfirm").modal('hide');
+			$.ajax({
+				type : 'POST',
+				url : '${basePath}/user/resetUserPwd',
+				data : {
+					'id' : id
+				},
+				dataType : 'json',
+				success : function(data) {
+					if (data.success) {
+						$("#msgBoxInfo").html(data.msg);
+						$("#msgBox").modal('show');
+						$("#msgBoxOKButton").on('click' , function(){
+							window.location.reload();
+						});
+					} else {
+						$("#msgBoxInfo").html(data.msg);
+						$("#msgBox").modal('show');
+					}
+				},
+				error : function(data) {
+					$("#msgBoxInfo").html("程序执行出错");
+					$("#msgBox").modal('show');
+				}
+			});
+		});
+	}
+	
 	
 	function showDialog(title , url , height){
 		$("#modalDialogTitle").html(title);
@@ -98,25 +131,25 @@
 																<select name="deptKey" id="dicValueP" class="up-form-control" style="width: 171px">
 																		<option value="">请选择</option>
 																	<c:forEach var="departlist" items="${departlist }">
-																		<option value="${departlist.dicKey }" <c:if test="${departlist.dicKey == user.deptKey }">selected="selected"</c:if> >${departlist.dicValue }</option>
+																		<option value="${departlist.dicKey }" <c:if test="${departlist.dicKey == searchParam.deptKey }">selected="selected"</c:if> >${departlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">职位:</label> 
 																<select name="positionKey" id="dicValueJ" class="up-form-control" style="width: 171px">
 																        <option value="">请选择</option>
 																	<c:forEach var="positionlist" items="${positionlist }">
-																		<option value="${positionlist.dicKey }" <c:if test="${positionlist.dicKey == user.positionKey }">selected="selected"</c:if> >${positionlist.dicValue }</option>
+																		<option value="${positionlist.dicKey }" <c:if test="${positionlist.dicKey == searchParam.positionKey }">selected="selected"</c:if> >${positionlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">角色:</label> 
 																<select name="roleId" id="role" class="up-form-control" style="width: 171px">
 																		<option value="">请选择</option>
 																	<c:forEach var="rolelist" items="${rolelist }">
-																		<option value="${rolelist.id }" <c:if test="${rolelist.id == user.roleId }">selected="selected"</c:if> >${rolelist.roleName }</option>
+																		<option value="${rolelist.id }" <c:if test="${rolelist.id == searchParam.roleId }">selected="selected"</c:if> >${rolelist.roleName }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">姓名:</label> 
-																<input type="text" class="up-form-control" id="placeName" name="uname" <c:if test="${not empty user.uname }">value="${user.uname }"</c:if>  />
+																<input type="text" class="up-form-control" id="placeName" name="uname" <c:if test="${not empty searchParam.uname }">value="${user.uname }"</c:if>  />
 															</div>
 															<div class="up-form-group">
 																<button type="submit"   class="up-btn up-btn-primary">搜索</button>
@@ -167,7 +200,7 @@
 																<!-- 修改，删除，重置密码     style="width: 408px;"-->
 																<a href="javascript:void(0)" onClick="showDialog('修改' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=1' , '470px')">修改</a>
 																<a href="javascript:void(0)" onClick="deleteUser('${user.id }')">删除</a>
-																<a href="javascript:void(0)" onClick="showDialog('重置密码' , '${basePath}/user/toAddOrEditUsers?id=${user.id }&oper=3' , '470px')">重置密码</a>
+																<a href="javascript:void(0)" onClick="resetUserPwd('${user.id }','${user.loginName }')">重置密码</a>
 														<%-- 			<a href="javascript:void(0)" onClick="showDialog('编辑会议室' , '${basePath}/place/toAddOrEditPlace?id=${user.id }' , '470px')">编辑</a>
 																	<a href="javascript:void(0)" onClick="deletePlace('${user.id}')">删除</a> --%>
 																</td>

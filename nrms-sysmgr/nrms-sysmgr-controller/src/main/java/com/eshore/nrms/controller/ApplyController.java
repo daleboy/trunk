@@ -1,5 +1,6 @@
 package com.eshore.nrms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import com.eshore.nrms.sysmgr.pojo.Application;
 import com.eshore.nrms.sysmgr.pojo.Place;
 import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IApplyService;
+import com.eshore.nrms.sysmgr.service.IPartakesService;
 import com.eshore.nrms.sysmgr.service.IPlaceService;
 import com.eshore.nrms.sysmgr.service.IUserService;
 import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
@@ -35,6 +37,8 @@ public class ApplyController {
 	private IViewAndAuditService viewAndAuditService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IPartakesService partakesService;
 	
 	//分页显示申请信息
 	@RequestMapping("/applicationList")
@@ -53,30 +57,25 @@ public class ApplyController {
 	//申请详情页
 	@RequestMapping("/applicationInfo")
 	public ModelAndView applicationInfo(String id){
+		System.out.println("id "+id);
 		ModelAndView view = new ModelAndView("/application/applicationInfo");
 		
-		Application application = applyService.get(id);
-		List<User> userList = viewAndAuditService.getUsersInApplication(id);
-		Place place = placeService.get(application.getPlaceId());
-		User minutes = userService.get(application.getUidMinutes());
-		User applicant = userService.get(application.getUidApplicant());
-		
-		view.addObject("app",application);
-		view.addObject("users",userList);
-		view.addObject("place",place);
-		view.addObject("minutes",minutes);
-		view.addObject("applicant",applicant);
+		view.addObject("app", viewAndAuditService.getFull(id));
+		view.addObject("partakes",viewAndAuditService.getUsersInApplication(id));
 		return view;
 	}
 	
 	//编辑页
 	@RequestMapping("/addOrEditApplication")
 	public ModelAndView addOrEditApplication(String id){
-		ModelAndView view = new ModelAndView("/application/editApplication");
+		ModelAndView view = new ModelAndView("/application/addOrEditApplication");
 		
 		if(StringUtils.isNotBlank(id)){
 			Application application = applyService.get(id);
 			view.addObject("app",application);
+			
+			Place place = placeService.get(id);
+			view.addObject("place",place);
         }
 		
 		String []time_points = {"08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"};
@@ -106,29 +105,44 @@ public class ApplyController {
 	
 	@RequestMapping("/submitMyApp")
 	@ResponseBody
-	public ExecResult submitMyApp(Application application,HttpSession session){
+	public ExecResult submitMyApp(Application application,HttpSession session,String []partakes){
 		ExecResult er = new ExecResult();
 		
 		if(viewAndAuditService.verifyTimeConflict(application)){
 			er.setMsg("该会议申请和其他申请时间冲突");
 			return er;
 		}
-		
 		application.setAppState(1);
-        applyService.update(application);
+		//如果appid为空，则为新增
+		if(StringUtils.isBlank(application.getId())){
+			application.setId(null);
+			applyService.save(application);
+		}else{//否则，则为更新
+			applyService.update(application);
+		}
+		partakesService.update(application.getId(), partakes);
         er.setSuccess(true);
         er.setMsg("保存成功");
-
+        
+        List<String> dataList =  new ArrayList<String>();
+        dataList.add(application.getId());
+		er.setDataList(dataList );
         return er;
 	}
 	
 	@RequestMapping("/saveOrUpdateMyApp")
 	@ResponseBody
-	public ExecResult saveOrUpdateMyApp(Application application){
+	public ExecResult saveOrUpdateMyApp(Application application,String []partakes){
 		ExecResult er = new ExecResult();
 		
 		application.setAppState(0);
-        applyService.update(application);
+		if(StringUtils.isBlank(application.getId())){
+			application.setId(null);
+			applyService.save(application);
+		}else{
+			applyService.update(application);
+		}
+		partakesService.update(application.getId(), partakes);
         er.setSuccess(true);
         er.setMsg("保存成功");
 
@@ -144,7 +158,8 @@ public class ApplyController {
             er.setMsg("删除申请失败！因为未获取id，请刷新页面试试");
             return er;
         }
-
+        
+        partakesService.deleteByAppId(id);
         applyService.delete(id);
         er.setSuccess(true);
         er.setMsg("删除成功");

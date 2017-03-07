@@ -143,9 +143,9 @@
 				 		<c:if test="${empty dictionary.id }">
 							<select name="dicType1" id=dicType class="up-form-control" style="width:260px">
 								<option value="0">请选择</option>
-								<option value="1">部门</option>
-								<option value="2">工作</option>
-								<option value="3">职位</option>
+								<option <c:if test="${dit ==1 }">selected="selected"</c:if> value="1">部门</option>
+								<option <c:if test="${dit ==2 }">selected="selected"</c:if>  value="2">工作</option>
+								<option <c:if test="${dit ==3 }">selected="selected"</c:if> value="3">职位</option>
 							</select>
 						</c:if>
 				</div>

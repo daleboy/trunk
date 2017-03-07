@@ -24,13 +24,17 @@ public interface IMenuService extends IBaseService<Menu>{
      */
     public List<Menu> queryMenuListByRoleId(String roleId);
 
+
     /***
      * 可拓展成单独的菜单管理
      * @param menu
      * @param pageConfig
      * @return
      */
-//    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig);
+    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig);
+
+
+
 
     /**
      * 通过pid查询子菜单项

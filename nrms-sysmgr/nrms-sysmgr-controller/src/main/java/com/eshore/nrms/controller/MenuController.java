@@ -1,8 +1,10 @@
 package com.eshore.nrms.controller;
 
+import com.eshore.khala.common.model.PageConfig;
 import com.eshore.nrms.sysmgr.pojo.Menu;
 import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
+import com.eshore.nrms.vo.ExecResult;
 import com.eshore.nrms.vo.MenuVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -29,7 +31,7 @@ public class MenuController {
 
     /**
      * 根据角色获取权限菜单json数据
-     * @param roleId
+     *
      * @return
      */
     @RequestMapping("/menu/getJson")
@@ -37,13 +39,13 @@ public class MenuController {
         ModelAndView view = new ModelAndView("menu/getJson");
         List<Menu> list = menuService.queryAllMenu();
         JSONArray jsonArray = new JSONArray();
-        for(Menu menu : list){
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("id",menu.getId());
-            jsonObject.put("pId",menu.getPid());
-            jsonObject.put("name",menu.getMenuName());
-            jsonObject.put("open",true);
-            jsonObject.put("checked",false);
+        for (Menu menu : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", menu.getId());
+            jsonObject.put("pId", menu.getPid());
+            jsonObject.put("name", menu.getMenuName());
+            jsonObject.put("open", true);
+            jsonObject.put("checked", false);
             jsonArray.add(jsonObject);
         }
         String data = jsonArray.toString();
@@ -52,6 +54,29 @@ public class MenuController {
     }
 
 
+    @RequestMapping("/menu/menulist")
+    public ModelAndView getMenuList(Menu menu) {
+        ModelAndView view = new ModelAndView("menu/menuList");
+        List<Menu> list = menuService.querymenuListByPage(menu, null);
+        view.addObject("list", list);
+        view.addObject("searchParam", menu);
+        return view;
+    }
 
+    @RequestMapping("/menu/toedit")
+    public ModelAndView toEdit(String id) {
+        ModelAndView view = new ModelAndView("menu/menuEdit");
+        Menu menu= menuService.get(id);
+        view.addObject("menu", menu);
+        return view;
+    }
+
+    @RequestMapping("/menu/menuedit")
+    public ExecResult edit(Menu menu){
+        ExecResult result = new ExecResult();
+        menuService.update(menu);
+        result.setMsg("更新完成");
+        return result;
+    }
 
 }

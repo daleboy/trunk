@@ -81,6 +81,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd" default-lazy-init=
             <mvc:mapping path="/user/userList" />
             <mvc:mapping path="/role/list" />
             <mvc:mapping path="/dept/list" />
+            <mvc:mapping path="/menu/menulist" />
             <bean class="com.eshore.nrms.web.interceptor.RoleAccessInterceptor" />
         </mvc:interceptor>
 

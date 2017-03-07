@@ -28,7 +28,7 @@ function hideDialog(){
         <!-- 内容start -->
         <main class="main up-container-fluid" >
         	<div class="up-box1-rc" style="width:100%; text-align:center;">
-                <b style="padding-top:20px; padding-bottom:15px; font-size:25px; color:#666; display:inline-block;">欢迎您使用网络资源管理系统</b>
+                <b style="padding-top:20px; padding-bottom:15px; font-size:25px; color:#666; display:inline-block;">欢迎您使用会议室管理系统</b>
         	</div>
         	<div class="up-tab-content">
 			<div class="up-tab-pane up-active" id="tabs1">

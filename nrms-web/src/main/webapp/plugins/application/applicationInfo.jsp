@@ -41,7 +41,7 @@
 					<span class="up-cq-red-star">*</span>会议室
 				</label>
 				<div class="up-col-sm-3">
-					<input type="text" class="up-form-control" id="placeName" name="placeName" value="${place.placeName }" readonly="readonly">
+					<input type="text" class="up-form-control" id="placeName" name="placeName" value="${app.placeName }" readonly="readonly">
 				</div>
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>会议主题
@@ -55,7 +55,7 @@
 					<span class="up-cq-red-star">*</span>申请人
 				</label>
 				<div class="up-col-sm-3">
-					<input type="text" id="applicant" name="applicant" value="${applicant.uname }" readonly="readonly"> 
+					<input type="text" id="applicant" name="applicant" value="${app.unameApplicant }" readonly="readonly"> 
 				</div>
 			</div>
 			<div class="up-form-group">
@@ -95,8 +95,8 @@
 					<span class="up-cq-red-star">*</span>参会人
 				</label>
 				<div class="up-col-sm-3" style="margin-left: 100px;">
-					<select  id="partakes" name="partakes" class="up-form-control" multiple="multiple" style="width:260px;height: 200px;">
-						<c:forEach var="u" items="${users }" >
+					<select  id="all_users" name="all_users" class="up-form-control" multiple="multiple" style="width:260px;height: 200px;">
+						<c:forEach var="u" items="${partakes }" >
 							<option value="${u.id}">${u.uname }</option>
 						</c:forEach>
 					</select>
@@ -107,7 +107,7 @@
 					<span class="up-cq-red-star">*</span>会议纪要人
 				</label>
 				<div class="up-col-sm-3">
-					<input type="text" class="up-form-control" id="endTime" name="endTime" value="${minutes.uname }" readonly="readonly">
+					<input type="text" class="up-form-control" id="endTime" name="endTime" value="${app.unameMinutes }" readonly="readonly">
 				</div>
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>会议附件

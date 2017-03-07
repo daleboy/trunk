@@ -11,8 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.common.utils.type.StringUtils;
 import com.eshore.nrms.sysmgr.pojo.Dictionary;
+import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.pojo.UserInfo;
 import com.eshore.nrms.sysmgr.service.IDictionaryService;
+import com.eshore.nrms.sysmgr.service.IUserService;
 import com.eshore.nrms.util.PageUtil;
 import com.eshore.nrms.util.SecurityUtil;
 import com.eshore.nrms.vo.Conts;
@@ -26,6 +28,9 @@ public class DictionaryController {
 	@Autowired
 	private IDictionaryService dictionarySrvice;
 	
+	@Autowired
+	private IUserService userService;
+	
 	/**
 	 * 获得部门 ，工作，职位
 	 * @param dicType  1：部门  2：工作（web工程师）3:职位(普通员工）
@@ -36,7 +41,6 @@ public class DictionaryController {
 		System.out.println("打印dictype:"+dictionary.getDicType());
 		ModelAndView view = new ModelAndView("dictionary/dictionaryList");
 		PageVo<Dictionary> dictionarylist = dictionarySrvice.getDictionaryByPage(dictionary ,page);
-		view.addObject("dictionary", dictionary);
 		view.addObject("page" , dictionarylist);
         view.addObject("searchParam" , dictionary);
 		return view;
@@ -52,14 +56,32 @@ public class DictionaryController {
 	public ExecResult deleteDictionary(String id){
 		ExecResult result = new ExecResult();
 		if(!StringUtils.isNotBlank(id)){
-			result.setMsg("删除用户失败，请刷新试试");
+			result.setMsg("删除类型失败，请刷新试试");
 			return result;
 		}
 		Dictionary dictionary = dictionarySrvice.get(id);
-		dictionary.setDicState(Conts.STATE_DELETE);
-		this.dictionarySrvice.update(dictionary);
-		result.setMsg("删除成功");
-		result.setSuccess(true);
+		User user = new User();
+		if (dictionary.getDicType()==1) {
+			user.setDeptKey(dictionary.getDicKey());
+		}
+		if (dictionary.getDicType()==2) {
+			user.setJobKey(dictionary.getDicKey());
+		}
+		if (dictionary.getDicType()==3) {
+			user.setPositionKey(dictionary.getDicKey());
+		}
+		List<User> list = userService.getAllUsers(user);
+		if (list.isEmpty()) {
+			dictionary.setDicState(Conts.STATE_DELETE);
+			this.dictionarySrvice.update(dictionary);
+			result.setMsg("删除成功");
+			result.setSuccess(true);
+		}else {
+			result.setMsg("删除失败，已存在该类型用户");
+			result.setSuccess(false);
+		}
+		
+		
 		return result;
 	}
 	
@@ -69,7 +91,7 @@ public class DictionaryController {
 	 * @return				放回视图
 	 */
 	@RequestMapping("/toAddOrEditDictionary")
-	public ModelAndView toAddOrEditDictionary(Dictionary dictionary){
+	public ModelAndView toAddOrEditDictionary(Dictionary dictionary,String dit){
 		ModelAndView view = new ModelAndView();
 		System.out.println("diction id= "+dictionary.getId());
 		if (dictionary.getId()!=null) {
@@ -80,7 +102,7 @@ public class DictionaryController {
 			view.setViewName("dictionary/addOrEditDictionary");
 			return view;
 		}
-		System.out.println("新增dic");
+		view.addObject("dit", dit);
 		view.setViewName("dictionary/addOrEditDictionary");
 		return view;
 	}
@@ -94,7 +116,7 @@ public class DictionaryController {
 	@ResponseBody
 	public ExecResult addAdddictionary(Dictionary dictionary){
         ExecResult er = new ExecResult();
-        if(dictionarySrvice.getDictionaryByDickey(dictionary.getDicKey())!=null){
+        if(dictionarySrvice.getDictionaryByDickey(dictionary)!=null){
             er.setMsg("新增类型失败！编码已经存在，请换个编码试试");
             return er;
         }

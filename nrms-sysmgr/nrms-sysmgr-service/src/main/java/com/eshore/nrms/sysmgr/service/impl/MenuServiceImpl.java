@@ -1,5 +1,6 @@
 package com.eshore.nrms.sysmgr.service.impl;
 
+import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.data.api.dao.IBaseDao;
 import com.eshore.khala.core.service.impl.BaseServiceImpl;
 import com.eshore.nrms.sysmgr.dao.IMenuDao;
@@ -28,14 +29,20 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
     public IBaseDao<Menu> getDao() {
         return this.menuDao;
     }
+
     @Override
-    public List<Menu> queryAllMenu(){
+    public List<Menu> queryAllMenu() {
         return menuDao.queryAllMenu();
     }
 
     @Override
     public List<Menu> queryMenuListByRoleId(String roleId) {
         return menuDao.queryMenuListByRoleId(roleId);
+    }
+
+    @Override
+    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig) {
+        return menuDao.querymenuListByPage(menu, pageConfig);
     }
 
     @Override

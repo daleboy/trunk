@@ -113,6 +113,7 @@ public class MainController {
 	
 	@RequestMapping({"/logOut"})
 	public String logOut(HttpSession session){
+		session.setAttribute("volist",null);
 		session.invalidate();
 		return "redirect:/";
 	}

@@ -35,7 +35,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implement
 	@Override
 	public PageVo<Dictionary> getDictionaryByPage(Dictionary dictionary , PageConfig page) {
 		// TODO Auto-generated method stub
-		List<Dictionary> list = dictionaryDao.queryDictionarys(dictionary);
+		List<Dictionary> list = dictionaryDao.queryDictionarys(dictionary,page);
 		List<Dictionary> dictionarieList = new ArrayList<Dictionary>();
 		for (Dictionary dictionary2 : list) {
 			switch (dictionary2.getDicType()) {
@@ -58,7 +58,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implement
 			}
 			dictionarieList.add(dictionary2);
 		}
-		return PageUtil.getPageList(page, dictionarieList);
+		return PageUtil.getPageList(page, list);
 	}
 
 	@Override
@@ -110,9 +110,9 @@ public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implement
 	}
 
 	@Override
-	public Dictionary getDictionaryByDickey(String dickey) {
+	public Dictionary getDictionaryByDickey(Dictionary dictionary) {
 		// TODO Auto-generated method stub
-		return dictionaryDao.queryDictionaryByDickey(dickey);
+		return dictionaryDao.queryDictionaryByDickey(dictionary);
 	}
 
 	@Override

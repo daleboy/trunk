@@ -3,6 +3,8 @@ package com.eshore.nrms.sysmgr.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import com.eshore.khala.core.data.jpa.dao.impl.JpaDaoImpl;
 import com.eshore.nrms.sysmgr.dao.IApplyDao;
 import com.eshore.nrms.sysmgr.dao.IViewAndAuditDAO;
 import com.eshore.nrms.sysmgr.pojo.Application;
+import com.eshore.nrms.sysmgr.pojo.Partake;
 import com.eshore.nrms.sysmgr.pojo.Place;
 
 @Repository

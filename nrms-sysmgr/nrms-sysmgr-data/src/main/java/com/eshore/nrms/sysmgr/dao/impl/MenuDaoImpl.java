@@ -1,9 +1,11 @@
 package com.eshore.nrms.sysmgr.dao.impl;
 
+import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.data.jpa.dao.impl.JpaDaoImpl;
 import com.eshore.nrms.sysmgr.dao.IMenuDao;
 import com.eshore.nrms.sysmgr.pojo.Menu;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -116,6 +118,32 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
         return menuList;
 
     }
+
+    /**
+     *
+     * @param menu
+     * @param pageConfig
+     * @return
+     */
+    @Override
+    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig) {
+        StringBuilder hql= new StringBuilder(" From Menu m where 1=1 ");
+        List params= new ArrayList();
+        if(StringUtils.isNotBlank( menu.getMenuName() )) {
+            hql.append("  and m.menuName like  ?");
+            params.add("%" + menu.getMenuName() + "%");
+        }if(menu.getIsLeaf()!=null){
+            hql.append("  and m.isLeaf = ?");
+            params.add(menu.getIsLeaf());
+        }
+        hql.append("order by m.menuIndex");
+        if(pageConfig==null)      pageConfig=new PageConfig();
+        pageConfig.setPageNum(1);
+        pageConfig.setPageSize(100);
+        return this.queryPage(hql.toString(), pageConfig, params.toArray() );
+    }
+
+
 
 
 }

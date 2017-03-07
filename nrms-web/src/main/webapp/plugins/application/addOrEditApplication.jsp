@@ -7,17 +7,17 @@
 <head>
 <%@include file="/common/common-ui.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${basePath}/resources/css/ztree/zTreeStyle.css">
-<script type="text/javascript" src="${basePath}/resources/js/ztree/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="${basePath}/resources/js/ztree/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/fileupload/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/fileupload/ajaxfileupload.js"></script>
 
 <script type="text/javascript">
 	function saveApplication(){
 		
+		$("#partakes option").each(function(){//将partake中的每一项都选中
+		  	$(this).attr("selected", "selected");
+		 });
 		$.ajax({
-			url : '${basePath}/app/saveOrUpdateMyApp',
+			url : '${basePath}/application/saveOrUpdateMyApp',
 			dataType : 'json' ,
 			type : "post",
 			data : $("#dataForm").serialize(),
@@ -44,12 +44,12 @@
 		
 	}
 	
-	function submitApplication(){
+	function submitApplication(type){
 		if(checkInfo())
 			return ;
 		
 		$.ajax({
-			url : '${basePath}/app/submitMyApp',
+			url : '${basePath}/application/submitMyApp',
 			dataType : 'json' ,
 			type : "post",
 			data : $("#dataForm").serialize(),
@@ -59,10 +59,9 @@
 					$("#msgBoxInfo").html(data.msg);
 					$("#msgBox").modal('show');
 					$("#msgBoxOKButton").on('click' , function(){
-						parent.window.location.reload();
 					});
 					
-					fileUpload(data.dataList[0])
+					fileUpload(data.dataList[0],type,"app_file")
 				} else {
 					$("#msgBoxInfo").html(data.msg);
 					$("#msgBox").modal('show');
@@ -81,13 +80,13 @@
 			$("#msgBox").modal('show');
 			return true;
 		}
-		if( !checkLengthBetween( $("#project").val() , 0, 100) ){
-			$("#msgBoxInfo").html("项目名不能超过100字");
-			$("#msgBox").modal('show');
-			return true;
-		}
+// 		if( !checkLengthBetween( $("#project").val() , 0, 100) ){
+// 			$("#msgBoxInfo").html("项目名不能超过100字");
+// 			$("#msgBox").modal('show');
+// 			return true;
+// 		}
 		
-		if( !checkBlank($("#strDate").val()) ){
+		if( !checkBlank($("#startDate").val()) ){
 			$("#msgBoxInfo").html("请选择时间");
 			$("#msgBox").modal('show');
 			return true;
@@ -110,15 +109,14 @@
 			$("#msgBox").modal('show');
 			return true;
 		}
-		return false;
 	}
 	
-	function fileUpload(aid){
+	function fileUpload(aid,type,elementId){
 		$.ajaxFileUpload({
-			url : '${basePath}/app/uploadFile?fileType=1&aid='+aid,
+			url : '${basePath}/file/uploadFile?fileType='+type+'&aid='+aid,
 			type : "post",
 			secureuri : false,
-			fileElementId : "app_file",
+			fileElementId : elementId,
 			dataType : "json" ,
 			success : function(data) {
 				if (data.success) {
@@ -130,6 +128,33 @@
 				} else {
 					$("#msgBoxInfo").html(data.msg);
 					$("#msgBox").modal('show');
+				}
+			},
+			error : function(data) {
+				$("#msgBoxInfo").html("程序执行出错");
+				$("#msgBox").modal('show');
+			}
+		});
+		
+	}
+
+	function fileDownload(aid,type){
+		$.ajax({
+			url : '${basePath}/file/ensureFileExist',
+			dataType : 'json' ,
+			type : "post",
+			data : {
+				"aid":aid,
+				"fileType":type
+			},
+			success : function(data) {
+				if (data.success) {
+					location.href='${basePath}/file/downloadFile?aid='+aid+'&fileType='+type+"&code="+data.msg;
+				} else {
+					$("#msgBoxInfo").html(data.msg);
+					$("#msgBox").modal('show');
+					$("#msgBoxOKButton").on('click' , function(){
+					});
 				}
 			},
 			error : function(data) {
@@ -160,7 +185,7 @@
 	function addPartakes(){
 		$("#all_users :selected").each(function(){
 		     $("#partakes" ).append("<option value='" + $(this).val() + "'>" + $(this).text() + "</option>");
-		     $("#uid_jiyao" ).append("<option value='" + $(this).val() + "'>" + $(this).text() + "</option>");
+		     $("#uid_minutes" ).append("<option value='" + $(this).val() + "'>" + $(this).text() + "</option>");
 		     $(this).remove();
 		 });
 	}
@@ -168,28 +193,28 @@
 	function removePartakes(){
 		$("#partakes :selected").each(function(){
 		     $("#all_users" ).append("<option value='" + $(this).val() + "'>" + $(this).text() + "</option>");
-		     $("#uid_jiyao option[value=" + $(this).val() + "]" ).remove();
+		     $("#uid_minutes option[value=" + $(this).val() + "]" ).remove();
 		     $(this).remove();
 		 });
 	}
 	
-	var setting = {
-       		check : {
-       			autoCheckTrigger : false,
-	        	chkboxType : { "Y" : "ps", "N" : "ps" },
-				chkboxStyle : "checkbox",
-	        	enable : true,
-	        	nocheckInherit : false
-       		},
-			data : {
-				simpleData : {
-					enable : true
-				}
-			}
+// 	var setting = {
+//        		check : {
+//        			autoCheckTrigger : false,
+// 	        	chkboxType : { "Y" : "ps", "N" : "ps" },
+// 				chkboxStyle : "checkbox",
+// 	        	enable : true,
+// 	        	nocheckInherit : false
+//        		},
+// 			data : {
+// 				simpleData : {
+// 					enable : true
+// 				}
+// 			}
 			
-	    };
-	var treeNodes = ""//${users};
-	var treeObj ;
+// 	    };
+// 	var treeNodes = ""//${users};
+// 	var treeObj ;
 // 	$(function() {
 // 		treeObj = $.fn.zTree.init($("#tree"), setting, treeNodes);
 // 		console.info(treeObj)
@@ -205,9 +230,9 @@
 					<span class="up-cq-red-star">*</span>会议室
 				</label>
 				<div class="up-col-sm-3">
-					<select class="up-form-control" id="pid" name="pid" >
+					<select class="up-form-control" id="pid" name="placeId" value="${place.placeName }" >
 						<c:forEach var="p" items="${places }">
-							<option value="${p.id }" <c:if test="${p.id eq app.placeId }">selected</c:if> >${p.pname }</option>
+							<option value="${p.id }" <c:if test="${p.id eq app.placeId }">selected</c:if> >${p.placeName }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -223,8 +248,8 @@
 					<span class="up-cq-red-star">*</span>申请人
 				</label>
 				<div class="up-col-sm-3">
-					<input type="hidden" id="uid_shenqing" name="uid_shenqing" value="${LOGIN_USER.id }">
-					<input type="text" class="up-form-control" id="uname_shenqing" name="uname_shenqing" readOnly  value="${LOGIN_USER.uname }">
+					<input type="hidden" id="uidApplicant" name="uidApplicant" value="${sessionScope.LOGIN_USER.id }">
+					<input type="text" class="up-form-control" id="applicant" name="applicant" readOnly  value="${sessionScope.LOGIN_USER.uname }">
 				</div>
 			</div>
 			<div class="up-form-group">
@@ -239,7 +264,7 @@
 				</label>
 				<div class="up-col-sm-3">
 					<select id="startTime" name="startTime"  class="up-form-control" onchange="resetEndTimePoints()">
-						<c:forEach var="t" items="${time_points }" end="14">
+						<c:forEach var="t" items="${time_points }">
 							<option value="${t }" >${t}</option>
 						</c:forEach>
 					</select>
@@ -274,15 +299,9 @@
 				</label>
 				<div class="up-col-sm-3">
 					<select  id="all_users" class="up-form-control" multiple="multiple" style="width:260px;height: 200px;">
-						<optgroup label="g1">
 						<c:forEach var="u"  items="${users }">
 							<option value="${u.id}">${u.uname }</option>
 						</c:forEach>
-						</optgroup>
-						<optgroup label="g1">
-							<option value="1">name1</option>
-							<option value="2">name2</option>
-						</optgroup>
 					</select>
 				</div>
 				<div class="up-col-sm-3" style="margin-left: 100px;">
@@ -296,14 +315,14 @@
 					<span class="up-cq-red-star">*</span>选择会议纪要人
 				</label>
 				<div class="up-col-sm-3">
-					<select class="up-form-control" id="uid_jiyao" name="uid_jiyao">
+					<select class="up-form-control" id="uid_minutes" name="uidMinutes">
 					</select>
 				</div>
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>会议附件
 				</label>
 				<div class="up-col-sm-3">
-					<input type="file" name="app_file" style="position: relative;"  class="up-form-control" id="app_file">
+					<input type="file" name="file" style="position: relative;"  class="up-form-control" id="app_file">
 				</div>
 			</div>
 			<div class="up-form-group">
@@ -311,13 +330,13 @@
 					<span class="up-cq-red-star"></span>备注
 				</label>
 				<div class="up-col-sm-6">
-					<textarea style="resize:none;" rows="8" class="up-form-control" id="remark" name="remark">${app.remark}</textarea>
+					<textarea style="resize:none;" rows="8" class="up-form-control" id="remark" name="appRemark">${app.appRemark}</textarea>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="up-modal-footer up-modal-footer1">
-		<button type="button" class="up-btn up-btn-primary" onClick="submitApplication()">提交</button>
+		<button type="button" class="up-btn up-btn-primary" onClick="submitApplication('1')">提交</button>
 		<button type="button" class="up-btn up-btn-primary" onClick="saveApplication()">暂存</button>
 		<button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">返回</button>
 	</div>

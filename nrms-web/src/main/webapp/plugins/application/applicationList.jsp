@@ -140,7 +140,7 @@
 																<button type="submit"  class="up-btn up-btn-primary">查询</button>
 															</div>
 															<div class="up-form-group">
-																<a class="up-btn up-btn-primary up-btn-primary-red"  href="${basePath}/application/addOrEditApplication" >新建</a>
+																<a class="up-btn up-btn-primary up-btn-primary-red"  href="${basePath}/application/placeInfo" >新建</a>
 															</div>
 														</form>
 													</div>
