@@ -136,8 +136,8 @@
                                                             </div>
 
                                                             <select name="isLeaf" id="isLeaf" class="up-form-control" style="width: 171px">
-                                                                    <option value="1"  <c:if test="${searchParam.isLeaf == 0 }">selected="selected"</c:if>>子菜单</option>
-                                                                    <option value="0" <c:if test="${searchParam.isLeaf == 1 }">selected="selected"</c:if> >父菜单</option>
+                                                                <option value="1" <c:if test="${searchParam.isLeaf == 1 }">selected="selected"</c:if> >子菜单</option>
+                                                                <option value="0"  <c:if test="${searchParam.isLeaf == 0 }">selected="selected"</c:if>>父菜单</option>
                                                             </select>
 
 

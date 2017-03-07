@@ -306,7 +306,12 @@
 				</div>
 				<div class="up-col-sm-3" style="margin-left: 100px;">
 					<select  id="partakes" name="partakes" class="up-form-control" multiple="multiple" style="width:260px;height: 200px;">
-						
+						<option value="${sessionScope.LOGIN_USER.id }">${sessionScope.LOGIN_USER.uname }</option>
+						<c:forEach var="u" items="${partakes }" >
+							<c:if test="${sessionScope.LOGIN_USER.id ne u.id }"> 
+								<option value="${u.id}">${u.uname }</option>
+							</c:if>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
@@ -316,13 +321,16 @@
 				</label>
 				<div class="up-col-sm-3">
 					<select class="up-form-control" id="uid_minutes" name="uidMinutes">
+						<c:forEach var="u" items="${partakes }" >
+							<option value="${u.id}">${u.uname }</option>
+						</c:forEach>
 					</select>
 				</div>
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>会议附件
 				</label>
 				<div class="up-col-sm-3">
-					<input type="file" name="file" style="position: relative;"  class="up-form-control" id="app_file">
+					<input type="file" name="file" style="position: relative;"  class="up-form-control" id="app_file" value="${app.appFileName }">
 				</div>
 			</div>
 			<div class="up-form-group">

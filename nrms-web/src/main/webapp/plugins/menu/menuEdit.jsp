@@ -34,11 +34,7 @@
                 $("#msgBox").modal('show');
                 return;
             }
-            if (!checkBlank($("#menuUrl").val())) {
-                $("#msgBoxInfo").html("请填写菜单url");
-                $("#msgBox").modal('show');
-                return;
-            }
+
             if (!checkBlank($("#menuIndex").val())) {
                 $("#msgBoxInfo").html("请填写菜单顺序");
                 $("#msgBox").modal('show');
@@ -95,6 +91,7 @@
     <input type="hidden" id="id" name="id" value="${menu.id }"/>
     <input type="hidden" id="isLeaf" name="isLeaf" value="${menu.isLeaf }"/>
     <input type="hidden" id="pid" name="pid" value="${menu.pid }"/>
+    <input type="hidden" id="menuUrl" name="menuUrl" value="${menu.menuUrl}"/>
     <div class="up-form-group">
         <label class="up-col-sm-2 up-control-label">
             <span class="up-cq-red-star">*</span>菜单名
@@ -104,25 +101,13 @@
                    placeholder="" value="${menu.menuName }">
         </div>
     </div>
+
     <div class="up-form-group">
         <label class="up-col-sm-2 up-control-label">
-            菜单链接
+            <span class="up-cq-red-star">*</span>菜单顺序
         </label>
         <div class="up-col-sm-7">
-            <input type="text" class="up-form-control" id="menuUrl" name="menuUrl" placeholder=""
-                   value="${menu.menuUrl }">
-
-        </div>
-
-    </div>
-    <div class="up-form-group">
-        <label class="up-col-sm-2 up-control-label">
-            菜单顺序
-        </label>
-        <div class="up-col-sm-7">
-            <input type="text" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""
-                   value="${menu.menuIndex}">
-
+            <input type="text" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""   value="${menu.menuIndex}">
         </div>
     </div>
 

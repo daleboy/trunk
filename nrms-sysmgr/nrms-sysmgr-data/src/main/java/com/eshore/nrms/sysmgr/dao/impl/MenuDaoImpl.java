@@ -132,9 +132,12 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
         if(StringUtils.isNotBlank( menu.getMenuName() )) {
             hql.append("  and m.menuName like  ?");
             params.add("%" + menu.getMenuName() + "%");
-        }if(menu.getIsLeaf()!=null){
+        }
+        if(menu.getIsLeaf()!=null){
             hql.append("  and m.isLeaf = ?");
             params.add(menu.getIsLeaf());
+        }else {
+            hql.append("  and m.isLeaf = 1");
         }
         hql.append("order by m.menuIndex");
         if(pageConfig==null)      pageConfig=new PageConfig();
