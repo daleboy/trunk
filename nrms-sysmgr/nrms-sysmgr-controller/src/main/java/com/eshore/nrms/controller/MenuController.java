@@ -6,6 +6,7 @@ import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import com.eshore.nrms.vo.ExecResult;
 import com.eshore.nrms.vo.MenuVo;
+import com.eshore.nrms.vo.PageVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +56,10 @@ public class MenuController {
 
 
     @RequestMapping("/menu/menulist")
-    public ModelAndView getMenuList(Menu menu) {
+    public ModelAndView getMenuList(Menu menu,PageConfig pageConfig) {
         ModelAndView view = new ModelAndView("menu/menuList");
-        List<Menu> list = menuService.querymenuListByPage(menu, null);
-        view.addObject("list", list);
+        PageVo<Menu> page= menuService.querymenuListByPage(menu, pageConfig);
+        view.addObject("page", page);
         view.addObject("searchParam", menu);
         return view;
     }

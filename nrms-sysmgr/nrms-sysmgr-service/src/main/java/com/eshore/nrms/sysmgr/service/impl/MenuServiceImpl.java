@@ -6,7 +6,9 @@ import com.eshore.khala.core.service.impl.BaseServiceImpl;
 import com.eshore.nrms.sysmgr.dao.IMenuDao;
 import com.eshore.nrms.sysmgr.pojo.Menu;
 import com.eshore.nrms.sysmgr.service.IMenuService;
+import com.eshore.nrms.util.PageUtil;
 import com.eshore.nrms.vo.MenuVo;
+import com.eshore.nrms.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,8 +43,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
     }
 
     @Override
-    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig) {
-        return menuDao.querymenuListByPage(menu, pageConfig);
+    public PageVo<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig) {
+        if(pageConfig==null)  pageConfig=new PageConfig();
+        List<Menu> list=menuDao.querymenuListByPage(menu, pageConfig);
+        return PageUtil.getPageList(pageConfig,list);
     }
 
     @Override

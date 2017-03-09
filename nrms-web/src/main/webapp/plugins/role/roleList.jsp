@@ -1,108 +1,145 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@include file="/common/common.jsp" %>
-<%@include file="/common/common-ui.jsp" %>
-<html>
-
-<script type="text/javascript">
-    function showDialog(title , url , height){
-        $("#modalDialogTitle").html(title);
-        $("#modalDialogFrame").attr("height" , height);
-        $("#modalDialogFrame").attr("src" , url);
-        $("#modalDialog").modal('show');
-    }
-
-    function hideDialog(){
-        $("#modalDialog").modal('hide');
-    }
-
-    function deleteUser(id) {
-
-        $("#msgBoxConfirmInfo").html("确定要删除该角色吗");
-        $("#msgBoxConfirm").modal('show');
-        $("#msgBoxConfirmButton").on('click', function () {
-            $("#msgBoxConfirm").modal('hide');
-            $.ajax({
-                type: 'POST',
-                url: '${basePath}/role/delete',
-                data: {
-                    'id': id
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (data.success) {
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
-                        $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
-                    }
-                },
-                error: function (data) {
-                    $("#msgBoxInfo").html("程序执行出错");
-                    $("#msgBox").modal('show');
-                }
-            });
-        });
-
-    }
-
-    function resetUserPwd(userId) {
-
-        $("#msgBoxConfirm").modal('show');
-        $("#msgBoxConfirmButton").on('click', function () {
-            $("#msgBoxConfirm").modal('hide');
-            $.ajax({
-                type: 'POST',
-                url: '${basePath}/role/resetpwd',
-                data: {
-                    'id': id
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (data.success) {
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
-                        $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        $("#msgBoxInfo").html(data.msg);
-                        $("#msgBox").modal('show');
-                    }
-                },
-                error: function (data) {
-                    $("#msgBoxInfo").html("程序执行出错");
-                    $("#msgBox").modal('show');
-                }
-            });
-        });
-
-    }
-
-    function showDialog(title, url, height) {
-        $("#modalDialogTitle").html(title);
-        $("#modalDialogFrame").attr("height", height);
-        $("#modalDialogFrame").attr("src", url);
-        $("#modalDialog").modal('show');
-    }
-
-    function hideDialog() {
-        $("#modalDialog").modal('hide');
-    }
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib uri="/com.eshore.InitDataTag" prefix="i" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}"/>
+<script>
+    var basePath = '${basePath}';
 </script>
-
+<html>
 <head>
-</head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>网络资源管理系统</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="${basePath }/resources/css/uplan.min.css">
+    <link href="${basePath }/resources/css/style.css" rel="stylesheet">
+
+    <script src="${basePath }/resources/js/require.js"></script>
+    <script src="${basePath }/resources/js/main.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="${basePath }/resources/js/common-check.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            position: relative;
+        }
+    </style>
+
+    <link rel="stylesheet" href="${basePath}/resources/css/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
+
+
+    <script type="text/javascript">
+        function showDialog(title, url, height) {
+            $("#modalDialogTitle").html(title);
+            $("#modalDialogFrame").attr("height", height);
+            $("#modalDialogFrame").attr("src", url);
+            $("#modalDialog").modal('show');
+        }
+
+        function hideDialog() {
+            $("#modalDialog").modal('hide');
+        }
+
+        function deleteUser(id) {
+
+            $("#msgBoxConfirmInfo").html("确定要删除该角色吗");
+            $("#msgBoxConfirm").modal('show');
+            $("#msgBoxConfirmButton").on('click', function () {
+                $("#msgBoxConfirm").modal('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '${basePath}/role/delete',
+                    data: {
+                        'id': id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $("#msgBoxInfo").html(data.msg);
+                            $("#msgBox").modal('show');
+                            $("#msgBoxOKButton").on('click', function () {
+                                parent.window.location.reload();
+                            });
+                        } else {
+                            $("#msgBoxInfo").html("删除成功");
+                            $("#msgBox").modal('show');
+                            $("#msgBoxOKButton").on('click', function () {
+                                parent.window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        $("#msgBoxInfo").html("程序执行出错");
+                        $("#msgBox").modal('show');
+                    }
+                });
+            });
+
+        }
+
+        function resetUserPwd(userId) {
+
+            $("#msgBoxConfirm").modal('show');
+            $("#msgBoxConfirmButton").on('click', function () {
+                $("#msgBoxConfirm").modal('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '${basePath}/role/resetpwd',
+                    data: {
+                        'id': id
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            $("#msgBoxInfo").html(data.msg);
+                            $("#msgBox").modal('show');
+                            $("#msgBoxOKButton").on('click', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $("#msgBoxInfo").html(data.msg);
+                            $("#msgBox").modal('show');
+                        }
+                    },
+                    error: function (data) {
+                        $("#msgBoxInfo").html("程序执行出错");
+                        $("#msgBox").modal('show');
+                    }
+                });
+            });
+
+        }
+
+        function showDialog(title, url, height) {
+            $("#modalDialogTitle").html(title);
+            $("#modalDialogFrame").attr("height", height);
+            $("#modalDialogFrame").attr("src", url);
+            $("#modalDialog").modal('show');
+        }
+
+        function hideDialog() {
+            $("#modalDialog").modal('hide');
+        }
+    </script>
+
+    <head>
+    </head>
 
 <body>
 <div id="wrap" class="">
     <!--    头部 和  菜单 start -->
-     <%@include file="/common/headAndLeft.jsp"%>
+    <%@include file="/common/headAndLeft.jsp" %>
     <!--    头部 和  菜单 end -->
 
     <!-- 内容start -->
@@ -135,24 +172,24 @@
                                                                        name="roleName" value="${searchParam.roleName}">
                                                             </div>
                                                             <div class="up-form-group">
-                                                                <button type="submit"  class="up-btn up-btn-primary">查询
+                                                                <button type="submit" class="up-btn up-btn-primary">查询
                                                                 </button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
-                                                    <div class="up-clearfix table_head">
-                                                        <div class="reference_search">
-                                                            <div class="up-form-group">
-                                                                <button type="submit"
-                                                                        class="up-btn up-btn-primary up-btn-primary-red"
-                                                                        data-toggle="modal"
-                                                                        onClick="showDialog('新增角色' , '${basePath}/role/toadd' , '470px')">
-                                                                    新增
-                                                                </button>
-                                                            </div>
+                                                <div class="up-clearfix table_head">
+                                                    <div class="reference_search">
+                                                        <div class="up-form-group">
+                                                            <button type="submit"
+                                                                    class="up-btn up-btn-primary up-btn-primary-red"
+                                                                    data-toggle="modal"
+                                                                    onClick="showDialog('新增角色' , '${basePath}/role/toadd' , '470px')">
+                                                                新增
+                                                            </button>
                                                         </div>
                                                     </div>
+                                                </div>
                                                 <table
                                                         class="up-table up-table-bordered up-table-hover margin_bottom10 up-text-center">
                                                     <thead>
@@ -165,7 +202,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <%
-                                                        Integer i=1;
+                                                        Integer i = 1;
                                                     %>
                                                     <c:forEach var="role" items="${page.dataList }">
                                                         <tr>
@@ -174,10 +211,10 @@
                                                             <td>${role.roleDesc}</td>
                                                             <td>
 
-                                                                    <a href="javascript:void(0)"
-                                                                       onClick="showDialog('编辑' , '${basePath}/role/toedit?id=${role.id }' , '470px')">修改</a>
-                                                                    <a href="javascript:void(0)"
-                                                                       onClick="deleteUser('${role.id}')">删除</a>
+                                                                <a href="javascript:void(0)"
+                                                                   onClick="showDialog('编辑' , '${basePath}/role/toedit?id=${role.id }' , '470px')">修改</a>
+                                                                <a href="javascript:void(0)"
+                                                                   onClick="deleteUser('${role.id}')">删除</a>
 
                                                             </td>
                                                         </tr>

@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="${basePath }/resources/css/uplan.min.css">
     <link href="${basePath }/resources/css/style.css" rel="stylesheet">
 
+    <script src="${basePath }/resources/js/require.js"></script>
+    <script src="${basePath }/resources/js/main.js"></script>
+
     <script type="text/javascript" charset="utf-8" src="${basePath }/resources/js/common-check.js"></script>
     <style type="text/css">
         html, body {
@@ -37,14 +40,14 @@
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
 
     <script type="text/javascript">
-        function showDialog(title , url , height){
+        function showDialog(title, url, height) {
             $("#modalDialogTitle").html(title);
-            $("#modalDialogFrame").attr("height" , height);
-            $("#modalDialogFrame").attr("src" , url);
+            $("#modalDialogFrame").attr("height", height);
+            $("#modalDialogFrame").attr("src", url);
             $("#modalDialog").modal('show');
         }
 
-        function hideDialog(){
+        function hideDialog() {
             $("#modalDialog").modal('hide');
         }
 
@@ -77,7 +80,7 @@
                     }
                 },
                 onAsyncSuccess: function (event, treeId, treeNode, msg) {
-                    var nodes=obj.getCheckedNodes();
+                    var nodes = obj.getCheckedNodes();
                     for (var i = 0, l = nodes.length; i < l; i++) {
                         if (allUrl.indexOf(nodes[i]["id"]) > 0) {
                             nodes[i]["checked"] = true;
@@ -95,7 +98,7 @@
         var setting = {
             check: {
                 enable: true,
-                chkboxType : { "Y" : "ps", "N" : "ps" }
+                chkboxType: {"Y": "ps", "N": "ps"}
             },
             data: {
                 simpleData: {
@@ -106,6 +109,7 @@
 
 
         var zNodes = [
+            {id: "0sabdvldkjchgbeiubjkn", pId: "", name: "根目录", open: true, checked: true},
             {id: "1asdwervbtrbrtgcwvwef", pId: "0sabdvldkjchgbeiubjkn", name: "会议申请管理", open: true, checked: true},
             {id: "1azdsfverbrtb", pId: "1asdwervbtrbrtgcwvwef", name: "会议室列表", open: true, checked: true},
             {id: "3sdverhbtbdfv87dyv8s", pId: "1asdwervbtrbrtgcwvwef", name: "申请审批", open: true},
@@ -121,27 +125,19 @@
 
         var zNodes1 = [];
         var obj;
+        var obj1;
         $(document).ready(function () {
-            $obj=$.fn.zTree.init($("#treeDemo"), setting,zNodes);
-
+            $obj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
             var allUrl = "${allUrl}";
-            console.log("allUrl : " + allUrl);
-
             for (var i = 0, l = zNodes.length; i < l; i++) {
-                if (allUrl.indexOf(zNodes[i]["id"]) > 0) {
-
+                if (allUrl.indexOf(zNodes[i]["id"]) >= 0) {
                     zNodes[i]["checked"] = true;
-
                 }
                 else
                     zNodes[i]["checked"] = false;
             }
-
-
-            $.fn.zTree.init($("#treeDemo"), setting,zNodes);
-
+           $obj1 = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
         });
-        <%--console.log(${menuList}.size);--%>
         //      ------------------结束初始化ztree----------------------
 
         //--------------------保存按钮点击事件-----------------
@@ -162,14 +158,12 @@
             var roleDesc = $("#roleDesc").val();
 
             //获取被选中的菜单项id
-            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-            var nodes = treeObj.getCheckedNodes(true);
+//            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            var nodes = $obj1.getCheckedNodes(true);
             var ids = [];
             for (var i = 0; i < nodes.length; i++) {
                 ids[i] = nodes[i].id;
             }
-//            console.log("ids - > " + ids + " len -> " + ids.length);
-
             $.ajax({
                 url: '${basePath}/role/edit',
                 type: "post",
@@ -181,22 +175,20 @@
                 },
                 success: function (data) {
                     if (data.success) {
-//                        $("#msgBoxInfo").html(data.msg);
-//                        $("#msgBox").modal('show');
-                        window.location.reload();
+                        $("#msgBoxInfo").html(data.msg);
+                        $("#msgBox").modal('show');
                         $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
+                            parent.window.location.reload();
                         });
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
-                        parent.window.location.reload();
                     }
                 },
                 error: function (data) {
                     alert(data.success);
                     $("#msgBoxInfo").html("程序执行出错");
-//                    $("#msgBox").modal('show');
+                    $("#msgBox").modal('show');
                 }
             });
 

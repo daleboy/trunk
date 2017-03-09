@@ -22,7 +22,10 @@
 
     <link rel="stylesheet" href="${basePath }/resources/css/uplan.min.css">
     <link href="${basePath }/resources/css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="${basePath}/resources/css/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
     <script src="${basePath }/resources/js/require.js"></script>
     <script src="${basePath }/resources/js/main.js"></script>
     <script type="text/javascript" charset="utf-8" src="${basePath }/resources/js/common-check.js"></script>
@@ -33,14 +36,7 @@
         }
     </style>
 
-    <link rel="stylesheet" href="${basePath}/resources/css/zTreeStyle.css" type="text/css">
-    <script src="${basePath }/resources/js/main.js"></script>
 
-    <%--冲突的js--%>
-    <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
-    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
-    <%--冲突的js--%>
 
     <script type="text/javascript">
 
@@ -64,44 +60,30 @@
                 chkStyle: "checkbox",
                 chkboxType : { "Y" : "ps", "N" : "ps" }
             },
-            //获取json数据
             async: {
                 enable: true,
-                url: "${basePath}/menu/getJson",// Ajax 获取数据的 URL 地址
+                url: "${basePath}/menu/getJson",
             },
-            data: { // 必须使用data
+            data: {
                 simpleData: {
                     enable: true,
-                    idKey: "id", // id编号命名
-                    pIdKey: "pId", // 父id编号命名
+                    idKey: "id",
+                    pIdKey: "pId",
                     rootId: 0
                 }
             },
             // 回调函数
             callback: {
                 onClick: function (event, treeId, treeNode, clickFlag) {
-                    if (true) {
-                        console.log(" 节点id是：" + treeNode.id + ", 节点文本是：" + treeNode.name);
-                    }
                 },
-                //捕获异步加载出现异常错误的事件回调函数 和 成功的回调函数
                 onAsyncSuccess: function (event, treeId, treeNode, msg) {
-                      console.log("调用成功！");
-                    //var nodes=getCheckedNodes(true));
-                    //alert(nodes);
                 }
             }
         };
-
-
         //statis setting
-
-
-
         var obj;
-
         $(document).ready(function () {
-            obj = $.fn.zTree.init($("#treeDemo"), setting1);
+            $obj = $.fn.zTree.init($("#treeDemo"), setting1);
         });
         //      ------------------结束初始化ztree----------------------
 
@@ -123,14 +105,11 @@
             var roleDesc = $("#roleDesc").val();
 
             //获取被选中的菜单项id
-            var nodes = obj.getCheckedNodes();
-//            console.log(obj);
+            var nodes = $obj.getCheckedNodes();
             var ids = [];
             for (var i = 0; i < nodes.length; i++) {
                 ids[i] = nodes[i].id;
-//                console.log(i);
             }
-            console.log("ids - > " + ids + " len -> " + ids.length);
             $.ajax({
                 url: '${basePath}/role/add',
                 type: "post",
@@ -142,18 +121,22 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        console.info(data.msg);
-                        $("#msgBoxInfo").html(data.msg);
+                        console.log("success");
+                        $("#msgBoxInfo").html("角色添加成功！");
                         $("#msgBox").modal('show');
-                        $("#msgBox").close();
-                        window.location.reload();
+                        $("#msgBoxOKButton").on('click', function () {
+                            parent.window.location.reload();
+                        });
                     } else {
-                        $("#msgBoxInfo").html(data.msg);
+                        console.log(data.msg);
+                        $("#msgBoxInfo").html("角色添加成功！");
                         $("#msgBox").modal('show');
+                        $("#msgBoxOKButton").on('click', function () {
+                            parent.window.location.reload();
+                        });
                     }
                 },
                 error: function (data) {
-                    alert(data.success);
                     $("#msgBoxInfo").html("程序执行出错");
                     $("#msgBox").modal('show');
                 }

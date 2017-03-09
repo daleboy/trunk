@@ -165,7 +165,7 @@
                                                     <%
                                                         Integer i=1;
                                                     %>
-                                                    <c:forEach var="menu" items="${list}">
+                                                    <c:forEach var="menu" items="${page.dataList}">
                                                         <tr>
                                                             <td><%out.print(i++); %></td>
                                                             <td>${menu.menuName}</td>

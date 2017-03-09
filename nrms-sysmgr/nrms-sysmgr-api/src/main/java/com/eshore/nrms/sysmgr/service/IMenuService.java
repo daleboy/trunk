@@ -4,6 +4,7 @@ import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.api.IBaseService;
 import com.eshore.nrms.sysmgr.pojo.Menu;
 import com.eshore.nrms.vo.MenuVo;
+import com.eshore.nrms.vo.PageVo;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface IMenuService extends IBaseService<Menu>{
      * @param pageConfig
      * @return
      */
-    public List<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig);
+    public PageVo<Menu> querymenuListByPage(Menu menu, PageConfig pageConfig);
 
 
 
