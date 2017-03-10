@@ -64,7 +64,7 @@
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
                         $("#msgBoxOKButton").on('click', function () {
-                            window.location.reload();
+                            parent.window.location.reload();
                         });
                     } else {
                         $("#msgBoxInfo").html(data.msg);

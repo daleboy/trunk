@@ -134,14 +134,14 @@ public class RoleController {
             result.setMsg("删除失败！尚有用户属于该角色，请重新查看！");
             result.setSuccess(false);
             return result;
+        }else {
+            Role role = roleService.get(id);
+            roleService.delete(id);
+            roleService.updateAccess(role, null);
+            result.setMsg("删除成功！");
+            result.setSuccess(true);
+            return result;
         }
-        Role role = roleService.get(id);
-        roleService.delete(id);
-        roleService.updateAccess(role, null);
-
-        result.setMsg("删除成功！");
-        result.setSuccess(false);
-        return result;
     }
 
 }

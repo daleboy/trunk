@@ -51,7 +51,7 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
                     "from c_menu menu    " +
                     "JOIN   (    select menu_id from c_role_menu) rm   " +
                     "on    menu.id = rm.menu_id     " +
-                    "order by  menu.id  ";
+                    "order by  menu.menu_index  ";
             StringBuilder hql = new StringBuilder(str);
             List params = new ArrayList();
             list = this.querySql(hql.toString(), params.toArray());
@@ -62,7 +62,7 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
                     "from c_menu menu    " +
                     "JOIN   (    select menu_id from c_role_menu where role_id= ? ) rm   " +
                     "on    menu.id = rm.menu_id     " +
-                    "order by  menu.id  ";
+                    "order by  menu.menu_index  ";
             StringBuilder hql = new StringBuilder(str);
             List params = new ArrayList();
             params.add(roleId);
@@ -96,11 +96,11 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
         String str = "";
         if (!StringUtils.isNotBlank(pId)) {
             str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index      " +
-                    "from c_menu menu   JOIN   (    select menu_id from c_role_menu) rm  on    menu.id = rm.menu_id order by  menu.id  ";
+                    "from c_menu menu   JOIN   (    select menu_id from c_role_menu) rm  on    menu.id = rm.menu_id order by  menu.menu_index  ";
         } else {
             str = " select menu.id , menu.pid,menu.menu_name,menu.menu_url,menu.is_leaf,menu.menu_index   from c_menu menu    ,  " +
                     " (    select menu_id ,role_id from c_role_menu)  rm   " +
-                    " where    menu.id = rm.menu_id     and menu.pid = '" + pId + "' and rm.role_id = '" + roleId + "'  order by  menu.id";
+                    " where    menu.id = rm.menu_id     and menu.pid = '" + pId + "' and rm.role_id = '" + roleId + "'  order by  menu.menu_index";
         }
         StringBuilder hql = new StringBuilder(str);
         List params = new ArrayList();

@@ -60,6 +60,7 @@
                 $("#msgBoxConfirm").modal('hide');
                 $.ajax({
                     type: 'POST',
+                    dataType: 'json',
                     url: '${basePath}/role/delete',
                     data: {
                         'id': id
@@ -72,7 +73,7 @@
                                 parent.window.location.reload();
                             });
                         } else {
-                            $("#msgBoxInfo").html("删除成功");
+                            $("#msgBoxInfo").html(data.msg);
                             $("#msgBox").modal('show');
                             $("#msgBoxOKButton").on('click', function () {
                                 parent.window.location.reload();
@@ -163,7 +164,7 @@
                                                 <div class="up-clearfix table_head margin_bottom10">
                                                     <div class="reference_search">
 
-                                                        <form class="up-form-inline" id="searchForm"
+                                                        <form class="up-form-inline" id="searchForm" method="post"
                                                               action="${basePath}/role/list">
                                                             <input type="hidden" id="pageNum" name="pageNum" value="1">
                                                             <div class="up-form-group">

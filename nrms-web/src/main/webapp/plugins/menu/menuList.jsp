@@ -126,7 +126,7 @@
                                                 <div class="up-clearfix table_head margin_bottom10">
                                                     <div class="reference_search">
 
-                                                        <form class="up-form-inline" id="searchForm"
+                                                        <form class="up-form-inline" id="searchForm" method="post"
                                                               action="${basePath}/menu/menulist">
 
                                                             <div class="up-form-group">

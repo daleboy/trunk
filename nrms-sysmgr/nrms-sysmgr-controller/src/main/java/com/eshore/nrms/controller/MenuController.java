@@ -2,11 +2,14 @@ package com.eshore.nrms.controller;
 
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.nrms.sysmgr.pojo.Menu;
+import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
+import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
 import com.eshore.nrms.vo.MenuVo;
 import com.eshore.nrms.vo.PageVo;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,9 +78,12 @@ public class MenuController {
     }
 
     @RequestMapping("/menu/menuedit")
-    public ExecResult edit(Menu menu){
+    public ExecResult edit(HttpServletRequest request,Menu menu){
         ExecResult result = new ExecResult();
         menuService.update(menu);
+        HttpSession session = request.getSession();
+        User user= (User) session.getAttribute(Conts.USER_SESSION_KEY);
+        session.setAttribute("volist",  menuService.queryMenuVoList(   user.getRoleId()) );
         result.setMsg("更新完成");
         return result;
     }
