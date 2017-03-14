@@ -12,6 +12,12 @@ import java.util.List;
  * Created by forgeeks at 2017-02-27 17:11
  */
 public interface IMenuService extends IBaseService<Menu>{
+    /***
+     * 查找与menuName同名的菜单个数
+     * @param menuName
+     * @return
+     */
+    public Integer queryCountByName(String menuName);
 
     /**
      * 获取所有menu

@@ -7,22 +7,18 @@ import com.eshore.nrms.sysmgr.service.IMenuService;
 import com.eshore.nrms.sysmgr.service.IRoleService;
 import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
-import com.eshore.nrms.vo.MenuVo;
 import com.eshore.nrms.vo.PageVo;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by forgeeks at 2017-02-27 17:39
@@ -78,14 +74,23 @@ public class MenuController {
     }
 
     @RequestMapping("/menu/menuedit")
+    @ResponseBody
     public ExecResult edit(HttpServletRequest request,Menu menu){
         ExecResult result = new ExecResult();
-        menuService.update(menu);
-        HttpSession session = request.getSession();
-        User user= (User) session.getAttribute(Conts.USER_SESSION_KEY);
-        session.setAttribute("volist",  menuService.queryMenuVoList(   user.getRoleId()) );
-        result.setMsg("更新完成");
-        return result;
+        Menu oldMenu= menuService.get(menu.getId());
+        if( !oldMenu.getMenuName().equals(menu.getMenuName()) &&  menuService.queryCountByName(menu.getMenuName())>0){
+            result.setMsg("更新失败，菜单不可重名！");
+            result.setSuccess(false);
+            return result;
+        }else {
+            menuService.update(menu);
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute(Conts.USER_SESSION_KEY);
+            session.setAttribute("volist", menuService.queryMenuVoList(user.getRoleId()));
+            result.setMsg("更新成功！");
+            result.setSuccess(true);
+            return result;
+        }
     }
 
 }

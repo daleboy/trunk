@@ -17,10 +17,11 @@ import java.util.List;
 @Repository
 public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
 
+
+
     /**
      * 根据用户角色生成菜单
      *
-     * @param roleId
      * @return
      */
 
@@ -32,6 +33,14 @@ public class MenuDaoImpl extends JpaDaoImpl<Menu> implements IMenuDao {
             "ON menu.id = rm.menuId " +
             "ORDER BY menu.id";
     */
+
+    @Override
+    public Integer queryCountByName(String menuName) {
+        StringBuilder hql= new StringBuilder(" Select Count(*) From Menu m  Where m.menuName=? ");
+        List params= new ArrayList();
+        params.add(menuName);
+        return this.queryCount(hql.toString()  ,params.toArray() );
+    }
 
     /**
      * 获取所有menu

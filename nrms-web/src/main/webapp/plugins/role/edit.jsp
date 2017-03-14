@@ -173,6 +173,7 @@
                     "roleDesc": roleDesc,
                     "ids": ids.toString()
                 },
+                dataType:'json',
                 success: function (data) {
                     if (data.success) {
                         $("#msgBoxInfo").html(data.msg);
@@ -183,6 +184,9 @@
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
+                        $("#msgBoxOKButton").on('click', function () {
+                            parent.window.location.reload();
+                        });
                     }
                 },
                 error: function (data) {

@@ -10,6 +10,7 @@ import java.util.List;
  * Created by forgeeks at 2017-02-27 17:19
  */
 public interface IMenuDao  extends IBaseDao<Menu> {
+    public Integer queryCountByName(String menuName);
     public List<Menu> queryAllMenu();
     public List<Menu> queryMenuListByRoleId(String roleId);
     public List<Menu> queryMenuListByPId(String pId, String roleId);

@@ -33,6 +33,11 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
     }
 
     @Override
+    public Integer queryCountByName(String menuName) {
+        return menuDao.queryCountByName(menuName);
+    }
+
+    @Override
     public List<Menu> queryAllMenu() {
         return menuDao.queryAllMenu();
     }
@@ -68,13 +73,15 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
         if (rootlist.size() == 2) {
             vo1.setThisMenu(rootlist.get(0));
             vo2.setThisMenu(rootlist.get(1));
-        }
+        }else if(rootlist.size() == 1){
+            vo1.setThisMenu(rootlist.get(0));
+        }else return  voList;
         voList.add(vo1);
-        voList.add(vo2);
+        if( vo2.getThisMenu()!=null )  voList.add(vo2);
         for (Menu menu : menulist) {
             if (menu.getPid().equals(vo1.getThisMenu().getId())) {
                 vo1.getChildMenus().add(menu);
-            } else if (menu.getPid().equals(vo2.getThisMenu().getId())) {
+            } else if ( vo2.getThisMenu()!=null && menu.getPid().equals(vo2.getThisMenu().getId())) {
                 vo2.getChildMenus().add(menu);
             }
         }

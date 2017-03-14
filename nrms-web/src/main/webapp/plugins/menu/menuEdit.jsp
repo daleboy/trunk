@@ -59,6 +59,7 @@
                     "menuUrl": menuUrl,
                     "menuIndex": menuIndex
                 },
+                dataType:"json",
                 success: function (data) {
                     if (data.success) {
                         $("#msgBoxInfo").html(data.msg);
@@ -69,14 +70,14 @@
                     } else {
                         $("#msgBoxInfo").html(data.msg);
                         $("#msgBox").modal('show');
-                        parent.window.location.reload();
+                        $("#msgBoxOKButton").on('click', function () {
+                            parent.window.location.reload();
+                        });
                     }
                 },
                 error: function (data) {
-//                    alert(data.success);
-                    $("#msgBoxInfo").html("程序执行出错");
-                    parent.window.location.reload();
-//                    $("#msgBox").modal('show');
+                    $("#msgBoxInfo").html("程序运行出错");
+                    $("#msgBox").modal('show');
                 }
             });
 
@@ -107,7 +108,7 @@
             <span class="up-cq-red-star">*</span>菜单顺序
         </label>
         <div class="up-col-sm-7">
-            <input type="text" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""   value="${menu.menuIndex}">
+            <input type="number" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""   value="${menu.menuIndex}">
         </div>
     </div>
 
