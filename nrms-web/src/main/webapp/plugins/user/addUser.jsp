@@ -9,16 +9,21 @@
 	/* 新增用户 */
 	function saveUser(id){
 		if(checkBlank(id)){
-			resetEmail(id);
+			resetUserInfo(id);
 			return;
-		}
-		debugger;
+		} 
 		var loginName = $("#loginName").val();
 		if(!checkBlank(loginName)){
 			$("#msgBoxInfo").html("请填写登陆账号");
 			$("#msgBox").modal('show');
 			return;
 		}
+		if( !checkCharAndNum( $("#loginName").val() ) || !checkLengthBetween($("#loginName").val() , 4, 15) ){
+			$("#msgBoxInfo").html("登陆账号只允许数字字母,长度4-15位");
+			$("#msgBox").modal('show');
+			return;
+		}
+		
 		var uname = $("#uname").val();
 		if(!checkBlank(uname)){
 			$("#msgBoxInfo").html("请填写用户姓名");
@@ -26,11 +31,9 @@
 			return;
 		}
 		var email = $("#email").val();
-		debugger;
 		if(checkBlank(email)){
 			var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
 			if(!reg.test(email)){
-				debugger;
 				$("#msgBoxInfo").html("邮箱格式不正确，请填写正确的邮箱");
 				$("#msgBox").modal('show');
 				return;
@@ -83,7 +86,8 @@
 						$("#msgBoxInfo").html(data.msg);
 						$("#msgBox").modal('show');
 						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
+							$("#msgBox").modal('hide');
+							parent.window.location.reload();
 						});
 					} else {
 						$("#msgBoxInfo").html(data.msg);
@@ -98,30 +102,70 @@
 		}); 
 	}
 	
-	function resetEmail(id){
-		var newEmail = $("#newEmail").val();
-		var newLoginPw = $("#reNewPwd").val();
-		if( !checkBlank(newEmail)){
-			$("#msgBoxInfo").html("请填写新的邮箱");
+	function resetUserInfo(id){
+		var loginName = $("#loginName").val();
+		if(!checkBlank(loginName)){
+			$("#msgBoxInfo").html("请填写登陆账号");
 			$("#msgBox").modal('show');
 			return;
 		}
-		var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
-		if(!reg.test(newEmail)){
-			$("#msgBoxInfo").html("邮箱格式不正确，请填写正确的邮箱");
+		var uname = $("#uname").val();
+		if(!checkBlank(uname)){
+			$("#msgBoxInfo").html("请填写用户姓名");
 			$("#msgBox").modal('show');
 			return;
 		}
-		$("#msgBoxConfirmInfo").html("确定要修改邮箱吗?");
+		var email = $("#email").val();
+		if(checkBlank(email)){
+			var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+			if(!reg.test(email)){
+				debugger;
+				$("#msgBoxInfo").html("邮箱格式不正确，请填写正确的邮箱");
+				$("#msgBox").modal('show');
+				return;
+			}
+		}
+		var roleId = $("#roleId").find("option:selected").val();
+		if(!checkBlank(roleId)){
+			$("#msgBoxInfo").html("请选择角色");
+			$("#msgBox").modal('show');
+			return;
+		}
+		var deptKey = $("#deptKey option:selected").val();
+		if(!checkBlank(deptKey)){
+			$("#msgBoxInfo").html("请选择部门");
+			$("#msgBox").modal('show');
+			return;
+		}
+		var jobKey = $("#jobKey option:selected").val();
+		if(!checkBlank(jobKey)){
+			$("#msgBoxInfo").html("请选择工作");
+			$("#msgBox").modal('show');
+			return;
+		}
+		var positionKey = $("#positionKey option:selected").val();
+		if(!checkBlank(positionKey)){
+			$("#msgBoxInfo").html("请选择职位");
+			$("#msgBox").modal('show');
+			return;
+		}
+		$("#msgBoxConfirmInfo").html("确定要修改用户吗?");
 		$("#msgBoxConfirm").modal('show');
 		$("#msgBoxConfirmButton").on('click' , function(){
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/user/resetUserEmail',
+				url : '${basePath}/user/resetUserInfo',
 				data : {
 					'id' : id,
-					'newEmail' : newEmail
+					'email' : email,
+					'loginName' : loginName,
+					'uname' : uname,
+					'email' : email,
+					'roleId' : roleId,
+					'deptKey' : deptKey,
+					'jobKey' : jobKey,
+					'positionKey' : positionKey
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -129,7 +173,7 @@
 						$("#msgBoxInfo").html(data.msg);
 						$("#msgBox").modal('show');
 						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
+							parent.window.location.reload();
 						});
 					} else {
 						$("#msgBoxInfo").html(data.msg);
@@ -172,14 +216,17 @@
 			</div>
 			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
-					<span class="up-cq-red-star">*</span>邮箱
+					<span class="up-cq-red-star"></span>邮箱
 				</label>
 				<div class="up-col-sm-7">
-					<input type="text" class="up-form-control" id="email" name="email" placeholder="请输入邮箱" <c:if test="${not empty  user }">readOnly="true"</c:if>  value="${user.email }">
+					<input type="text" class="up-form-control" id="email" name="email" placeholder="请输入邮箱"   value="${user.email }">
 				</div>
 			</div>
+			<%-- <c:if test="${not empty  user }">readOnly="true"</c:if> 
+			<c:if test="${not empty  user }">disabled="disabled"</c:if>
 			
-			<c:if test="${not empty user }">
+			--%>
+			<%-- <c:if test="${not empty user }">
 				<div class="up-form-group">
 					<label for="" class="up-col-sm-2 up-control-label">
 						<span class="up-cq-red-star">*</span>新的邮箱
@@ -188,7 +235,7 @@
 						<input type="text" class="up-form-control" id="newEmail" name="newEmail" placeholder="请输入新的邮箱"   value="">
 					</div>
 				</div>
-			</c:if>
+			</c:if> --%>
 			
 			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
@@ -196,8 +243,10 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="roleId1" id="roleId" class="up-form-control" <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
-							<option value="${user.roleId }" >${user.role }</option>
+						<select name="roleId" id="roleId" class="up-form-control"  style="width:260px">
+							<c:forEach var="rolelist" items="${rolelist }">
+								<option value="${rolelist.id }" <c:if test="${rolelist.id==user.roleId }">selected="selected"</c:if> >${rolelist.roleName }</option>
+							</c:forEach>
 						</select>
 					</c:if>
 					<c:if test="${ empty  user }">
@@ -217,8 +266,11 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="deptKey1" id="deptKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
-							<option value="${user.deptKey }" >${user.dept }</option>
+						<select name="deptKey" id="deptKey" class="up-form-control"   style="width:260px">
+							<%-- <option value="${user.deptKey }" >${user.dept }</option> --%>
+							<c:forEach var="departlist" items="${departlist }">
+								<option value="${departlist.dicKey }" <c:if test="${departlist.dicKey==user.deptKey}">selected="selected"</c:if> >${departlist.dicValue }</option>
+							</c:forEach>
 						</select>
 					</c:if>
 					<c:if test="${ empty  user }">
@@ -238,8 +290,11 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="jobKey1" id="jobKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
-							<option value="${user.jobKey }" >${user.job }</option>
+						<select name="jobKey" id="jobKey" class="up-form-control"   style="width:260px">
+							<%-- <option value="${user.jobKey }" >${user.job }</option> --%>
+							<c:forEach var="jobtlist" items="${jobtlist }">
+								<option value="${jobtlist.dicKey }" <c:if test="${jobtlist.dicKey==user.jobKey}">selected="selected"</c:if> >${jobtlist.dicValue }</option>
+							</c:forEach>
 						</select>
 					</c:if>
 					<c:if test="${ empty  user }">
@@ -259,8 +314,11 @@
 				</label>
 				<div class="up-col-sm-4">
 					<c:if test="${not empty  user }">
-						<select name="positionKey1" id="positionKey" class="up-form-control"  <c:if test="${not empty  user }">disabled="disabled"</c:if> style="width:260px">
-							<option value="${user.positionKey }" >${user.posi }</option>
+						<select name="positionKey" id="positionKey" class="up-form-control"   style="width:260px">
+							<%-- <option value="${user.positionKey }" >${user.posi }</option> --%>
+							<c:forEach var="positionlist" items="${positionlist }">
+								<option value="${positionlist.dicKey }" <c:if test="${positionlist.dicKey==user.positionKey}">selected="selected"</c:if> >${positionlist.dicValue }</option>
+							</c:forEach>
 						</select>
 					</c:if>
 					<c:if test="${ empty  user }">

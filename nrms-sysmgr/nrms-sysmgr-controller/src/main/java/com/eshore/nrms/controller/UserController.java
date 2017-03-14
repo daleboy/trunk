@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,14 +51,8 @@ public class UserController {
      */
     @RequestMapping("/userList")
     public ModelAndView userList(User user, PageConfig page) throws ParseException {
-
-
         ModelAndView view = new ModelAndView("user/userList");
         PageVo<User> userList = userService.queryUserByPage(user, page);
-        List<User> l = userList.getDataList();
-        for (User user2 : l) {
-            System.out.println("查询userlist:" + user2);
-        }
         getInformation(view);
         view.addObject("page", userList);
         view.addObject("searchParam", user);
@@ -103,7 +98,7 @@ public class UserController {
         user.setUserState(1);
         userService.save(user);
         er.setSuccess(true);
-        er.setMsg("新增用户功");
+        er.setMsg("新增用户成功");
         return er;
     }
 
@@ -147,6 +142,7 @@ public class UserController {
                 //System.out.println("获取到user的个人信息"+user);
             }
             view.addObject("user", user);
+            getInformation(view);
             view.setViewName("user/addUser");
         }
         if ("3".equals(oper)) {
@@ -164,16 +160,16 @@ public class UserController {
      * 更改用户的密码
      *
      * @param id         用户id
-     * @param loginPw    用户初始密码
+     * @param loginPw    用户旧密码
      * @param newLoginPw 用户新密码
      * @return
      */
     @RequestMapping("/resetUserPwd")
     @ResponseBody
-    public ExecResult resetUserPwd(String id, String loginPw, String newLoginPw) {
+    public ExecResult resetUserPwd(String id, String loginPw, String newLoginPw,HttpSession session) {
         ExecResult er = new ExecResult();
         User user = null;
-        if (StringUtils.isBlank(loginPw)&&StringUtils.isNotBlank(newLoginPw)) {
+        if (StringUtils.isNotBlank(loginPw)&&StringUtils.isNotBlank(newLoginPw)) {
         	if (StringUtils.isBlank(id)) {
                 er.setMsg("修改密码失败！请刷新页面试试");
                 return er;
@@ -184,41 +180,60 @@ public class UserController {
                 er.setMsg("旧密码错误，修改失败");
                 return er;
             }
+            if (user.getLoginPw().equals(SecurityUtil.md5(newLoginPw))) {
+                er.setMsg("新密码不允许与旧密码一样，修改失败");
+                return er;
+            }
             user.setLoginPw(SecurityUtil.md5(newLoginPw));
             userService.update(user);
             er.setSuccess(true);
             er.setMsg("修改成功");
+            session.invalidate();
 		}else {
+			//管理员在用户列表重置自己的密码后，需要重新登陆
 			user = userService.get(id);
 			user.setLoginPw(SecurityUtil.md5("123456"));
 			userService.update(user);
+			if (((User)session.getAttribute(Conts.USER_SESSION_KEY)).getId().equals(id)) {
+				session.invalidate();
+			}
 			er.setSuccess(true);
 			er.setMsg("重置成功");
 		}
-        
-        
-        
         return er;
     }
 
     /**
-     * 修改用户的邮箱地址
+     * 修改用户的信息
      *
      * @param id       用户id
-     * @param newEmail 用户新的邮箱的
+     * @param user   更改用户的信息
      * @return
      */
-    @RequestMapping("/resetUserEmail")
+    @RequestMapping("/resetUserInfo")
     @ResponseBody
-    public ExecResult resetUserEmail(String id, String newEmail) {
+    public ExecResult resetUserInfo(User user , HttpSession session) {
         ExecResult er = new ExecResult();
-        if (StringUtils.isBlank(id)) {
-            er.setMsg("修改邮箱失败！请刷新页面试试");
+        if (StringUtils.isBlank(user.getId())) {
+            er.setMsg("修改用户失败！请刷新页面试试");
             return er;
         }
-        User user = userService.get(id);
-        user.setEmail(newEmail);
-        userService.update(user);
+        User usertemp = userService.get(user.getId());
+        if (user.getRoleId()!=null&&!"".equals(user.getRoleId())) {
+        	//管理员修改用户信息
+        	usertemp.setRoleId(user.getRoleId());
+            usertemp.setDeptKey(user.getDeptKey());
+            usertemp.setJobKey(user.getJobKey());
+            usertemp.setPositionKey(user.getPositionKey());
+		}
+        //用户修改自己的邮箱箱
+        usertemp.setEmail(user.getEmail());
+        userService.update(usertemp);
+        User userSession = (User) session.getAttribute(Conts.USER_SESSION_KEY);
+        if (userSession.getId().equals(user.getId())) {
+			userSession = userService.userLogin(usertemp.getLoginName());
+			session.setAttribute(Conts.USER_SESSION_KEY, userSession);
+		}
         er.setSuccess(true);
         er.setMsg("修改成功");
         return er;

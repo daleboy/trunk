@@ -1,6 +1,5 @@
 package com.eshore.nrms.controller;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +19,7 @@ import com.eshore.nrms.sysmgr.pojo.Application;
 import com.eshore.nrms.sysmgr.pojo.Place;
 import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IPlaceService;
+import com.eshore.nrms.sysmgr.service.IUserService;
 import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
 import com.eshore.nrms.util.MailUtil;
 import com.eshore.nrms.util.PageUtil;
@@ -35,6 +35,9 @@ public class AuditingController {
 	
 	@Autowired
 	private IPlaceService placeService;
+	
+	@Autowired
+	private IUserService userService;
 	
 	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -98,6 +101,15 @@ public class AuditingController {
 			er.setMsg("时间冲突");
 			return er;
 		}
+		Place place = placeService.get(id);
+		if(place != null && place.getPlaceState() != 1){
+			er.setMsg("目标会议室不存在");
+			return er;
+		}
+		if(app_.getAppState() != 1){
+			er.setMsg("该会议已经审批完成，无需重复审批");
+			return er;
+		}
 		
 		app_.setAuditingDate(sdf.format(new Date()));
 		app_.setUidAuditor(u.getId());
@@ -107,15 +119,19 @@ public class AuditingController {
 		
 		try {
 			List<String> targetList = new ArrayList<String>();
-			List<User> list = appService.getUsersInApplication(id);
-			for (User user : list) {
+			if(appState == 2){
+				List<User> list = appService.getUsersInApplication(id);
+				for (User user : list) {
+					targetList.add(user.getEmail());
+				}
+				MailUtil.sendByDefault(app_.getSubject(), app_.getStartDate()+" "+app_.getStartTime(), placeService.get(app_.getPlaceId()).getPlaceName(), targetList);
+			}else{
+				User user = userService.get(app_.getUidApplicant());
 				targetList.add(user.getEmail());
+				MailUtil.sendMailBySC("申请退回", "您申请的会议：[ "+app_.getSubject()+" ]未能通过<br>反馈信息："+app_.getAuditingFeedBack(), targetList);
 			}
-			MailUtil.sendByDefault(app_.getSubject(), app_.getStartDate()+" "+app_.getStartTime(), placeService.get(app_.getPlaceId()).getPlaceName(), targetList);
 		} catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 		}
 		
 		er.setMsg("审核完成");

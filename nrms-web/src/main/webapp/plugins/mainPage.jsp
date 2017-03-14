@@ -2,8 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/common.jsp" %>
 
-<html>
 <%@include file="/common/common-ui.jsp" %>
+<html>
 
 <head>
 </head>
@@ -18,6 +18,20 @@ function showDialog(title , url , height){
 function hideDialog(){
 	$("#modalDialog").modal('hide');
 }
+
+$(function(){
+	//debugger;
+	var email = $("#email").val();
+	if (!checkBlank(email)) {
+		$("#msgBoxInfo").html("请及时添加邮箱,点击确认前往修改");
+		$("#msgBox").modal('show');
+		$("#msgBoxOKButton").on('click' , function(){
+			window.location.href = "${basePath}/user/toEdit?oper=1";
+		});
+	}
+	
+	
+})
 </script>
 <body>
     <div id="wrap" class="">
@@ -27,6 +41,7 @@ function hideDialog(){
         
         <!-- 内容start -->
         <main class="main up-container-fluid" >
+        	<input type="hidden" id="email" value="${LOGIN_USER.email }"/>
         	<div class="up-box1-rc" style="width:100%; text-align:center;">
                 <b style="padding-top:20px; padding-bottom:15px; font-size:25px; color:#666; display:inline-block;">欢迎您使用会议室管理系统</b>
         	</div>

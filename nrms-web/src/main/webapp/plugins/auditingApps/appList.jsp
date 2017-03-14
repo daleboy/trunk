@@ -33,7 +33,7 @@
 			<div class="up-tab-pane up-active" id="tabs1">
 				<div class="border_btm first_title">
 					<h4 class="up-top-cq-color">
-						<span class="icon-right-dir"></span> 申请列表
+						<span class="icon-right-dir"></span> 审核列表
 					</h4>
 				</div>
 				<div class="up_page_con">

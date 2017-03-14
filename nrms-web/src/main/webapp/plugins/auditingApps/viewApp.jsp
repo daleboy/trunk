@@ -142,7 +142,7 @@ function fileDownload(aid,type){
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>会议附件
 				</label>
-				<div class="up-col-sm-3">
+				<div class="up-col-sm-2">
 					<c:if test="${LOGIN_USER.id eq app.uidApplicant }">
 						<input type="file" onchange="fileUpload('${app.id }' ,1,'app_file')"  name="file" style="position: relative;"  class="up-form-control" id="app_file">
 					</c:if>
@@ -159,7 +159,7 @@ function fileDownload(aid,type){
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star"></span>纪要附件
 				</label>
-				<div class="up-col-sm-3">
+				<div class="up-col-sm-2">
 					<c:if test="${(LOGIN_USER.id eq app.uidMinutes) && (app.appState == 2)}">
 						<input type="file" onchange="fileUpload('${app.id }' ,2,'jiyao_file')"  name="file" style="position: relative;"  class="up-form-control" id="jiyao_file">
 					</c:if>

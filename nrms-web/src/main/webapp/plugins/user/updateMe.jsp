@@ -6,27 +6,10 @@
 <html>
 
 <script type="text/javascript">
-	/* 新增用户 */
-	function saveUser(id){
-		if(checkBlank(id)){
-			resetEmail(id);
-			return;
-		}
-		debugger;
-		var loginName = $("#loginName").val();
-		if(!checkBlank(loginName)){
-			$("#msgBoxInfo").html("请填写登陆账号");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var uname = $("#uname").val();
-		if(!checkBlank(uname)){
-			$("#msgBoxInfo").html("请填写用户姓名");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var email = $("#email").val();
-		debugger;
+/* 用户重置或者修改自己的邮箱 */	
+	function resetEmail(id){
+		var email = $("#newEmail").val();
+		//var newLoginPw = $("#reNewPwd").val();
 		if(checkBlank(email)){
 			var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
 			if(!reg.test(email)){
@@ -36,92 +19,16 @@
 				return;
 			}
 		}
-		var roleId = $("#roleId").find("option:selected").val();
-		if(!checkBlank(roleId)){
-			$("#msgBoxInfo").html("请选择角色");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var deptKey = $("#deptKey option:selected").val();
-		if(!checkBlank(deptKey)){
-			$("#msgBoxInfo").html("请选择部门");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var jobKey = $("#jobKey option:selected").val();
-		if(!checkBlank(jobKey)){
-			$("#msgBoxInfo").html("请选择工作");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var positionKey = $("#positionKey option:selected").val();
-		if(!checkBlank(positionKey)){
-			$("#msgBoxInfo").html("请选择职位");
-			$("#msgBox").modal('show');
-			return;
-		}
-		$("#msgBoxConfirmInfo").html("确定要新增用户吗?");
-		$("#msgBoxConfirm").modal('show');
-		$("#msgBoxConfirmButton").on('click' , function(){
-			$("#msgBoxConfirm").modal('hide');
-			$.ajax({
-				type : 'POST',
-				url : '${basePath}/user/addUser',
-				data : {
-					'email' : email,
-					'loginName' : loginName,
-					'uname' : uname,
-					'email' : email,
-					'roleId' : roleId,
-					'deptKey' : deptKey,
-					'jobKey' : jobKey,
-					'positionKey' : positionKey
-				},
-				dataType : 'json',
-				success : function(data) {
-					if (data.success) {
-						$("#msgBoxInfo").html(data.msg);
-						$("#msgBox").modal('show');
-						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
-						});
-					} else {
-						$("#msgBoxInfo").html(data.msg);
-						$("#msgBox").modal('show');
-					}
-				},
-				error : function(data) {
-					$("#msgBoxInfo").html("程序执行出错");
-					$("#msgBox").modal('show');
-				}
-			});
-		}); 
-	}
-	
-	function resetEmail(id){
-		var newEmail = $("#newEmail").val();
-		var newLoginPw = $("#reNewPwd").val();
-		if( !checkBlank(newEmail)){
-			$("#msgBoxInfo").html("请填写新的邮箱");
-			$("#msgBox").modal('show');
-			return;
-		}
-		var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
-		if(!reg.test(newEmail)){
-			$("#msgBoxInfo").html("邮箱格式不正确，请填写正确的邮箱");
-			$("#msgBox").modal('show');
-			return;
-		}
 		$("#msgBoxConfirmInfo").html("确定要修改邮箱吗?");
 		$("#msgBoxConfirm").modal('show');
 		$("#msgBoxConfirmButton").on('click' , function(){
 			$("#msgBoxConfirm").modal('hide');
 			$.ajax({
 				type : 'POST',
-				url : '${basePath}/user/resetUserEmail',
+				url : '${basePath}/user/resetUserInfo',
 				data : {
 					'id' : id,
-					'newEmail' : newEmail
+					'email' : email
 				},
 				dataType : 'json',
 				success : function(data) {
@@ -129,7 +36,7 @@
 						$("#msgBoxInfo").html(data.msg);
 						$("#msgBox").modal('show');
 						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
+							window.location.href = "${basePath}/" ;
 						});
 					} else {
 						$("#msgBoxInfo").html(data.msg);
@@ -173,14 +80,14 @@
 			</div>
 			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
-					<span class="up-cq-red-star">*</span>邮箱
+					<span class="up-cq-red-star"></span>邮箱
 				</label>
 				<div class="up-col-sm-7">
-					<input type="text" class="up-form-control" id="email" name="email" placeholder="请输入邮箱" <c:if test="${not empty  user }">readOnly="true"</c:if>  value="${user.email }">
+					<input type="text" class="up-form-control" id="newEmail" name="email" placeholder="请输入邮箱"   value="${user.email }">
 				</div>
 			</div>
 			
-			<c:if test="${not empty user }">
+<%-- 			<c:if test="${not empty user }">
 				<div class="up-form-group">
 					<label for="" class="up-col-sm-2 up-control-label">
 						<span class="up-cq-red-star">*</span>新的邮箱
@@ -189,7 +96,7 @@
 						<input type="text" class="up-form-control" id="newEmail" name="newEmail" placeholder="请输入新的邮箱"   value="">
 					</div>
 				</div>
-			</c:if>
+			</c:if> --%>
 			
 			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
@@ -277,8 +184,8 @@
 		</form>
 	</div>
 	<div class="up-modal-footer up-modal-footer1">
-		<button type="button" class="up-btn up-btn-primary" onClick="saveUser('${user.id }')">保存</button>
-		<button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">取消</button>
+		<button type="button" class="up-btn up-btn-primary" onClick="resetEmail('${user.id }')">保存</button>
+		<a href="${basePath }/" ><button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">取消</button></a>
 	</div>
 	
 	<!--    提示框 start -->

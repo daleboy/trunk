@@ -38,6 +38,25 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
         return this.query(hql.toString(), params.toArray());
 	}
 	
+	@SuppressWarnings("rawtypes")
+	private List<Application> initData(List list) {
+		List<Application> result = new ArrayList<Application>();
+		Object[] arr;
+		Application app;
+		Place place;
+		for (Object obj : list) {
+			if(obj instanceof Object[]){
+				arr = (Object[]) obj;
+				app = (Application) arr[0];
+				place = (Place) arr[1];
+				app.setPlaceName(place.getPlaceName());
+				result.add(app);
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	private void builderHqlAndParams(Application app,StringBuilder hql, ArrayList<Object> params) {
 		if(app == null)
@@ -70,11 +89,23 @@ public class ApplyDaoImpl extends JpaDaoImpl<Application> implements IApplyDao {
 		if(apply == null)
             return this.queryPage(null,pc,null);
 
-		StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id");
+		StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id ");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(apply, hql, params);
 
-        return this.queryPage(hql.toString(), pc, params.toArray());
+        return initData(super.queryPage(hql.toString(), pc, params.toArray()));
+	}
+	
+	@Override
+	public List<Application> queryApplysByUid(String uid,Application apply, PageConfig pc) {
+		if(apply == null)
+            return this.queryPage(null,pc,null);
+
+		StringBuilder hql = new StringBuilder("from Application a,Place p where a.placeId=p.id and a.uidApplicant=?");
+        ArrayList<Object> params = new ArrayList<Object>();
+        params.add(uid);
+        builderHqlAndParams(apply, hql, params);
+        return initData(super.queryPage(hql.toString(), pc, params.toArray()));
 	}
 
 	@Override

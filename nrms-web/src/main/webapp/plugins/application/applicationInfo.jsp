@@ -55,31 +55,21 @@
 					<span class="up-cq-red-star">*</span>申请人
 				</label>
 				<div class="up-col-sm-3">
-					<input type="text" id="applicant" name="applicant" value="${app.unameApplicant }" readonly="readonly"> 
+					<input type="text" class="up-form-control"  id="applicant" name="applicant" value="${app.unameApplicant }" readonly="readonly"> 
 				</div>
-			</div>
-			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star">*</span>申请日期
 				</label>
 				<div class="up-col-sm-3">
 					<input type="date" class="up-form-control" id="startDate" name="startDate" value="${app.startDate }" readonly="readonly">
 				</div>
+			</div>
+			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star">*</span>开始时间段：
 				</label>
 				<div class="up-col-sm-3">
 					<input type="text" class="up-form-control" id="startTime" name="startTime" value="${app.startTime }" readonly="readonly">
-				</div>
-			</div>
-			<div class="up-form-group">
-				<label for="" class="up-col-sm-2 up-control-label">
-					<span class="up-cq-red-star"></span>
-				</label>
-				<div class="up-col-sm-3">
-					<div class="up-col-sm-3">
-						<span  style="width:260px"></span>
-					</div>
 				</div>
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star">*</span>结束时间段：
@@ -124,6 +114,16 @@
 					<textarea style="resize:none;" rows="8" class="up-form-control" id="remark" name="remark" readonly="readonly">${app.appRemark}</textarea>
 				</div>
 			</div>
+			<c:if test="${app.appState == 3 }">
+			<div class="up-form-group">
+				<label for="" class="up-col-sm-2 up-control-label">
+					<span class="up-cq-red-star"></span>反馈信息
+				</label>
+				<div class="up-col-sm-6">
+					<textarea style="resize:none;" rows="8" class="up-form-control" id="auditingFeedBack" name="auditingFeedBack" readonly="readonly">${app.auditingFeedBack}</textarea>
+				</div>
+			</div>
+			</c:if>
 		</form>
 	</div>
 	<div class="up-modal-footer up-modal-footer1">

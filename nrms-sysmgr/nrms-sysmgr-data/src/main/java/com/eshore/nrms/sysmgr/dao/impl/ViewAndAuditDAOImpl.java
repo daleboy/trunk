@@ -136,7 +136,7 @@ public List<Application> queryFull(Map<String, Object> map) {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> queryUserInApplication(String appId) {
-		String hql = "select new User(u.id,u.uname) from User u where u.id in (select p.userId from Partake p where p.appId=?)";
+		String hql = "select new User(u.id,u.uname,u.email) from User u where u.id in (select p.userId from Partake p where p.appId=?)";
 		Query query = super.entityManager.createQuery(hql);
 		query.setParameter(1, appId);
 		return query.getResultList();

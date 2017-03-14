@@ -22,8 +22,33 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
 
     @Override
     public User queryUserByLoginName(String loginName) {
-        String hql = "from User u where u.loginName = ?";
-        return this.getPojo(hql, new Object[]{loginName});
+    	StringBuilder hql = new StringBuilder("from User u,Dictionary dept,Dictionary job,Dictionary posi ,Role r where u.userState=1 ");
+        hql.append("and u.deptKey=dept.dicKey and u.jobKey=job.dicKey and u.positionKey=posi.dicKey and u.roleId=r.id ");
+        hql.append(" and dept.dicState=1 and job.dicState=1 and posi.dicState=1");
+        hql.append("and dept.dicType=1 and job.dicType=2 and posi.dicType=3 and u.loginName = ?");
+      //  String hql = "from User u where u.loginName = ?";
+      //  return this.getPojo(hql, new Object[]{loginName});
+        Object[] arr;
+        User usertemp = null;
+        List list = this.query(hql.toString(), new Object[]{loginName});
+        if (!list.isEmpty()) {
+			arr = (Object[])list.get(0);
+			//获得所有属性
+	    	usertemp = (User) arr[0];
+	    	//获得部门属性
+	    	Dictionary d = (Dictionary) arr[1];
+	    	usertemp.setDept(d.getDicValue());
+	    	//获得工作属性
+	    	d = (Dictionary) arr[2];
+	    	usertemp.setJob(d.getDicValue());
+	    	//获得职位属性
+	    	d = (Dictionary) arr[3];
+	    	usertemp.setPosi(d.getDicValue());
+	    	//设置角色role
+	    	Role role = (Role) arr[4];
+	    	usertemp.setRole(role.getRoleName());	
+        }
+	    return usertemp;
     }
 
     @Override
@@ -33,7 +58,7 @@ public class UserDaoImpl extends JpaDaoImpl<User> implements IUserDao {
         StringBuilder hql = new StringBuilder("from User u,Dictionary dept,Dictionary job,Dictionary posi ,Role r where u.userState=1 ");
         hql.append("and u.deptKey=dept.dicKey and u.jobKey=job.dicKey and u.positionKey=posi.dicKey and u.roleId=r.id ");
         hql.append(" and dept.dicState=1 and job.dicState=1 and posi.dicState=1");
-        hql.append("and dept.dicType=1 and job.dicType=2 and posi.dicType=3");
+        hql.append("and dept.dicType=1 and job.dicType=2 and posi.dicType=3 ");
         ArrayList<Object> params = new ArrayList<Object>();
         builderHqlAndParams(user, hql, params);
         List list = this.queryPage(hql.toString(), page, params.toArray());

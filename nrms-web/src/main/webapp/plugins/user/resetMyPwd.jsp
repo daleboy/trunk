@@ -22,25 +22,26 @@
 			$("#msgBox").modal('show');
 			return;
 		}
+		if( !checkCharAndNum( $("#newPwd").val() ) || !checkLengthBetween($("#newPwd").val() , 6, 20) ){
+			$("#msgBoxInfo").html("新密码只允许数字字母,长度6-20位");
+			$("#msgBox").modal('show');
+			return;
+		}
 		if( !checkBlank(newLoginPw)){
 			$("#msgBoxInfo").html("请再次填写新的密码");
 			$("#msgBox").modal('show');
 			return;
 		}
-			
-		if( !checkLengthBetween(newPwd , 6, 20)|| !checkLengthBetween(newLoginPw , 6, 20)){
-			$("#msgBoxInfo").html("密码只允许长度为6-20位");
-			$("#msgBox").modal('show');
-			return;
-		}
-		
 		if( newPwd!= newLoginPw){
 			$("#msgBoxInfo").html("两次输入的新密码不同，请检查重新输入！！");
 			$("#msgBox").modal('show');
 			return;
 		}
-		
-		
+		if( !checkCharAndNum( $("#reNewPwd").val() ) || !checkLengthBetween($("#reNewPwd").val() , 6, 20) ){
+			$("#msgBoxInfo").html("新密码只允许数字字母,长度6-20位");
+			$("#msgBox").modal('show');
+			return;
+		}		
 		$("#msgBoxConfirmInfo").html("确定要修改密码吗?");
 		$("#msgBoxConfirm").modal('show');
 		$("#msgBoxConfirmButton").on('click' , function(){
@@ -116,7 +117,7 @@
 	</div>
 	<div class="up-modal-footer up-modal-footer1">
 		<button type="button" class="up-btn up-btn-primary" onClick="resetPwd('${id}')">保存</button>
-		<button type="button" class="up-btn up-btn-default" onClick="parent.window.hideDialog()">取消</button>
+		<a href="${basePath }/" ><button type="button" class="up-btn up-btn-default" >取消</button></a>
 	</div>
 	
 	<!--    提示框 start -->

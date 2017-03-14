@@ -26,7 +26,6 @@
     <script type="text/javascript" src="${basePath}/resources/js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.excheck.js"></script>
-    <script type="text/javascript" src="${basePath}/resources/js/jquery.ztree.exedit.js"></script>
     <script src="${basePath }/resources/js/require.js"></script>
     <script src="${basePath }/resources/js/main.js"></script>
     <script type="text/javascript" charset="utf-8" src="${basePath }/resources/js/common-check.js"></script>

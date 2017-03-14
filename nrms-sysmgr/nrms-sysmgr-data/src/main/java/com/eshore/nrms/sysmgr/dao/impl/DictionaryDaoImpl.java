@@ -30,7 +30,6 @@ public class DictionaryDaoImpl extends JpaDaoImpl<Dictionary> implements IDictio
 		StringBuilder hql = new StringBuilder("from Dictionary where dicState=1");
 		ArrayList<Object> params = new ArrayList<Object>();
 		builderHqlAndParams(dictionary, hql, params);
-		System.out.println("打印hql:"+hql.toString());
 		return this.query(hql.toString(), params.toArray());
 	}
 
@@ -42,7 +41,6 @@ public class DictionaryDaoImpl extends JpaDaoImpl<Dictionary> implements IDictio
 		StringBuilder hql = new StringBuilder("from Dictionary where dicState=1");
 		ArrayList<Object> params = new ArrayList<Object>();
 		builderHqlAndParams(dictionary, hql, params);
-		System.out.println("打印hql:"+hql.toString());
 		return this.queryPage(hql.toString(), pc, params.toArray());
 	}
 	

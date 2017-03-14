@@ -5,6 +5,7 @@ import java.util.List;
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.data.api.dao.IBaseDao;
 import com.eshore.nrms.sysmgr.pojo.Application;
+import com.eshore.nrms.sysmgr.pojo.User;
 
 public interface IApplyDao extends IBaseDao<Application> {
 	
@@ -15,5 +16,7 @@ public interface IApplyDao extends IBaseDao<Application> {
 	 public List<Application> queryApplys(Application apply, PageConfig pc);
  	 
 	 public Integer getCountOfApp(Application app);
+
+	List<Application> queryApplysByUid(String uid, Application apply, PageConfig pc);
 	 
 }

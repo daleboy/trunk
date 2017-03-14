@@ -8,9 +8,7 @@
 <script type="text/javascript">
 	/* 新增用户 */
 	function saveDictionary(id){
-		//alert("dic的id："+id);
 		if(checkBlank(id)){
-			//alert("这里是修改dictionary")
 			resetDicValue(id);
 			return;
 		}
@@ -21,15 +19,15 @@
 			$("#msgBox").modal('show');
 			return;
 		}
-		var dicKey = $("#dicKey").val();
+/* 		var dicKey = $("#dicKey").val();
 		if(!checkBlank(dicKey)){
 			$("#msgBoxInfo").html("请填写编码");
 			$("#msgBox").modal('show');
 			return;
-		}
+		} */
 		var dicValue = $("#dicValue").val();
-		if(!checkBlank(dicValue)){
-			$("#msgBoxInfo").html("请填写名称");
+		if(!checkBlank(dicValue)|| !checkLengthBetween(dicValue , 2, 16)){
+			$("#msgBoxInfo").html("名称不能为空，且长度2-16位");
 			$("#msgBox").modal('show');
 			return;
 		}
@@ -48,7 +46,7 @@
 				url : '${basePath}/dictionary/addDictionary',
 				data : {
 					'dicType' : dicType,
-					'dicKey' : dicKey,
+					/* 'dicKey' : dicKey, */
 					'dicValue' : dicValue,
 					'dicDesc' : dicDesc
 				},
@@ -58,7 +56,7 @@
 						$("#msgBoxInfo").html(data.msg);
 						$("#msgBox").modal('show');
 						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
+							parent.window.location.reload();
 						});
 					} else {
 						$("#msgBoxInfo").html(data.msg);
@@ -105,7 +103,7 @@
 						$("#msgBoxInfo").html(data.msg);
 						$("#msgBox").modal('show');
 						$("#msgBoxOKButton").on('click' , function(){
-							window.location.reload();
+							parent.window.location.reload();
 						});
 					} else {
 						$("#msgBoxInfo").html(data.msg);
@@ -145,12 +143,12 @@
 								<option value="0">请选择</option>
 								<option <c:if test="${dit ==1 }">selected="selected"</c:if> value="1">部门</option>
 								<option <c:if test="${dit ==2 }">selected="selected"</c:if>  value="2">工作</option>
-								<option <c:if test="${dit ==3 }">selected="selected"</c:if> value="3">职位</option>
+								<%-- <option <c:if test="${dit ==3 }">selected="selected"</c:if> value="3">职位</option> --%>
 							</select>
 						</c:if>
 				</div>
 			</div>
-			<div class="up-form-group">
+		<%-- 	<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star">*</span>编码
 				</label>
@@ -162,7 +160,7 @@
 						<input type="text" class="up-form-control" id="dicKey" name="dicKey" placeholder="请输入编码"  value="">
 					</c:if>
 				</div>
-			</div>
+			</div> --%>
 			<div class="up-form-group">
 				<label for="" class="up-col-sm-2 up-control-label">
 					<span class="up-cq-red-star">*</span>名称

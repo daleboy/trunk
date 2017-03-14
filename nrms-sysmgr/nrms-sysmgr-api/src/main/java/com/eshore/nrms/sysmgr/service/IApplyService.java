@@ -5,6 +5,7 @@ import java.util.List;
 import com.eshore.khala.common.model.PageConfig;
 import com.eshore.khala.core.api.IBaseService;
 import com.eshore.nrms.sysmgr.pojo.Application;
+import com.eshore.nrms.sysmgr.pojo.User;
 
 public interface IApplyService extends IBaseService<Application> {
 	 /**
@@ -29,6 +30,15 @@ public interface IApplyService extends IBaseService<Application> {
      * @return	申请集合
      */
     public List<Application> getApplys(Application apply, PageConfig pc);
+    
+    /**
+     * 获取与我相关的申请
+     * @param user 
+     * @param app
+     * @param pc
+     * @return
+     */
+    public List<Application> getApplysByUid(User user, Application app, PageConfig pc);
     
     /**
      * 查询满足条件的申请条数

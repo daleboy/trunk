@@ -129,7 +129,6 @@
 															<div class="up-form-group">
 																<label for="" class="up-control-label">状态:</label> 
 																<select class="up-form-control" name="appState">
-																	<option value=""></option>
 																	<option value="0" <c:if test="${ searchParam.appState == 0 }">selected</c:if> >暂存</option>
 																	<option value="1" <c:if test="${ searchParam.appState == 1 }">selected</c:if> >待审核</option>
 																	<option value="2" <c:if test="${ searchParam.appState == 2 }">selected</c:if> >审核通过</option>
@@ -175,12 +174,14 @@
 																<td>${application.startTime} -- ${application.endTime }</td>
 																<td>${application.auditingDate}</td>
 																<td>
+																	<c:if test="${application.appState == 1 || application.appState == 2 || application.appState == 3}">
+																		<a href="javascript:void(0)" onClick="showDialog('查看申请' , '${basePath}/application/applicationInfo?id=${application.id }' , '470px')">查看</a>
+																	</c:if>
 																	<c:if test="${application.appState == 0 || application.appState == 3}">
 																		<a href="javascript:void(0)" onClick="showDialog('编辑申请' , '${basePath}/application/addOrEditApplication?id=${application.id }' , '470px')">编辑</a>
 																		<a href="javascript:void(0)" onClick="deleteApplication('${application.id}')">删除</a>
 																	</c:if>
 																	<c:if test="${application.appState == 1 || application.appState == 2}">
-																		<a href="javascript:void(0)" onClick="showDialog('查看申请' , '${basePath}/application/applicationInfo?id=${application.id }' , '470px')">查看</a>
 																		<a href="javascript:void(0)" onClick="cancelApplication('${application.id}')">取消申请</a>
 																	</c:if>
 																</td>

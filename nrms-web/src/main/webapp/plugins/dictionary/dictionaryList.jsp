@@ -50,7 +50,7 @@
 	
 	function showDialog(title , url , height){
 		var dit = $("#dicType").val();
-		url = url + "?dit=" + dit;
+		url = url + "&dit=" + dit;
 		$("#modalDialogTitle").html(title);
 		$("#modalDialogFrame").attr("height" , height);
 		$("#modalDialogFrame").attr("src" , url);
@@ -99,7 +99,6 @@
 															<div class="up-form-group">
 																<label for="" class="up-control-label">类别:</label> 
 																<select name="dicType" id="dicType" class="up-form-control" style="width: 171px">
-																		<option value="0">请选择</option>
 																		<option value="1" <c:if test="${searchParam.dicType==1 }">selected="selected"</c:if> >部门</option>
 																		<option value="2" <c:if test="${searchParam.dicType==2 }">selected="selected"</c:if> >工作</option>
 																		<option value="3" <c:if test="${searchParam.dicType==3 }">selected="selected"</c:if> >职位</option>
@@ -123,7 +122,7 @@
 													<div class="reference_search">
 														 <div class="up-form-group">
 															<button type="submit" class="up-btn up-btn-primary up-btn-primary-red" data-toggle="modal"
-																 onClick="showDialog('新增类型' , '${basePath}/dictionary/toAddOrEditDictionary' , '470px')">新增</button>
+																 onClick="showDialog('新增类型' , '${basePath}/dictionary/toAddOrEditDictionary?dicDes=abc' , '470px')">新增</button>
 														</div> 
 													</div>
 												</div>
@@ -145,9 +144,11 @@
 																<td>${dictionary.dictype}</td>
 																<td>${dictionary.dicValue}</td>
 																<td>
+																<c:if test="${dictionary.dicType !=3}">
 																	<!-- 修改，删除，重置密码 style="width: 408px;"-->
 																	<a href="javascript:void(0)" onClick="showDialog('修改类型' , '${basePath}/dictionary/toAddOrEditDictionary?id=${dictionary.id }' , '470px')">修改</a>
 																	<a href="javascript:void(0)" onClick="deleteDic('${dictionary.id }','${dictionary.dictype }')">删除</a>
+																</c:if>
 																</td>
 															</tr>
 														</c:forEach> 

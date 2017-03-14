@@ -12,6 +12,7 @@ import com.eshore.khala.core.data.api.dao.IBaseDao;
 import com.eshore.khala.core.service.impl.BaseServiceImpl;
 import com.eshore.nrms.sysmgr.dao.IApplyDao;
 import com.eshore.nrms.sysmgr.pojo.Application;
+import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IApplyService;
 
 @Service
@@ -44,5 +45,11 @@ public class ApplyServiceImpl extends BaseServiceImpl<Application> implements IA
 	@Override
 	public Integer getCountOfApp(Application app) {
 		return applyDao.getCountOfApp(app);
+	}
+
+	@Override
+	public List<Application> getApplysByUid(User user, Application app,
+			PageConfig pc) {
+		return applyDao.queryApplysByUid(user.getId(), app, pc);
 	}
 }

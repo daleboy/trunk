@@ -1,7 +1,9 @@
-package com.eshore.nrms.util;
+package com.eshore.nrms.sysmgr.util;
 
 import javax.mail.MessagingException;
 
+import com.eshore.nrms.util.MailTimerTask;
+import com.eshore.nrms.util.SendMail;
 import org.apache.commons.lang3.StringUtils;
 
 import com.eshore.nrms.sysmgr.pojo.Application;

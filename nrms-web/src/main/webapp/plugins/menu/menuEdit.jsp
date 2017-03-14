@@ -223,7 +223,7 @@
             <span class="up-cq-red-star">*</span>菜单顺序
         </label>
         <div class="up-col-sm-7">
-            <input type="number" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""
+            <input type="hidden" class="up-form-control" id="menuIndex" name="menuIndex" placeholder=""
                    value="${menu.menuIndex}">
         </div>
     </div>

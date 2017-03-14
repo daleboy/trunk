@@ -1,6 +1,7 @@
 package com.eshore.nrms.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,11 +94,9 @@ public class DictionaryController {
 	@RequestMapping("/toAddOrEditDictionary")
 	public ModelAndView toAddOrEditDictionary(Dictionary dictionary,String dit){
 		ModelAndView view = new ModelAndView();
-		System.out.println("diction id= "+dictionary.getId());
 		if (dictionary.getId()!=null) {
 			List<Dictionary> dictionaryList = dictionarySrvice.getDictionarys(dictionary);
 			dictionary = dictionaryList.get(0);
-			System.out.println("kaishi修改："+dictionary);
 			view.addObject("dictionary", dictionary);
 			view.setViewName("dictionary/addOrEditDictionary");
 			return view;
@@ -114,16 +113,17 @@ public class DictionaryController {
 	 */
 	@RequestMapping("/addDictionary") 
 	@ResponseBody
-	public ExecResult addAdddictionary(Dictionary dictionary){
+	public ExecResult addDictionary(Dictionary dictionary){
         ExecResult er = new ExecResult();
-        if(dictionarySrvice.getDictionaryByDickey(dictionary)!=null){
+/*        if(dictionarySrvice.getDictionaryByDickey(dictionary)!=null){
             er.setMsg("新增类型失败！编码已经存在，请换个编码试试");
             return er;
         }
         if(dictionarySrvice.getDictionaryByDicValue(dictionary.getDicValue())!=null){
             er.setMsg("新增类型失败！名称经存在，请换个名称试试");
             return er;
-        }
+        }*/
+        dictionary.setDicKey(UUID.randomUUID().toString().replace("-", ""));
         dictionary.setDicState(Conts.STATE_OK);
         dictionarySrvice.save(dictionary);
         er.setSuccess(true);

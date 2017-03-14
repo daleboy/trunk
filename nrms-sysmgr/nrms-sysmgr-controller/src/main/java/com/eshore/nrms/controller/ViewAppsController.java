@@ -1,6 +1,8 @@
 package com.eshore.nrms.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import com.eshore.nrms.sysmgr.pojo.Place;
 import com.eshore.nrms.sysmgr.pojo.User;
 import com.eshore.nrms.sysmgr.service.IPlaceService;
 import com.eshore.nrms.sysmgr.service.IViewAndAuditService;
+import com.eshore.nrms.util.ApplicationComparators;
 import com.eshore.nrms.util.PageUtil;
 import com.eshore.nrms.vo.Conts;
 import com.eshore.nrms.vo.ExecResult;
@@ -48,6 +51,10 @@ public class ViewAppsController {
 		}else{
 			allApp = appService.getFullPageWithMe(user, app, pc);
 		}
+		//时间倒序
+		Collections.sort(allApp, ApplicationComparators.getStartDateComparator());
+		Collections.reverse(allApp);
+		
 		view.addObject("page", PageUtil.getPageList(pc, allApp));
 		view.addObject("searchParam" , app);
 		view.addObject("type", type);

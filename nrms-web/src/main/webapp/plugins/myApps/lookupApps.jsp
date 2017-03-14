@@ -33,7 +33,7 @@
 			<div class="up-tab-pane up-active" id="tabs1">
 				<div class="border_btm first_title">
 					<h4 class="up-top-cq-color">
-						<span class="icon-right-dir"></span> 申请列表
+						<span class="icon-right-dir"></span> 会议列表
 					</h4>
 				</div>
 				<div class="up_page_con">
@@ -56,13 +56,18 @@
 																		<option value="${p.id }" <c:if test="${p.id eq searchParam.placeId }">selected</c:if> >${p.placeName}</option>
 																	</c:forEach>
 																</select>
+																<label for="" class="up-control-label">日期:</label>
+																<input type="date"  class="up-form-control" id="startDate" name="startDate"  value="${searchParam.startDate }">
+																
 																<label for="" class="up-control-label">主题:</label>
 																<input type="text"  class="up-form-control" id="subject" name="subject" value="${searchParam.subject }">
 																	
 																<label for="" class="up-control-label">类型:</label> 		
 																<select class="up-form-control" name="type">
 																	<option value="1" <c:if test="${type == 1}">selected</c:if> >与自身相关</option>
-																	<option value="2" <c:if test="${type == 2}">selected</c:if>>所有</option>
+																	<c:if test="${LOGIN_USER.positionKey != 100 }">
+																		<option value="2" <c:if test="${type == 2}">selected</c:if>>所有</option>
+																	</c:if>
 																</select> 
 															</div>
 															<div class="up-form-group">

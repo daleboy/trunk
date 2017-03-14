@@ -129,21 +129,21 @@
 															<div class="up-form-group">
 																<label for="" class="up-control-label">部门:</label> 
 																<select name="deptKey" id="dicValueP" class="up-form-control" style="width: 171px">
-																		<option value="">请选择</option>
+																		<option value=""></option>
 																	<c:forEach var="departlist" items="${departlist }">
 																		<option value="${departlist.dicKey }" <c:if test="${departlist.dicKey == searchParam.deptKey }">selected="selected"</c:if> >${departlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">职位:</label> 
 																<select name="positionKey" id="dicValueJ" class="up-form-control" style="width: 171px">
-																        <option value="">请选择</option>
+																        <option value=""></option>
 																	<c:forEach var="positionlist" items="${positionlist }">
 																		<option value="${positionlist.dicKey }" <c:if test="${positionlist.dicKey == searchParam.positionKey }">selected="selected"</c:if> >${positionlist.dicValue }</option>
 																	</c:forEach>
 																</select>
 																<label for="" class="up-control-label">角色:</label> 
 																<select name="roleId" id="role" class="up-form-control" style="width: 171px">
-																		<option value="">请选择</option>
+																		<option value=""></option>
 																	<c:forEach var="rolelist" items="${rolelist }">
 																		<option value="${rolelist.id }" <c:if test="${rolelist.id == searchParam.roleId }">selected="selected"</c:if> >${rolelist.roleName }</option>
 																	</c:forEach>
