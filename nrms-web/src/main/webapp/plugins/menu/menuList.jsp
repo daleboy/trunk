@@ -157,7 +157,6 @@
                                                         <th>编号</th>
                                                         <th>菜单名</th>
                                                         <th>菜单链接</th>
-                                                        <th>菜单顺序</th>
                                                         <th>操作</th>
                                                     </tr>
                                                     </thead>
@@ -170,7 +169,6 @@
                                                             <td><%out.print(i++); %></td>
                                                             <td>${menu.menuName}</td>
                                                             <td>${menu.menuUrl}</td>
-                                                            <td>${menu.menuIndex}</td>
                                                             <td>
 
                                                                     <a href="javascript:void(0)"
